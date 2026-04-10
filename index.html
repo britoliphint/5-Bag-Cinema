@@ -6,75 +6,193 @@
     <title>5 Bag Cinema</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        * { box-sizing: border-box; }
-        :root {
-            --vfa-maroon: #3d0000; 
-            --vfa-black: #0a0a0a;  
-            --vfa-grey: #161616;   
-            --vfa-gold: #d4af37;   
-            --text-main: #d1d1d1;
-        }
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--vfa-black);
-            color: var(--text-main);
-            margin: 0; padding: 0; overflow-x: hidden;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 4px;
-        }
-        header {
-            text-align: center;
-            padding: 50px 10px;
-            background-color: var(--vfa-maroon);
-            border-top: 6px dotted var(--vfa-gold);
-            border-bottom: 6px dotted var(--vfa-gold);
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.8);
-        }
-        h1 {
-            font-size: 3rem; color: #fff; margin: 0; text-transform: uppercase;
-            letter-spacing: 4px; font-weight: 900;
-            text-shadow: 0 0 10px var(--vfa-gold), 0 0 20px var(--vfa-gold);
-            animation: neon-flicker 4s infinite alternate;
-        }
-        @keyframes neon-flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 10px var(--vfa-gold), 0 0 20px var(--vfa-gold); opacity: 1; }
-            20%, 24%, 55% { text-shadow: none; opacity: 0.7; }
-        }
-        #movieCount {
-            margin-top: 15px; font-size: 0.8rem; color: var(--vfa-gold);
-            font-weight: bold; text-transform: uppercase;
-            background: rgba(0,0,0,0.5); display: inline-block;
-            padding: 5px 12px; border: 1px solid #333;
-        }
-        .legend-container {
-            max-width: 800px; margin: 20px auto; padding: 15px;
-            background: #111; border: 2px solid var(--vfa-maroon);
-            box-shadow: 5px 5px 0px var(--vfa-maroon);
-        }
-        .legend-title { color: var(--vfa-gold); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; text-align: center; }
-        .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-        .legend-item { font-size: 0.7rem; color: #bbb; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .controls { text-align: center; padding: 15px; position: sticky; top: 0; background: rgba(10, 10, 10, 0.98); z-index: 100; border-bottom: 1px solid #333; }
-        input, select { padding: 8px; border: 1px solid var(--vfa-gold); margin: 4px; background: #000; color: var(--vfa-gold); font-family: 'Courier New', Courier, monospace; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
-        .card { background: var(--vfa-grey); border: 1px solid #333; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-        .card:hover { transform: scale(1.05); border-color: var(--vfa-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
-        .card-info { padding: 8px; overflow: hidden; }
-        .card-title { font-size: 0.8rem; font-weight: bold; color: #fff; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-        .rating-box { font-size: 0.7rem; margin-bottom: 6px; }
-        .badge { display: inline-block; padding: 2px 6px; font-size: 0.55rem; font-weight: 900; text-transform: uppercase; box-shadow: 2px 2px 0px #000; }
-        .format-4k { background: #000; color: var(--vfa-gold); border: 1px solid var(--vfa-gold); }
-        .format-blu-ray { background: #0033cc; color: #fff; }
-        .format-dvd { background: #444; color: #fff; }
-        .format-vhs { background: var(--vfa-maroon); color: #fff; }
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .grid { grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 10px; }
-            .legend-grid { grid-template-columns: repeat(3, 1fr); }
-            .card-title { font-size: 0.5rem; }
-            input, select { width: 45%; font-size: 0.65rem; }
-        }
+        /* 1. GOOGLE FONT IMPORT (VCR/Digital vibe) */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+
+* { box-sizing: border-box; }
+
+:root {
+    --vfa-maroon: #3d0000; 
+    --vfa-black: #0a0a0a;  
+    --vfa-grey: #1a1a1a;   
+    --vfa-gold: #d4af37;   
+    --vfa-vcr-green: #00ff41;
+    --text-main: #d1d1d1;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    /* 2. THE VAULT SHELF: Dark Wood Texture Background */
+    background: 
+        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+        url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=2069');
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-main);
+    margin: 0; padding: 0;
+    overflow-x: hidden;
+}
+
+/* 3. STATIC NOISE OVERLAY: Adds moving film grain */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Average_Noise.png');
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9999;
+    animation: noise 0.2s infinite;
+}
+
+@keyframes noise {
+    0% { transform: translate(0,0) }
+    10% { transform: translate(-1%,-1%) }
+    20% { transform: translate(1%,1%) }
+    30% { transform: translate(-2%,0) }
+    40% { transform: translate(1%,-1%) }
+    50% { transform: translate(-1%,1%) }
+    60% { transform: translate(2%,2%) }
+    70% { transform: translate(-1%,0) }
+    80% { transform: translate(1%,-1%) }
+    90% { transform: translate(0,1%) }
+    100% { transform: translate(-1%,-1%) }
+}
+
+header {
+    text-align: center;
+    padding: 60px 10px;
+    background-color: var(--vfa-maroon);
+    border-top: 8px dotted var(--vfa-gold);
+    border-bottom: 8px dotted var(--vfa-gold);
+    box-shadow: inset 0 0 100px rgba(0,0,0,1), 0 15px 40px rgba(0,0,0,0.8);
+}
+
+h1 {
+    font-size: 3.5rem; color: #fff; margin: 0; text-transform: uppercase;
+    letter-spacing: 6px; font-weight: 900;
+    text-shadow: 0 0 10px var(--vfa-gold), 0 0 30px var(--vfa-gold);
+    animation: neon-flicker 4s infinite alternate;
+}
+
+/* 4. VCR CLOCK STYLE: Glowing Green Display */
+#movieCount {
+    margin-top: 25px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--vfa-vcr-green);
+    text-shadow: 0 0 10px var(--vfa-vcr-green);
+    background: #000;
+    padding: 8px 20px;
+    border: 2px solid #222;
+    display: inline-block;
+    letter-spacing: 2px;
+}
+
+.controls {
+    text-align: center;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.95);
+    z-index: 100;
+    border-bottom: 2px solid var(--vfa-maroon);
+}
+
+input, select {
+    padding: 10px; border: 1px solid var(--vfa-gold); margin: 5px;
+    background: #000; color: var(--vfa-gold);
+    font-family: 'Courier New', monospace; font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px; padding: 40px;
+    max-width: 1300px; margin: 0 auto;
+}
+
+/* 5. THE PHYSICAL TAPE: Card Styling */
+.card {
+    background: #000;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.6);
+}
+
+/* VHS Plastic Sheen (Gloss) */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(
+        45deg, 
+        rgba(255,255,255,0) 45%, 
+        rgba(255,255,255,0.08) 50%, 
+        rgba(255,255,255,0) 55%
+    );
+    z-index: 2;
+    pointer-events: none;
+    transition: transform 0.6s;
+}
+
+.card:hover::before { transform: translate(10%, 10%); }
+
+.card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    border-color: var(--vfa-gold);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+}
+
+.card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; filter: sepia(0.2) contrast(1.1); }
+
+.card-info { padding: 12px; background: #111; z-index: 3; position: relative; }
+
+.card-title {
+    font-size: 0.85rem; font-weight: 900; color: #fff;
+    text-transform: uppercase; margin-bottom: 6px;
+}
+
+/* 6. CHROMATIC ABERRATION: Hover Glitch */
+.card:hover .card-title {
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    animation: glitch-text 0.3s infinite;
+}
+
+@keyframes glitch-text {
+    0% { transform: translate(0) }
+    20% { transform: translate(-1px, 1px) }
+    40% { transform: translate(-1px, -1px) }
+    60% { transform: translate(1px, 1px) }
+    80% { transform: translate(1px, -1px) }
+    100% { transform: translate(0) }
+}
+
+.badge {
+    display: inline-block; padding: 3px 8px; font-size: 0.6rem;
+    font-weight: 900; text-transform: uppercase;
+    box-shadow: 2px 2px 0px #000;
+}
+
+.format-4k { background: #000; color: var(--vfa-gold); border: 1px solid var(--vfa-gold); }
+.format-blu-ray { background: #0033cc; color: #fff; }
+.format-vhs { background: var(--vfa-maroon); color: #fff; }
+
+/* LEGEND BOX */
+.legend-container {
+    max-width: 800px; margin: 0 auto 30px; padding: 20px;
+    background: #000; border: 3px double var(--vfa-gold);
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+    .card-title { font-size: 0.6rem; }
+}
     </style>
 </head>
 <body>
