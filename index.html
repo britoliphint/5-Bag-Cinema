@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>5 Bag Cinema</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        :root {
+            --vfa-maroon: #3d0000; 
+            --vfa-black: #0a0a0a;  
+            --vfa-grey: #161616;   
+            --vfa-gold: #d4af37;   
+            --text-main: #d1d1d1;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--vfa-black);
+            color: var(--text-main);
+            margin: 0; padding: 0; overflow-x: hidden;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+        }
+        header {
+            text-align: center;
+            padding: 50px 10px;
+            background-color: var(--vfa-maroon);
+            border-top: 6px dotted var(--vfa-gold);
+            border-bottom: 6px dotted var(--vfa-gold);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.8);
+        }
+        h1 {
+            font-size: 3rem; color: #fff; margin: 0; text-transform: uppercase;
+            letter-spacing: 4px; font-weight: 900;
+            text-shadow: 0 0 10px var(--vfa-gold), 0 0 20px var(--vfa-gold);
+            animation: neon-flicker 4s infinite alternate;
+        }
+        @keyframes neon-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 10px var(--vfa-gold), 0 0 20px var(--vfa-gold); opacity: 1; }
+            20%, 24%, 55% { text-shadow: none; opacity: 0.7; }
+        }
+        #movieCount {
+            margin-top: 15px; font-size: 0.8rem; color: var(--vfa-gold);
+            font-weight: bold; text-transform: uppercase;
+            background: rgba(0,0,0,0.5); display: inline-block;
+            padding: 5px 12px; border: 1px solid #333;
+        }
+        .legend-container {
+            max-width: 800px; margin: 20px auto; padding: 15px;
+            background: #111; border: 2px solid var(--vfa-maroon);
+            box-shadow: 5px 5px 0px var(--vfa-maroon);
+        }
+        .legend-title { color: var(--vfa-gold); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; text-align: center; }
+        .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+        .legend-item { font-size: 0.7rem; color: #bbb; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .controls { text-align: center; padding: 15px; position: sticky; top: 0; background: rgba(10, 10, 10, 0.98); z-index: 100; border-bottom: 1px solid #333; }
+        input, select { padding: 8px; border: 1px solid var(--vfa-gold); margin: 4px; background: #000; color: var(--vfa-gold); font-family: 'Courier New', Courier, monospace; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .card { background: var(--vfa-grey); border: 1px solid #333; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .card:hover { transform: scale(1.05); border-color: var(--vfa-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
+        .card-info { padding: 8px; overflow: hidden; }
+        .card-title { font-size: 0.8rem; font-weight: bold; color: #fff; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .rating-box { font-size: 0.7rem; margin-bottom: 6px; }
+        .badge { display: inline-block; padding: 2px 6px; font-size: 0.55rem; font-weight: 900; text-transform: uppercase; box-shadow: 2px 2px 0px #000; }
+        .format-4k { background: #000; color: var(--vfa-gold); border: 1px solid var(--vfa-gold); }
+        .format-blu-ray { background: #0033cc; color: #fff; }
+        .format-dvd { background: #444; color: #fff; }
+        .format-vhs { background: var(--vfa-maroon); color: #fff; }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 10px; }
+            .legend-grid { grid-template-columns: repeat(3, 1fr); }
+            .card-title { font-size: 0.5rem; }
+            input, select { width: 45%; font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>5 Bag Cinema</h1>
+    <p id="movieCount">CONNECTING TO VFA...</p>
+</header>
+
+<div class="controls">
+    <input type="text" id="search" placeholder="SEARCH VAULT..." onkeyup="filterMovies()">
+    <select id="genreFilter" onchange="filterMovies()">
+        <option value="">ALL GENRES</option>
+    </select>
+</div>
+
+<div class="legend-container">
+    <div class="legend-title">VFA RATING KEY</div>
+    <div class="legend-grid">
+        <div class="legend-item"><span>🍿</span><span>NOT A MOVIE</span></div>
+        <div class="legend-item"><span>🍿🍿</span><span>TOO MUCH MUSIC</span></div>
+        <div class="legend-item"><span>🍿🍿🍿</span><span>SHORT RUNTIME</span></div>
+        <div class="legend-item"><span>🍿🍿🍿🍿</span><span>NO SEAGAL</span></div>
+        <div class="legend-item"><span>🍿🍿🍿🍿🍿</span><span>CLASSIC</span></div>
+    </div>
+</div>
+
+<div id="status" style="text-align:center; padding:50px; color:var(--vfa-gold); font-weight:bold;">ACCESSING THE VAULT...</div>
+<div class="grid" id="movieGrid"></div>
+
+<script>
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1iMWEGHuDiopTZfWMNzasF8T29JIiYW_Tkm3nDxUkKTM/export?format=csv';
+
+    let allMovies = [];
+
+    // Helper to find data regardless of header capitalization or spaces
+    function getVal(obj, key) {
+        const lowerKey = key.toLowerCase().replace(/\s/g, '');
+        for (let k in obj) {
+            if (k.toLowerCase().replace(/\s/g, '') === lowerKey) return obj[k];
+        }
+        return "";
+    }
+
+    function init() {
+        Papa.parse(SHEET_CSV_URL, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                console.log("Raw Data Samples:", results.data[0]);
+                allMovies = results.data.filter(m => (getVal(m, 'Title')).trim() !== "");
+                
+                if (allMovies.length === 0) {
+                    document.getElementById('status').innerHTML = "ERROR: NO MOVIES FOUND.<br>Check if your Google Sheet is 'Published to the Web' as a CSV.";
+                    return;
+                }
+
+                document.getElementById('status').style.display = 'none';
+                document.getElementById('movieCount').textContent = `${allMovies.length} TITLES SECURED`;
+                populateFilters();
+                displayMovies(allMovies);
+            },
+            error: function(err) {
+                document.getElementById('status').textContent = "CONNECTION FAILURE.";
+                console.error(err);
+            }
+        });
+    }
+
+    function displayMovies(data) {
+        const grid = document.getElementById('movieGrid');
+        grid.innerHTML = '';
+        data.forEach(movie => {
+            const title = getVal(movie, 'Title') || "Untitled";
+            const id = getVal(movie, 'IMDB_ID') || getVal(movie, 'IMDBID');
+            const format = (getVal(movie, 'Format') || "VHS").trim();
+            const poster = getVal(movie, 'Poster_URL') || getVal(movie, 'PosterURL');
+            const ratingNum = parseInt(getVal(movie, 'Rating')) || 0;
+            const popcornEmoji = "🍿".repeat(Math.max(0, Math.min(5, ratingNum)));
+
+            let formatClass = "format-vhs";
+            if (format.toLowerCase().includes("4k")) formatClass = "format-4k";
+            else if (format.toLowerCase().includes("blu")) formatClass = "format-blu-ray";
+            else if (format.toLowerCase().includes("dvd")) formatClass = "format-dvd";
+
+            const card = document.createElement('a');
+            card.className = 'card';
+            card.href = id ? `https://www.imdb.com/title/${id}/` : "#";
+            card.target = "_blank";
+            card.innerHTML = `
+                <img src="${poster}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x450?text=VFA+TAPE'">
+                <div class="card-info">
+                    <div class="card-title">${title}</div>
+                    <div class="rating-box">${popcornEmoji}</div>
+                    <div class="badge ${formatClass}">${format}</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function populateFilters() {
+        const genres = [...new Set(allMovies.map(m => getVal(m, 'Genre')).filter(Boolean))].sort();
+        const select = document.getElementById('genreFilter');
+        genres.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g; opt.textContent = g.toUpperCase();
+            select.appendChild(opt);
+        });
+    }
+
+    function filterMovies() {
+        const term = document.getElementById('search').value.toLowerCase();
+        const genre = document.getElementById('genreFilter').value;
+        const filtered = allMovies.filter(m => {
+            const mTitle = getVal(m, 'Title').toLowerCase();
+            const mDirector = getVal(m, 'Director').toLowerCase();
+            const mActors = getVal(m, 'Actors').toLowerCase();
+            const mGenre = getVal(m, 'Genre');
+            const matchSearch = mTitle.includes(term) || mDirector.includes(term) || mActors.includes(term);
+            const matchGenre = genre === "" || mGenre === genre;
+            return matchSearch && matchGenre;
+        });
+        displayMovies(filtered);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
