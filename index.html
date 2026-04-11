@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tomboatwater.com | The Sensei's Vault</title>
+    <title>The Sensei's Vault | Master Archive</title>
     <style>
         :root {
             --dojo-red: #8B0000;
             --dojo-gold: #d4af37;
             --dojo-gold-bright: #ffd700;
-            --bg-dark: #1a0f0a;
+            --bg-dark: #0a0a0a;
             --text-cream: #f5f5dc;
             /* Format Colors */
             --color-4k: #ffd700;    
@@ -20,9 +20,9 @@
 
         body {
             font-family: 'Georgia', serif;
-            /* THE DOJO: Dark Wood Grain & Serenity */
-            background: linear-gradient(rgba(26, 15, 10, 0.85), rgba(26, 15, 10, 0.85)),
-                        url('https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=2000');
+            /* FIXED: Dark Charred Wood Texture (No more farms) */
+            background: linear-gradient(rgba(10, 5, 0, 0.9), rgba(10, 5, 0, 0.9)),
+                        url('https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -32,37 +32,36 @@
         }
 
         header {
-            background: rgba(20, 10, 5, 0.95);
+            background: rgba(10, 5, 0, 0.98);
             border-bottom: 2px solid var(--dojo-red);
             padding: 25px 10px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
         }
 
         h1 { 
             font-family: 'Times New Roman', serif;
-            letter-spacing: 4px; 
+            letter-spacing: 5px; 
             font-size: 1.6rem; 
             margin: 0 0 15px 0; 
             text-transform: uppercase;
             color: var(--dojo-gold-bright);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 2px 2px 4px #000;
         }
 
         #searchBar {
             width: 90%; max-width: 500px;
-            background: #2a1b15;
+            background: #1a110d;
             border: 1px solid var(--dojo-gold);
             color: var(--text-cream);
             padding: 12px;
             font-size: 0.9rem;
             text-transform: uppercase;
             outline: none;
-            border-radius: 2px;
+            border-radius: 0;
         }
 
-        /* GENRE CONSOLE: Traditional Scroll Style */
         .genre-console {
             display: flex;
             flex-wrap: wrap;
@@ -75,22 +74,19 @@
             background: transparent;
             border: 1px solid var(--dojo-red);
             color: var(--dojo-gold);
-            padding: 6px 14px;
+            padding: 8px 16px;
             font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.3s;
             font-weight: bold;
         }
 
-        .genre-btn:hover { background: rgba(139, 0, 0, 0.2); border-color: var(--dojo-gold); }
-        .genre-btn.active { background: var(--dojo-red); color: #fff; border-color: var(--dojo-gold-bright); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .genre-btn.active { background: var(--dojo-red); color: #fff; border-color: var(--dojo-gold-bright); }
 
-        /* THE GRID */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 30px;
+            gap: 35px;
             padding: 40px;
         }
 
@@ -104,28 +100,33 @@
 
         .tape-case {
             background: #000;
-            border: 1px solid #3d2b1f;
-            padding: 8px;
+            border: 1px solid #2a1b15;
+            padding: 10px;
             cursor: pointer;
             position: relative;
             transition: all 0.4s ease;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.6);
         }
 
         .tape-case:hover { 
             border-color: var(--dojo-gold-bright);
-            transform: translateY(-8px) rotate(1deg);
+            transform: translateY(-10px) rotate(1deg);
         }
 
-        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; filter: sepia(10%); }
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
 
-        /* SILK TAG FORMAT BADGES */
+        /* UPGRADED FORMAT BADGE */
         .format-badge {
-            position: absolute; top: 12px; right: 12px;
-            color: #fff; font-size: 0.65rem; padding: 3px 8px; font-weight: bold;
-            text-transform: uppercase; z-index: 10;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            border-radius: 1px;
+            position: absolute; 
+            top: 15px; 
+            right: 15px;
+            color: #fff; 
+            font-size: 0.75rem; /* Larger */
+            padding: 5px 10px;  /* More padding */
+            font-weight: 900;
+            text-transform: uppercase; 
+            z-index: 10;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.8); /* Silk Tag Shadow */
         }
 
         .badge-4k { background-color: var(--color-4k); color: #000; }
@@ -139,42 +140,40 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 10000;
             justify-content: center; align-items: center;
         }
 
         .dossier-window {
-            background: #1c130e;
+            background: #140c08;
             border: 2px solid var(--dojo-gold);
             width: 95%; max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
             display: flex; flex-wrap: wrap;
             position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
         .dossier-poster { flex: 1 1 300px; max-height: 500px; object-fit: contain; border-right: 2px solid var(--dojo-red); }
         .dossier-content { flex: 1 1 350px; padding: 35px; display: flex; flex-direction: column; color: var(--text-cream); }
-        .dossier-title { font-size: 1.8rem; color: var(--dojo-gold-bright); border-bottom: 1px solid var(--dojo-red); padding-bottom: 10px; margin-bottom: 20px; }
+        .dossier-title { font-size: 1.8rem; color: var(--dojo-gold-bright); border-bottom: 2px solid var(--dojo-red); padding-bottom: 10px; margin-bottom: 20px; }
         .data-line { margin: 12px 0; font-size: 0.95rem; border-left: 3px solid var(--dojo-red); padding-left: 10px; }
-        .label { color: var(--dojo-gold); text-transform: uppercase; margin-right: 10px; font-weight: bold; font-size: 0.8rem; }
-        .imdb-btn { margin-top: auto; padding: 15px; background: var(--dojo-red); color: #fff; text-decoration: none; text-align: center; font-weight: bold; border: 1px solid var(--dojo-gold); transition: 0.3s; }
-        .imdb-btn:hover { background: #660000; color: var(--dojo-gold-bright); }
+        .label { color: var(--dojo-gold); text-transform: uppercase; margin-right: 10px; font-weight: bold; }
+        .imdb-btn { margin-top: auto; padding: 15px; background: var(--dojo-red); color: #fff; text-decoration: none; text-align: center; font-weight: bold; border: 1px solid var(--dojo-gold); }
         .close-btn { position: absolute; top: 15px; right: 20px; color: var(--dojo-gold); cursor: pointer; font-size: 1.2rem; }
 
         @media (max-width: 768px) {
             .genre-console { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-top: 15px; padding-bottom: 10px; }
             .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; }
-            .dossier-poster { border-right: none; border-bottom: 2px solid var(--dojo-red); max-height: 40vh; }
+            .dossier-poster { border-right: none; border-bottom: 2px solid var(--dojo-red); max-height: 45vh; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SENSEI SEAGAL'S VAULT</h1>
+        <h1>SENSEI_VAULT_ARCHIVE</h1>
         <input type="text" id="searchBar" placeholder="SEARCH THE SCROLLS...">
         <div id="genreContainer" class="genre-console"></div>
     </header>
