@@ -9,6 +9,12 @@
             --vcr-green: #00ff41;
             --vcr-green-dim: rgba(0, 255, 65, 0.2);
             --bg-dark: #050505;
+            /* Format Colors */
+            --color-4k: #ffd700;    /* Gold */
+            --color-bluray: #00d4ff; /* Cyber Blue */
+            --color-dvd: #ff4500;    /* Industrial Orange/Red */
+            --color-vhs: #ff00ff;    /* Retro Magenta */
+            --color-default: var(--vcr-green);
         }
 
         body {
@@ -38,13 +44,13 @@
             background: #000;
             border: 1px solid var(--vcr-green);
             color: var(--vcr-green);
-            padding: 10px;
-            font-size: 0.9rem;
+            padding: 12px;
+            font-size: 1rem;
             text-transform: uppercase;
             outline: none;
+            box-shadow: 0 0 10px var(--vcr-green-dim);
         }
 
-        /* GENRE CONSOLE */
         .genre-console {
             display: flex;
             flex-wrap: wrap;
@@ -64,16 +70,14 @@
             font-size: 0.7rem;
             cursor: pointer;
             text-transform: uppercase;
-            white-space: nowrap;
         }
 
         .genre-btn.active { background: var(--vcr-green); color: #000; }
 
-        /* THE GRID */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 20px;
+            gap: 25px;
             padding: 20px;
         }
 
@@ -91,18 +95,33 @@
             padding: 5px;
             cursor: pointer;
             position: relative;
+            transition: transform 0.2s;
         }
 
-        .tape-case:hover { border-color: var(--vcr-green); transform: translateY(-3px); }
+        .tape-case:hover { border-color: var(--vcr-green); transform: translateY(-5px); }
         .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
 
-        /* FORMAT BADGE */
+        /* UPGRADED FORMAT BADGE */
         .format-badge {
-            position: absolute; top: 10px; right: 10px;
-            background: var(--vcr-green); color: #000;
-            font-size: 0.55rem; padding: 2px 4px; font-weight: bold;
-            text-transform: uppercase; z-index: 10;
+            position: absolute; 
+            top: 8px; 
+            right: 8px;
+            color: #000;
+            font-size: 0.7rem; /* Slightly bigger */
+            padding: 4px 8px;  /* More "Button-like" */
+            font-weight: 900;
+            text-transform: uppercase;
+            z-index: 10;
+            border: 1px solid #000;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
         }
+
+        /* FORMAT COLOR CLASSES */
+        .badge-4k { background-color: var(--color-4k); box-shadow: 0 0 10px var(--color-4k); }
+        .badge-bluray { background-color: var(--color-bluray); box-shadow: 0 0 10px var(--color-bluray); }
+        .badge-dvd { background-color: var(--color-dvd); box-shadow: 0 0 10px var(--color-dvd); }
+        .badge-vhs { background-color: var(--color-vhs); box-shadow: 0 0 10px var(--color-vhs); }
+        .badge-default { background-color: var(--color-default); }
 
         /* MODAL */
         #modalOverlay {
@@ -177,31 +196,18 @@
             try {
                 const response = await fetch(SHEET_URL);
                 const data = await response.text();
-                // This splits by row, removing empty lines
                 const rows = data.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
-                
                 allMovies = [];
                 const genres = new Set(['ALL']);
 
                 rows.forEach(row => {
-                    // Smart CSV splitter handles quotes for Actors/Directors
                     const col = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (col.length < 9) return; 
-
                     const clean = col.map(c => c.replace(/^"|"$/g, '').trim());
                     
-                    // Correct mapping based on your CSV:
-                    // 0:Title, 1:Genre, 2:Year, 3:Director, 4:Actors, 5:Poster, 6:Rating, 7:Format, 8:IMDB_ID
                     const movie = {
-                        title: clean[0],
-                        genre: clean[1],
-                        year: clean[2],
-                        director: clean[3],
-                        actors: clean[4],
-                        poster: clean[5],
-                        rating: clean[6],
-                        format: clean[7],
-                        imdbId: clean[8]
+                        title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
+                        actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdbId: clean[8]
                     };
 
                     if (movie.poster.startsWith('http')) {
@@ -212,7 +218,7 @@
 
                 renderGenreToggles(Array.from(genres).sort());
                 applyFilters();
-            } catch (err) { console.error("Archive failure:", err); }
+            } catch (err) { console.error(err); }
         }
 
         function renderGenreToggles(genres) {
@@ -227,6 +233,16 @@
             });
         }
 
+        // Helper to get color class based on text
+        function getFormatClass(format) {
+            const f = format.toLowerCase();
+            if (f.includes('4k')) return 'badge-4k';
+            if (f.includes('blu-ray') || f.includes('bluray')) return 'badge-bluray';
+            if (f.includes('dvd')) return 'badge-dvd';
+            if (f.includes('vhs')) return 'badge-vhs';
+            return 'badge-default';
+        }
+
         function applyFilters() {
             const searchTerm = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
@@ -235,15 +251,16 @@
             allMovies.forEach(movie => {
                 const matchesGenre = currentGenre === 'ALL' || movie.genre.toUpperCase().includes(currentGenre);
                 const matchesSearch = movie.title.toLowerCase().includes(searchTerm) || 
-                                      movie.actors.toLowerCase().includes(searchTerm) ||
-                                      movie.director.toLowerCase().includes(searchTerm);
+                                      movie.actors.toLowerCase().includes(searchTerm);
 
                 if (matchesGenre && matchesSearch) {
                     const card = document.createElement('div');
                     card.className = 'tape-case';
                     card.onclick = () => openDossier(movie);
                     
-                    const formatBadge = movie.format ? `<div class="format-badge">${movie.format}</div>` : '';
+                    // Assign the dynamic color class
+                    const colorClass = getFormatClass(movie.format);
+                    const formatBadge = movie.format ? `<div class="format-badge ${colorClass}">${movie.format}</div>` : '';
                     
                     card.innerHTML = `
                         ${formatBadge}
