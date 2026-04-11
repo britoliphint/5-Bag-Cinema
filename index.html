@@ -9,7 +9,6 @@
             --vcr-green: #00ff41;
             --vcr-green-dim: rgba(0, 255, 65, 0.2);
             --bg-dark: #050505;
-            --text-main: #f0e6d2;
         }
 
         body {
@@ -22,18 +21,6 @@
             color: var(--vcr-green);
             margin: 0; padding: 0;
             overflow-x: hidden;
-        }
-
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 9999;
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
         }
 
         /* COMPACT HEADER */
@@ -59,7 +46,6 @@
             outline: none;
         }
 
-        /* GENRE CONSOLE: Desktop behavior */
         .genre-console {
             display: flex;
             flex-wrap: wrap;
@@ -105,13 +91,29 @@
             border: 1px solid #222;
             padding: 5px;
             cursor: pointer;
+            position: relative; /* Needed for the format badge */
         }
 
         .tape-case:hover { border-color: var(--vcr-green); transform: translateY(-3px); }
 
         .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
 
-        /* MODAL */
+        /* FORMAT BADGE ON MAIN SCREEN */
+        .format-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 255, 65, 0.9);
+            color: #000;
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #000;
+            z-index: 10;
+        }
+
+        /* MODAL (DOSSIER) */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -137,28 +139,11 @@
         .dossier-title { font-size: 1.5rem; border-bottom: 2px solid var(--vcr-green); margin-bottom: 15px; }
         .data-line { margin: 8px 0; font-size: 0.9rem; }
         .label { color: #666; text-transform: uppercase; margin-right: 8px; font-weight: bold; }
-        .imdb-btn { margin-top: 20px; padding: 12px; border: 1px solid var(--vcr-green); color: var(--vcr-green); text-decoration: none; text-align: center; }
-        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--vcr-green); cursor: pointer; }
+        .imdb-btn { margin-top: auto; padding: 12px; border: 1px solid var(--vcr-green); color: var(--vcr-green); text-decoration: none; text-align: center; }
+        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--vcr-green); cursor: pointer; z-index: 10001; }
 
-        /* MOBILE SPECIFIC OPTIMIZATIONS */
         @media (max-width: 768px) {
-            h1 { font-size: 0.9rem; letter-spacing: 1px; }
-            header { padding: 10px 5px; }
-            
-            /* Horizontal Swipe for Genres */
-            .genre-console {
-                justify-content: flex-start;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 5px;
-                margin-top: 10px;
-                scrollbar-width: none; /* Firefox */
-            }
-            .genre-console::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
-            
-            .genre-btn { padding: 5px 10px; font-size: 0.65rem; }
-
+            .genre-console { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-top: 10px; }
             .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; }
             .dossier-poster { border-right: none; border-bottom: 1px solid var(--vcr-green); max-height: 40vh; }
         }
@@ -167,7 +152,7 @@
 <body>
 
     <header>
-        <h1>SEAGAL CINEMA</h1>
+        <h1>NOSTROMO_ARCHIVE_V2.2</h1>
         <input type="text" id="searchBar" placeholder="SEARCH ARCHIVE...">
         <div id="genreContainer" class="genre-console"></div>
     </header>
@@ -180,12 +165,12 @@
             <img id="modalPoster" class="dossier-poster" src="" alt="">
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
+                <div class="data-line"><span class="label">FORMAT:</span> <span id="modalFormat" style="color:#fff;"></span></div>
                 <div class="data-line"><span class="label">GENRE:</span> <span id="modalGenre"></span></div>
                 <div class="data-line"><span class="label">YEAR:</span> <span id="modalYear"></span></div>
                 <div class="data-line"><span class="label">DIRECTOR:</span> <span id="modalDirector"></span></div>
                 <div class="data-line"><span class="label">CAST:</span> <span id="modalActors"></span></div>
-                <div class="data-line"><span class="label">RATING:</span> <span id="modalRating"></span></div>
-                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">[ > ] ACCESS IMDB</a>
+                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">[ > ] ACCESS IMDB_DATABASE</a>
             </div>
         </div>
     </div>
@@ -208,9 +193,13 @@
                     const col = row.match(/(".*?"|[^",\s][^",]*|(?<=,|^)(?=,|$))/g);
                     if (!col || col.length < 8) return;
                     const clean = col.map(c => c.replace(/^"|"$/g, '').trim());
-                    const [title, genre, year, director, actors, poster, rating, imdbId] = clean;
+                    
+                    // Order: Title, Genre, Year, Director, Actors, Poster_URL, RatingFormat, IMDB_ID
+                    const [title, genre, year, director, actors, poster, format, imdbId] = clean;
+                    
                     if (!poster || !poster.startsWith('http')) return;
-                    allMovies.push({ title, genre, year, director, actors, poster, rating, imdbId });
+
+                    allMovies.push({ title, genre, year, director, actors, poster, format, imdbId });
                     genre.split(',').forEach(g => genres.add(g.trim().toUpperCase()));
                 });
 
@@ -237,45 +226,3 @@
             grid.innerHTML = '';
 
             allMovies.forEach(movie => {
-                const matchesGenre = currentGenre === 'ALL' || movie.genre.toUpperCase().includes(currentGenre);
-                const matchesSearch = movie.title.toLowerCase().includes(searchTerm) || 
-                                      movie.actors.toLowerCase().includes(searchTerm);
-
-                if (matchesGenre && matchesSearch) {
-                    const card = document.createElement('div');
-                    card.className = 'tape-case';
-                    card.onclick = () => openDossier(movie);
-                    card.innerHTML = `<img class="poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=DATA+CORRUPT'">`;
-                    grid.appendChild(card);
-                }
-            });
-
-            document.querySelectorAll('.genre-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText === currentGenre);
-            });
-        }
-
-        function openDossier(movie) {
-            document.getElementById('modalTitle').innerText = movie.title.toUpperCase();
-            document.getElementById('modalGenre').innerText = movie.genre;
-            document.getElementById('modalYear').innerText = movie.year;
-            document.getElementById('modalDirector').innerText = movie.director;
-            document.getElementById('modalActors').innerText = movie.actors;
-            document.getElementById('modalRating').innerText = movie.rating;
-            document.getElementById('modalPoster').src = movie.poster;
-            document.getElementById('modalImdb').href = `https://www.imdb.com/title/${movie.imdbId.trim()}/`;
-            document.getElementById('modalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDossier() {
-            document.getElementById('modalOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeDossier(); }
-        document.getElementById('searchBar').addEventListener('input', applyFilters);
-        loadMovies();
-    </script>
-</body>
-</html>
