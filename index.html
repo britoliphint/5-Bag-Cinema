@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Sensei's Vault | Master Archive</title>
+    <title>Sensei Seagal's Vault | Master Archive</title>
     <style>
         :root {
             --dojo-red: #8B0000;
@@ -20,7 +20,6 @@
 
         body {
             font-family: 'Georgia', serif;
-            /* FIXED: Dark Charred Wood Texture (No more farms) */
             background: linear-gradient(rgba(10, 5, 0, 0.9), rgba(10, 5, 0, 0.9)),
                         url('https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
@@ -34,7 +33,7 @@
         header {
             background: rgba(10, 5, 0, 0.98);
             border-bottom: 2px solid var(--dojo-red);
-            padding: 25px 10px;
+            padding: 20px 10px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 4px 15px rgba(0,0,0,0.7);
@@ -43,7 +42,7 @@
         h1 { 
             font-family: 'Times New Roman', serif;
             letter-spacing: 5px; 
-            font-size: 1.6rem; 
+            font-size: 1.4rem; 
             margin: 0 0 15px 0; 
             text-transform: uppercase;
             color: var(--dojo-gold-bright);
@@ -56,7 +55,7 @@
             border: 1px solid var(--dojo-gold);
             color: var(--text-cream);
             padding: 12px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
             outline: none;
             border-radius: 0;
@@ -67,7 +66,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .genre-btn {
@@ -83,19 +82,14 @@
 
         .genre-btn.active { background: var(--dojo-red); color: #fff; border-color: var(--dojo-gold-bright); }
 
+        /* THE GRID: Desktop Default */
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 35px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             padding: 40px;
-        }
-
-        @media (min-width: 1024px) {
-            .movie-grid {
-                grid-template-columns: repeat(4, 1fr);
-                max-width: 1100px;
-                margin: 0 auto;
-            }
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .tape-case {
@@ -110,23 +104,22 @@
 
         .tape-case:hover { 
             border-color: var(--dojo-gold-bright);
-            transform: translateY(-10px) rotate(1deg);
+            transform: translateY(-8px);
         }
 
-        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
 
-        /* UPGRADED FORMAT BADGE */
         .format-badge {
             position: absolute; 
             top: 15px; 
             right: 15px;
             color: #fff; 
-            font-size: 0.75rem; /* Larger */
-            padding: 5px 10px;  /* More padding */
+            font-size: 0.7rem;
+            padding: 4px 8px;
             font-weight: 900;
             text-transform: uppercase; 
             z-index: 10;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.8); /* Silk Tag Shadow */
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.8);
         }
 
         .badge-4k { background-color: var(--color-4k); color: #000; }
@@ -135,7 +128,7 @@
         .badge-vhs { background-color: var(--color-vhs); }
         .badge-default { background-color: var(--dojo-red); }
 
-        /* DOSSIER MODAL */
+        /* MODAL */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -156,24 +149,41 @@
         }
 
         .dossier-poster { flex: 1 1 300px; max-height: 500px; object-fit: contain; border-right: 2px solid var(--dojo-red); }
-        .dossier-content { flex: 1 1 350px; padding: 35px; display: flex; flex-direction: column; color: var(--text-cream); }
-        .dossier-title { font-size: 1.8rem; color: var(--dojo-gold-bright); border-bottom: 2px solid var(--dojo-red); padding-bottom: 10px; margin-bottom: 20px; }
-        .data-line { margin: 12px 0; font-size: 0.95rem; border-left: 3px solid var(--dojo-red); padding-left: 10px; }
+        .dossier-content { flex: 1 1 350px; padding: 25px; display: flex; flex-direction: column; color: var(--text-cream); }
+        .dossier-title { font-size: 1.6rem; color: var(--dojo-gold-bright); border-bottom: 1px solid var(--dojo-red); padding-bottom: 10px; margin-bottom: 20px; }
+        .data-line { margin: 10px 0; font-size: 0.9rem; border-left: 3px solid var(--dojo-red); padding-left: 10px; }
         .label { color: var(--dojo-gold); text-transform: uppercase; margin-right: 10px; font-weight: bold; }
         .imdb-btn { margin-top: auto; padding: 15px; background: var(--dojo-red); color: #fff; text-decoration: none; text-align: center; font-weight: bold; border: 1px solid var(--dojo-gold); }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: var(--dojo-gold); cursor: pointer; font-size: 1.2rem; }
+        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--dojo-gold); cursor: pointer; font-size: 1.2rem; }
 
+        /* MOBILE SPECIFIC OPTIMIZATIONS */
         @media (max-width: 768px) {
-            .genre-console { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-top: 15px; padding-bottom: 10px; }
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr); /* FORCED 2 PER ROW */
+                gap: 15px;      /* Tighter gap for bigger images */
+                padding: 15px;  /* Tighter padding for bigger images */
+            }
+
+            .tape-case { padding: 5px; } /* Slimmer internal padding */
+            
+            .genre-console { 
+                justify-content: flex-start; 
+                flex-wrap: nowrap; 
+                overflow-x: auto; 
+                padding: 10px 15px; 
+                scrollbar-width: none; 
+            }
+            .genre-console::-webkit-scrollbar { display: none; }
+
             .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; }
-            .dossier-poster { border-right: none; border-bottom: 2px solid var(--dojo-red); max-height: 45vh; }
+            .dossier-poster { border-right: none; border-bottom: 2px solid var(--dojo-red); max-height: 40vh; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SENSEI_VAULT_ARCHIVE</h1>
+        <h1>SENSEI_VAULT</h1>
         <input type="text" id="searchBar" placeholder="SEARCH THE SCROLLS...">
         <div id="genreContainer" class="genre-console"></div>
     </header>
