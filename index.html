@@ -24,7 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* VINTAGE SCANLINE EFFECT */
         body::before {
             content: " ";
             display: block;
@@ -37,35 +36,36 @@
             pointer-events: none;
         }
 
+        /* COMPACT HEADER */
         header {
             background: rgba(0,0,0,0.95);
             border-bottom: 1px solid var(--vcr-green);
-            padding: 30px 20px;
+            padding: 15px 10px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
         }
 
-        h1 { letter-spacing: 5px; font-size: 1.5rem; margin-bottom: 20px; }
+        h1 { letter-spacing: 3px; font-size: 1.1rem; margin: 0 0 10px 0; }
 
         #searchBar {
-            width: 90%; max-width: 600px;
+            width: 95%; max-width: 600px;
             background: #000;
             border: 1px solid var(--vcr-green);
             color: var(--vcr-green);
-            padding: 15px;
-            font-size: 1rem;
+            padding: 10px;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            box-shadow: 0 0 15px var(--vcr-green-dim);
+            box-shadow: 0 0 10px var(--vcr-green-dim);
             outline: none;
         }
 
-        /* GENRE CONSOLE */
+        /* GENRE CONSOLE: Desktop behavior */
         .genre-console {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
             max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
@@ -75,22 +75,21 @@
             background: #000;
             border: 1px solid var(--vcr-green);
             color: var(--vcr-green);
-            padding: 8px 15px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            font-size: 0.7rem;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.2s;
+            white-space: nowrap;
         }
 
-        .genre-btn:hover { background: var(--vcr-green-dim); }
-        .genre-btn.active { background: var(--vcr-green); color: #000; box-shadow: 0 0 15px var(--vcr-green); }
+        .genre-btn.active { background: var(--vcr-green); color: #000; }
 
-        /* THE GRID: 4 per row on Desktop */
+        /* THE GRID */
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 30px;
-            padding: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 20px;
+            padding: 20px;
         }
 
         @media (min-width: 1024px) {
@@ -104,31 +103,15 @@
         .tape-case {
             background: #000;
             border: 1px solid #222;
-            padding: 10px;
-            transition: all 0.3s ease;
+            padding: 5px;
             cursor: pointer;
-            animation: flicker 0.2s infinite secondary;
         }
 
-        @keyframes flicker {
-            0% { opacity: 0.99; }
-            50% { opacity: 1; }
-            100% { opacity: 0.98; }
-        }
+        .tape-case:hover { border-color: var(--vcr-green); transform: translateY(-3px); }
 
-        .tape-case:hover {
-            border-color: var(--vcr-green);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--vcr-green-dim);
-        }
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
 
-        .poster {
-            width: 100%; aspect-ratio: 2/3;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(1.1);
-        }
-
-        /* NOSTROMO DOSSIER (MODAL) */
+        /* MODAL */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -142,63 +125,42 @@
         .dossier-window {
             background: #050505;
             border: 2px solid var(--vcr-green);
-            width: 95%; max-width: 900px;
+            width: 95%; max-width: 850px;
             max-height: 90vh;
             overflow-y: auto;
-            position: relative;
             display: flex; flex-wrap: wrap;
-            box-shadow: 0 0 40px var(--vcr-green-dim);
+            position: relative;
         }
 
-        .dossier-poster {
-            flex: 1 1 350px;
-            max-height: 600px;
-            object-fit: contain;
-            background: #000;
-            border-right: 1px solid var(--vcr-green);
-        }
+        .dossier-poster { flex: 1 1 300px; max-height: 500px; object-fit: contain; border-right: 1px solid var(--vcr-green); }
+        .dossier-content { flex: 1 1 350px; padding: 25px; display: flex; flex-direction: column; }
+        .dossier-title { font-size: 1.5rem; border-bottom: 2px solid var(--vcr-green); margin-bottom: 15px; }
+        .data-line { margin: 8px 0; font-size: 0.9rem; }
+        .label { color: #666; text-transform: uppercase; margin-right: 8px; font-weight: bold; }
+        .imdb-btn { margin-top: 20px; padding: 12px; border: 1px solid var(--vcr-green); color: var(--vcr-green); text-decoration: none; text-align: center; }
+        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--vcr-green); cursor: pointer; }
 
-        .dossier-content {
-            flex: 1 1 350px;
-            padding: 40px;
-            display: flex; flex-direction: column;
-        }
-
-        .dossier-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--vcr-green);
-            padding-bottom: 10px;
-        }
-
-        .data-line { margin: 12px 0; font-size: 1rem; line-height: 1.5; }
-        .label { color: #666; text-transform: uppercase; margin-right: 10px; font-weight: bold; }
-
-        .imdb-btn {
-            margin-top: auto;
-            padding: 15px;
-            background: transparent;
-            border: 1px solid var(--vcr-green);
-            color: var(--vcr-green);
-            text-decoration: none;
-            text-align: center;
-            font-weight: bold;
-            transition: all 0.2s;
-            letter-spacing: 2px;
-        }
-
-        .imdb-btn:hover { background: var(--vcr-green); color: #000; }
-
-        .close-btn {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 1.5rem; cursor: pointer; color: var(--vcr-green);
-            z-index: 101;
-        }
-
+        /* MOBILE SPECIFIC OPTIMIZATIONS */
         @media (max-width: 768px) {
-            .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; overflow-x: hidden; }
+            h1 { font-size: 0.9rem; letter-spacing: 1px; }
+            header { padding: 10px 5px; }
+            
+            /* Horizontal Swipe for Genres */
+            .genre-console {
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 5px;
+                margin-top: 10px;
+                scrollbar-width: none; /* Firefox */
+            }
+            .genre-console::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+            
+            .genre-btn { padding: 5px 10px; font-size: 0.65rem; }
+
+            .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; }
             .dossier-poster { border-right: none; border-bottom: 1px solid var(--vcr-green); max-height: 40vh; }
-            .movie-grid { padding: 20px; gap: 15px; }
         }
     </style>
 </head>
@@ -206,7 +168,7 @@
 
     <header>
         <h1>SEAGAL CINEMA</h1>
-        <input type="text" id="searchBar" placeholder="RETRIEVE DATA: SEARCH TITLES, CAST, OR GENRE...">
+        <input type="text" id="searchBar" placeholder="SEARCH ARCHIVE...">
         <div id="genreContainer" class="genre-console"></div>
     </header>
 
@@ -214,7 +176,7 @@
 
     <div id="modalOverlay">
         <div class="dossier-window">
-            <span class="close-btn" onclick="closeDossier()">[X] CLOSE_FILE</span>
+            <span class="close-btn" onclick="closeDossier()">[X] CLOSE</span>
             <img id="modalPoster" class="dossier-poster" src="" alt="">
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
@@ -223,13 +185,12 @@
                 <div class="data-line"><span class="label">DIRECTOR:</span> <span id="modalDirector"></span></div>
                 <div class="data-line"><span class="label">CAST:</span> <span id="modalActors"></span></div>
                 <div class="data-line"><span class="label">RATING:</span> <span id="modalRating"></span></div>
-                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">[ > ] ACCESS EXTERNAL_IMDB_DATABASE</a>
+                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">[ > ] ACCESS IMDB</a>
             </div>
         </div>
     </div>
 
     <script>
-        // PASTE YOUR CSV LINK HERE
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
 
         let allMovies = [];
@@ -240,31 +201,22 @@
                 const response = await fetch(SHEET_URL);
                 const data = await response.text();
                 const rows = data.split(/\r?\n/).slice(1);
-                
                 allMovies = [];
                 const genres = new Set(['ALL']);
 
                 rows.forEach(row => {
-                    // This Regex handles commas inside quotes correctly
                     const col = row.match(/(".*?"|[^",\s][^",]*|(?<=,|^)(?=,|$))/g);
                     if (!col || col.length < 8) return;
-                    
                     const clean = col.map(c => c.replace(/^"|"$/g, '').trim());
                     const [title, genre, year, director, actors, poster, rating, imdbId] = clean;
-
                     if (!poster || !poster.startsWith('http')) return;
-
                     allMovies.push({ title, genre, year, director, actors, poster, rating, imdbId });
-                    
-                    // Add genres to the toggle list
                     genre.split(',').forEach(g => genres.add(g.trim().toUpperCase()));
                 });
 
                 renderGenreToggles(Array.from(genres).sort());
                 applyFilters();
-            } catch (err) {
-                console.error("Archive Retrieval Error:", err);
-            }
+            } catch (err) { console.error(err); }
         }
 
         function renderGenreToggles(genres) {
@@ -287,14 +239,13 @@
             allMovies.forEach(movie => {
                 const matchesGenre = currentGenre === 'ALL' || movie.genre.toUpperCase().includes(currentGenre);
                 const matchesSearch = movie.title.toLowerCase().includes(searchTerm) || 
-                                      movie.actors.toLowerCase().includes(searchTerm) ||
-                                      movie.director.toLowerCase().includes(searchTerm);
+                                      movie.actors.toLowerCase().includes(searchTerm);
 
                 if (matchesGenre && matchesSearch) {
                     const card = document.createElement('div');
                     card.className = 'tape-case';
                     card.onclick = () => openDossier(movie);
-                    card.innerHTML = `<img class="poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_CORRUPT'">`;
+                    card.innerHTML = `<img class="poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=DATA+CORRUPT'">`;
                     grid.appendChild(card);
                 }
             });
@@ -314,20 +265,16 @@
             document.getElementById('modalPoster').src = movie.poster;
             document.getElementById('modalImdb').href = `https://www.imdb.com/title/${movie.imdbId.trim()}/`;
             document.getElementById('modalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Stop scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeDossier() {
             document.getElementById('modalOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Resume scrolling
+            document.body.style.overflow = 'auto';
         }
 
-        window.onclick = (event) => {
-            if (event.target == document.getElementById('modalOverlay')) closeDossier();
-        }
-
+        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeDossier(); }
         document.getElementById('searchBar').addEventListener('input', applyFilters);
-
         loadMovies();
     </script>
 </body>
