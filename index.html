@@ -182,28 +182,38 @@
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
 
         async function loadMovies() {
-            const response = await fetch(SHEET_URL);
-            const data = await response.text();
-            const rows = data.split('\n').slice(1);
-            const grid = document.getElementById('movieGrid');
+    const response = await fetch(SHEET_URL);
+    const data = await response.text();
+    
+    // This splits the sheet into rows
+    const rows = data.split(/\r?\n/).slice(1);
+    const grid = document.getElementById('movieGrid');
+    grid.innerHTML = '';
 
-            rows.forEach(row => {
-                const col = row.split(',');
-                if (col.length < 8) return;
+    rows.forEach(row => {
+        // This Regex handles commas inside quotes so your data doesn't "shift"
+        const col = row.match(/(".*?"|[^",\s][^",]*|(?<=,|^)(?=,|$))/g);
+        
+        if (!col || col.length < 8) return;
 
-                // Mapping your headers
-                const [title, genre, year, director, actors, poster, rating, imdbId] = col;
+        // Clean up quotes from the data
+        const clean = col.map(c => c.replace(/^"|"$/g, '').trim());
 
-                const card = document.createElement('div');
-                card.className = 'tape-case';
-                card.onclick = () => openDossier(title, genre, year, director, actors, poster, rating, imdbId);
-                
-                card.innerHTML = `<img class="poster" src="${poster}" alt="${title}">`;
-                card.dataset.tags = `${title} ${actors} ${genre} ${director}`.toLowerCase();
-                
-                grid.appendChild(card);
-            });
-        }
+        const [title, genre, year, director, actors, poster, rating, imdbId] = clean;
+
+        // Check if poster URL exists and looks like a link
+        if (!poster || !poster.startsWith('http')) return;
+
+        const card = document.createElement('div');
+        card.className = 'tape-case';
+        card.onclick = () => openDossier(title, genre, year, director, actors, poster, rating, imdbId);
+        
+        card.innerHTML = `<img class="poster" src="${poster}" alt="${title}" onerror="this.src='https://via.placeholder.com/200x300?text=DATA+CORRUPT'">`;
+        card.dataset.tags = `${title} ${actors} ${genre} ${director}`.toLowerCase();
+        
+        grid.appendChild(card);
+    });
+}
 
         function openDossier(title, genre, year, director, actors, poster, rating, imdbId) {
             document.getElementById('modalTitle').innerText = title.toUpperCase();
