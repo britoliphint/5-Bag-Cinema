@@ -3,167 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tomboatwater.com | VFA Archivist</title>
+    <title>tomboatwater.com | The Sensei's Vault</title>
     <style>
         :root {
-            --vcr-green: #00ff41;
-            --vcr-green-dim: rgba(0, 255, 65, 0.2);
-            --bg-dark: #050505;
+            --dojo-red: #8B0000;
+            --dojo-gold: #d4af37;
+            --dojo-gold-bright: #ffd700;
+            --bg-dark: #1a0f0a;
+            --text-cream: #f5f5dc;
             /* Format Colors */
-            --color-4k: #ffd700;    /* Gold */
-            --color-bluray: #00d4ff; /* Cyber Blue */
-            --color-dvd: #ff4500;    /* Industrial Orange/Red */
-            --color-vhs: #ff00ff;    /* Retro Magenta */
-            --color-default: var(--vcr-green);
+            --color-4k: #ffd700;    
+            --color-bluray: #00d4ff; 
+            --color-dvd: #e67e22;    
+            --color-vhs: #9b59b6;    
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background: linear-gradient(rgba(0,10,5,0.85), rgba(0,10,5,0.85)),
-                        url('https://images.unsplash.com/photo-1620021666992-a1f7c00609b1?auto=format&fit=crop&q=80&w=2000');
+            font-family: 'Georgia', serif;
+            /* THE DOJO: Dark Wood Grain & Serenity */
+            background: linear-gradient(rgba(26, 15, 10, 0.85), rgba(26, 15, 10, 0.85)),
+                        url('https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            color: var(--vcr-green);
+            color: var(--dojo-gold);
             margin: 0; padding: 0;
             overflow-x: hidden;
         }
 
         header {
-            background: rgba(0,0,0,0.95);
-            border-bottom: 1px solid var(--vcr-green);
-            padding: 15px 10px;
+            background: rgba(20, 10, 5, 0.95);
+            border-bottom: 2px solid var(--dojo-red);
+            padding: 25px 10px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        h1 { letter-spacing: 3px; font-size: 1.1rem; margin: 0 0 10px 0; }
+        h1 { 
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 4px; 
+            font-size: 1.6rem; 
+            margin: 0 0 15px 0; 
+            text-transform: uppercase;
+            color: var(--dojo-gold-bright);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
 
         #searchBar {
-            width: 95%; max-width: 600px;
-            background: #000;
-            border: 1px solid var(--vcr-green);
-            color: var(--vcr-green);
+            width: 90%; max-width: 500px;
+            background: #2a1b15;
+            border: 1px solid var(--dojo-gold);
+            color: var(--text-cream);
             padding: 12px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             outline: none;
-            box-shadow: 0 0 10px var(--vcr-green-dim);
+            border-radius: 2px;
         }
 
+        /* GENRE CONSOLE: Traditional Scroll Style */
         .genre-console {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .genre-btn {
-            background: #000;
-            border: 1px solid var(--vcr-green);
-            color: var(--vcr-green);
-            padding: 6px 12px;
-            font-size: 0.7rem;
+            background: transparent;
+            border: 1px solid var(--dojo-red);
+            color: var(--dojo-gold);
+            padding: 6px 14px;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
+            transition: all 0.3s;
+            font-weight: bold;
         }
 
-        .genre-btn.active { background: var(--vcr-green); color: #000; }
+        .genre-btn:hover { background: rgba(139, 0, 0, 0.2); border-color: var(--dojo-gold); }
+        .genre-btn.active { background: var(--dojo-red); color: #fff; border-color: var(--dojo-gold-bright); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
 
+        /* THE GRID */
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 25px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 30px;
+            padding: 40px;
         }
 
         @media (min-width: 1024px) {
             .movie-grid {
                 grid-template-columns: repeat(4, 1fr);
-                max-width: 1200px;
+                max-width: 1100px;
                 margin: 0 auto;
             }
         }
 
         .tape-case {
             background: #000;
-            border: 1px solid #222;
-            padding: 5px;
+            border: 1px solid #3d2b1f;
+            padding: 8px;
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s;
+            transition: all 0.4s ease;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
         }
 
-        .tape-case:hover { border-color: var(--vcr-green); transform: translateY(-5px); }
-        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+        .tape-case:hover { 
+            border-color: var(--dojo-gold-bright);
+            transform: translateY(-8px) rotate(1deg);
+        }
 
-        /* UPGRADED FORMAT BADGE */
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; filter: sepia(10%); }
+
+        /* SILK TAG FORMAT BADGES */
         .format-badge {
-            position: absolute; 
-            top: 8px; 
-            right: 8px;
-            color: #000;
-            font-size: 0.7rem; /* Slightly bigger */
-            padding: 4px 8px;  /* More "Button-like" */
-            font-weight: 900;
-            text-transform: uppercase;
-            z-index: 10;
-            border: 1px solid #000;
-            box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+            position: absolute; top: 12px; right: 12px;
+            color: #fff; font-size: 0.65rem; padding: 3px 8px; font-weight: bold;
+            text-transform: uppercase; z-index: 10;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            border-radius: 1px;
         }
 
-        /* FORMAT COLOR CLASSES */
-        .badge-4k { background-color: var(--color-4k); box-shadow: 0 0 10px var(--color-4k); }
-        .badge-bluray { background-color: var(--color-bluray); box-shadow: 0 0 10px var(--color-bluray); }
-        .badge-dvd { background-color: var(--color-dvd); box-shadow: 0 0 10px var(--color-dvd); }
-        .badge-vhs { background-color: var(--color-vhs); box-shadow: 0 0 10px var(--color-vhs); }
-        .badge-default { background-color: var(--color-default); }
+        .badge-4k { background-color: var(--color-4k); color: #000; }
+        .badge-bluray { background-color: var(--color-bluray); }
+        .badge-dvd { background-color: var(--color-dvd); }
+        .badge-vhs { background-color: var(--color-vhs); }
+        .badge-default { background-color: var(--dojo-red); }
 
-        /* MODAL */
+        /* DOSSIER MODAL */
         #modalOverlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.92);
             z-index: 10000;
             justify-content: center; align-items: center;
-            backdrop-filter: blur(8px);
         }
 
         .dossier-window {
-            background: #050505;
-            border: 2px solid var(--vcr-green);
-            width: 95%; max-width: 850px;
+            background: #1c130e;
+            border: 2px solid var(--dojo-gold);
+            width: 95%; max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
             display: flex; flex-wrap: wrap;
             position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
-        .dossier-poster { flex: 1 1 300px; max-height: 500px; object-fit: contain; border-right: 1px solid var(--vcr-green); }
-        .dossier-content { flex: 1 1 350px; padding: 25px; display: flex; flex-direction: column; }
-        .dossier-title { font-size: 1.5rem; border-bottom: 2px solid var(--vcr-green); margin-bottom: 15px; }
-        .data-line { margin: 8px 0; font-size: 0.9rem; }
-        .label { color: #666; text-transform: uppercase; margin-right: 8px; font-weight: bold; }
-        .imdb-btn { margin-top: auto; padding: 12px; border: 1px solid var(--vcr-green); color: var(--vcr-green); text-decoration: none; text-align: center; font-weight: bold; }
-        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--vcr-green); cursor: pointer; z-index: 10001; }
+        .dossier-poster { flex: 1 1 300px; max-height: 500px; object-fit: contain; border-right: 2px solid var(--dojo-red); }
+        .dossier-content { flex: 1 1 350px; padding: 35px; display: flex; flex-direction: column; color: var(--text-cream); }
+        .dossier-title { font-size: 1.8rem; color: var(--dojo-gold-bright); border-bottom: 1px solid var(--dojo-red); padding-bottom: 10px; margin-bottom: 20px; }
+        .data-line { margin: 12px 0; font-size: 0.95rem; border-left: 3px solid var(--dojo-red); padding-left: 10px; }
+        .label { color: var(--dojo-gold); text-transform: uppercase; margin-right: 10px; font-weight: bold; font-size: 0.8rem; }
+        .imdb-btn { margin-top: auto; padding: 15px; background: var(--dojo-red); color: #fff; text-decoration: none; text-align: center; font-weight: bold; border: 1px solid var(--dojo-gold); transition: 0.3s; }
+        .imdb-btn:hover { background: #660000; color: var(--dojo-gold-bright); }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: var(--dojo-gold); cursor: pointer; font-size: 1.2rem; }
 
         @media (max-width: 768px) {
-            .genre-console { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-top: 10px; }
+            .genre-console { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-top: 15px; padding-bottom: 10px; }
             .dossier-window { width: 100%; height: 100%; max-height: 100vh; border: none; }
-            .dossier-poster { border-right: none; border-bottom: 1px solid var(--vcr-green); max-height: 40vh; }
+            .dossier-poster { border-right: none; border-bottom: 2px solid var(--dojo-red); max-height: 40vh; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SEAGAL CINEMA</h1>
-        <input type="text" id="searchBar" placeholder="SEARCH ARCHIVE...">
+        <h1>SENSEI SEAGAL'S VAULT</h1>
+        <input type="text" id="searchBar" placeholder="SEARCH THE SCROLLS...">
         <div id="genreContainer" class="genre-console"></div>
     </header>
 
@@ -171,17 +183,17 @@
 
     <div id="modalOverlay">
         <div class="dossier-window">
-            <span class="close-btn" onclick="closeDossier()">[X] CLOSE</span>
+            <span class="close-btn" onclick="closeDossier()">[X] DISMISS</span>
             <img id="modalPoster" class="dossier-poster" src="" alt="">
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
-                <div class="data-line"><span class="label">FORMAT:</span> <span id="modalFormat" style="color:#fff;"></span></div>
+                <div class="data-line"><span class="label">FORMAT:</span> <span id="modalFormat"></span></div>
                 <div class="data-line"><span class="label">RATING:</span> <span id="modalRating"></span>/5</div>
                 <div class="data-line"><span class="label">GENRE:</span> <span id="modalGenre"></span></div>
                 <div class="data-line"><span class="label">YEAR:</span> <span id="modalYear"></span></div>
                 <div class="data-line"><span class="label">DIRECTOR:</span> <span id="modalDirector"></span></div>
                 <div class="data-line"><span class="label">CAST:</span> <span id="modalActors"></span></div>
-                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">[ > ] ACCESS IMDB_DATABASE</a>
+                <a href="#" id="modalImdb" target="_blank" class="imdb-btn">VIEW_IMDB_DATA</a>
             </div>
         </div>
     </div>
@@ -204,18 +216,15 @@
                     const col = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (col.length < 9) return; 
                     const clean = col.map(c => c.replace(/^"|"$/g, '').trim());
-                    
                     const movie = {
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
                         actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdbId: clean[8]
                     };
-
                     if (movie.poster.startsWith('http')) {
                         allMovies.push(movie);
                         movie.genre.split(',').forEach(g => genres.add(g.trim().toUpperCase()));
                     }
                 });
-
                 renderGenreToggles(Array.from(genres).sort());
                 applyFilters();
             } catch (err) { console.error(err); }
@@ -233,7 +242,6 @@
             });
         }
 
-        // Helper to get color class based on text
         function getFormatClass(format) {
             const f = format.toLowerCase();
             if (f.includes('4k')) return 'badge-4k';
@@ -247,29 +255,19 @@
             const searchTerm = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
             grid.innerHTML = '';
-
             allMovies.forEach(movie => {
                 const matchesGenre = currentGenre === 'ALL' || movie.genre.toUpperCase().includes(currentGenre);
-                const matchesSearch = movie.title.toLowerCase().includes(searchTerm) || 
-                                      movie.actors.toLowerCase().includes(searchTerm);
-
+                const matchesSearch = movie.title.toLowerCase().includes(searchTerm) || movie.actors.toLowerCase().includes(searchTerm);
                 if (matchesGenre && matchesSearch) {
                     const card = document.createElement('div');
                     card.className = 'tape-case';
                     card.onclick = () => openDossier(movie);
-                    
-                    // Assign the dynamic color class
                     const colorClass = getFormatClass(movie.format);
                     const formatBadge = movie.format ? `<div class="format-badge ${colorClass}">${movie.format}</div>` : '';
-                    
-                    card.innerHTML = `
-                        ${formatBadge}
-                        <img class="poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=DATA+CORRUPT'">
-                    `;
+                    card.innerHTML = `${formatBadge}<img class="poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=MISSING_DATA'">`;
                     grid.appendChild(card);
                 }
             });
-
             document.querySelectorAll('.genre-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.innerText === currentGenre);
             });
@@ -284,11 +282,8 @@
             document.getElementById('modalDirector').innerText = movie.director;
             document.getElementById('modalActors').innerText = movie.actors;
             document.getElementById('modalPoster').src = movie.poster;
-
             let finalLink = movie.imdbId.trim();
-            if (finalLink && !finalLink.startsWith('http')) {
-                finalLink = `https://www.imdb.com/title/${finalLink}/`;
-            }
+            if (finalLink && !finalLink.startsWith('http')) finalLink = `https://www.imdb.com/title/${finalLink}/`;
             document.getElementById('modalImdb').href = finalLink;
             document.getElementById('modalOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
