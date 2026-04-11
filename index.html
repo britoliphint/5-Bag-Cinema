@@ -21,14 +21,13 @@
             font-family: 'VT323', monospace;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            /* Synthwave Grid Floor Effect */
             background-image: 
                 linear-gradient(transparent 0%, var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, transparent 0%, var(--grid-line) 1px, transparent 1px);
             background-size: 30px 30px;
         }
 
-        /* CRT Scanline Animation */
+        /* CRT Scanline Overlay */
         body::before {
             content: " ";
             display: block;
@@ -42,7 +41,7 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             border-bottom: 3px solid var(--neon-pink);
             padding: 30px 10px;
             text-align: center;
@@ -62,7 +61,7 @@
         }
 
         #searchBar {
-            width: 90%; max-width: 500px;
+            width: 85%; max-width: 500px;
             background: #000;
             border: 2px solid var(--neon-cyan);
             color: var(--neon-cyan);
@@ -96,7 +95,6 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        /* MOVIE GRID */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -104,6 +102,10 @@
             padding: 40px;
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        #debugMessage {
+            text-align: center; margin-top: 50px; font-size: 1.5rem; color: var(--neon-pink);
         }
 
         .tape-case {
@@ -119,3 +121,167 @@
         .tape-case:hover {
             border-color: var(--neon-cyan);
             transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: contrast(1.1) brightness(0.9); }
+
+        .format-badge {
+            position: absolute; top: 15px; right: 15px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.6rem; padding: 4px 8px;
+            background: var(--neon-pink); color: #fff; font-weight: 900;
+            z-index: 10; box-shadow: 2px 2px 0px #000;
+        }
+
+        /* MODAL */
+        #modalOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 10000;
+            justify-content: center; align-items: center;
+        }
+
+        .dossier-window {
+            background: #000; border: 3px solid var(--neon-cyan);
+            width: 95%; max-width: 900px; max-height: 90vh;
+            overflow-y: auto; display: flex; flex-wrap: wrap;
+            box-shadow: 0 0 30px var(--neon-cyan); position: relative;
+        }
+
+        .dossier-poster { flex: 1 1 350px; max-height: 600px; object-fit: contain; border-right: 3px solid var(--neon-cyan); }
+        .dossier-content { flex: 1 1 400px; padding: 40px; display: flex; flex-direction: column; color: #fff; }
+        .dossier-title { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-pink); margin-bottom: 20px; text-transform: uppercase; }
+        .data-point { margin-bottom: 12px; font-size: 1.3rem; border-left: 4px solid var(--neon-purple); padding-left: 15px; }
+        .label { color: var(--neon-cyan); text-transform: uppercase; margin-right: 10px; font-size: 0.9rem; }
+        .imdb-link { margin-top: auto; padding: 15px; background: var(--neon-cyan); color: #000; text-decoration: none; text-align: center; font-weight: bold; font-family: 'Orbitron', sans-serif; }
+        .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; }
+
+        @media (max-width: 768px) {
+            .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+            .dossier-window { flex-direction: column; }
+            .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>5_BAG_VAULT</h1>
+        <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
+        <div id="genreContainer" class="genre-console"></div>
+    </header>
+
+    <div id="debugMessage">INITIATING BOOT SEQUENCE...</div>
+    <div class="movie-grid" id="movieGrid"></div>
+
+    <div id="modalOverlay">
+        <div class="dossier-window">
+            <span class="close-btn" onclick="closeModal()">[X]</span>
+            <img id="modalPoster" class="dossier-poster" src="" alt="">
+            <div class="dossier-content">
+                <div class="dossier-title" id="modalTitle"></div>
+                <div class="data-point"><span class="label">EDITION:</span> <span id="modalFormat"></span></div>
+                <div class="data-point"><span class="label">GENRE:</span> <span id="modalGenre"></span></div>
+                <div class="data-point"><span class="label">YEAR:</span> <span id="modalYear"></span></div>
+                <div class="data-point"><span class="label">DIRECTOR:</span> <span id="modalDirector"></span></div>
+                <div class="data-point"><span class="label">CAST:</span> <span id="modalActors"></span></div>
+                <a href="#" id="modalImdb" target="_blank" class="imdb-link">VIEW_DATABASE_ENTRY</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
+
+        let movies = [];
+        let currentGenre = 'ALL';
+
+        async function fetchMovies() {
+            const debug = document.getElementById('debugMessage');
+            try {
+                const res = await fetch(SHEET_URL);
+                const text = await res.text();
+                // Advanced RegEx split to handle commas inside quotes (like Actors column)
+                const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
+                
+                movies = rows.map(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if (cols.length < 9) return null;
+                    
+                    const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
+                    
+                    return {
+                        title: clean[0], 
+                        genre: clean[1], 
+                        year: clean[2], 
+                        director: clean[3],
+                        actors: clean[4], 
+                        poster: clean[5], 
+                        rating: clean[6], // It's still there!
+                        format: clean[7], 
+                        imdb: clean[8]
+                    };
+                }).filter(m => m && m.poster && m.poster.startsWith('http'));
+
+                if (movies.length === 0) {
+                    debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
+                } else {
+                    debug.style.display = 'none';
+                    const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
+                    renderGenres(genres.sort());
+                    renderGrid();
+                }
+            } catch (e) { 
+                debug.innerText = "SYSTEM_FAILURE: " + e.message;
+            }
+        }
+
+        function renderGenres(genres) {
+            const container = document.getElementById('genreContainer');
+            container.innerHTML = genres.map(g => `<button class="genre-btn ${currentGenre === g ? 'active' : ''}" onclick="setGenre('${g}')">${g}</button>`).join('');
+        }
+
+        function setGenre(g) {
+            currentGenre = g;
+            renderGenres([...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))].concat('ALL').sort());
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const search = document.getElementById('searchBar').value.toLowerCase();
+            const grid = document.getElementById('movieGrid');
+            grid.innerHTML = movies.filter(m => {
+                const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
+                const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
+                return matchesGenre && matchesSearch;
+            }).map(m => `
+                <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
+                    <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
+                    <div class="format-badge">${m.format}</div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(m) {
+            document.getElementById('modalTitle').innerText = m.title;
+            document.getElementById('modalPoster').src = m.poster;
+            document.getElementById('modalFormat').innerText = m.format;
+            document.getElementById('modalGenre').innerText = m.genre;
+            document.getElementById('modalYear').innerText = m.year;
+            document.getElementById('modalDirector').innerText = m.director;
+            document.getElementById('modalActors').innerText = m.actors;
+            document.getElementById('modalImdb').href = m.imdb.startsWith('http') ? m.imdb : `https://www.imdb.com/title/${m.imdb}`;
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('searchBar').oninput = renderGrid;
+        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeModal(); }
+        fetchMovies();
+    </script>
+</body>
+</html>
