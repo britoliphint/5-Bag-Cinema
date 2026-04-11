@@ -43,13 +43,23 @@
             box-shadow: 0 0 10px var(--vcr-green-dim);
         }
 
-        /* THE GRID */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 25px;
-            padding: 30px;
-        }
+        /* THE GRID: Flexible for mobile, locked for desktop */
+.movie-grid {
+    display: grid;
+    /* Mobile default: fill as many as fit at 140px wide */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+    gap: 30px;
+    padding: 30px;
+}
+
+/* DESKTOP UPGRADE: Force exactly 4 per row on larger screens */
+@media (min-width: 1024px) {
+    .movie-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1400px; /* Keeps the posters from getting TOO gargantuan on ultra-wide monitors */
+        margin: 0 auto;   /* Centers the grid */
+    }
+}
 
         .tape-case {
             background: #000;
