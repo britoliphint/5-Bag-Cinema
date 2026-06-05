@@ -27,7 +27,7 @@
             background-size: 30px 30px;
         }
 
-        /* ADVANCED INTERACTIVE CRT GLARE AND TUBE LAYER */
+        /* CRT GLASS ENGINE OVERLAY */
         body::before {
             content: " ";
             display: block;
@@ -91,18 +91,22 @@
             text-transform: uppercase;
         }
 
+        /* COMPACT NEON ICON BUTTON CONSOLE STYLE SHEET */
         .random-btn, .print-btn {
             background: transparent;
             border: 2px solid var(--neon-pink);
             color: var(--neon-pink);
-            padding: 11px 15px;
-            font-size: 1.3rem;
-            font-family: 'VT323', monospace;
+            padding: 8px 14px;
+            font-size: 1.6rem;
+            line-height: 1;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
             transition: all 0.2s ease;
-            text-transform: uppercase;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 47px; /* Perfectly matches height of search bar */
+            box-sizing: border-box;
         }
 
         .print-btn {
@@ -111,8 +115,8 @@
             box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
         }
 
-        .random-btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); text-shadow: 0 0 5px #fff; }
-        .print-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+        .random-btn:hover { background: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); filter: drop-shadow(0 0 4px #fff); }
+        .print-btn:hover { background: var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan); filter: invert(0); }
 
         .genre-console {
             display: flex; flex-wrap: wrap; justify-content: center;
@@ -202,7 +206,7 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
-        /* BE KIND REWIND INTERACTIVE MECHANICAL INTERACTION OVERLAY */
+        /* REWIND TRANSITION OVERLAY CHASSIS */
         #rewindOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.92); z-index: 40000;
@@ -220,7 +224,7 @@
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* MANIFEST RECEIPT PRINTER MODULE */
+        /* MANIFEST RECEIPT PAPER SLOT ENGINE */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 20000;
@@ -253,7 +257,7 @@
         .receipt-control-btn { font-family: 'VT323', monospace; font-size: 1.2rem; padding: 6px 16px; cursor: pointer; border: 2px solid #111; background: transparent; text-transform: uppercase; }
         .receipt-control-btn.p-exec { background: #111; color: #fff; }
 
-        /* VCR GLITCH LOTTERY SYSTEMS */
+        /* VHS SIGNAL DISTORTION INTERCEPTORS */
         #vhsGlitchOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #111; z-index: 999999; opacity: 0.95; overflow: hidden;
@@ -263,7 +267,7 @@
         .vcr-shake { animation: vcrTremor 0.15s infinite; }
         @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); } 80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        /* THE CHASSIS DOSSIER MODAL BOX SCREEN */
+        /* POPUP DOSSIER WINDOW CHASSIS */
         #modalOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -286,7 +290,7 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* ADVANCED TARGETED RESPONSIVE MATRIX */
+        /* RESPONSIVE LAYOUT CONSTRAINTS OVERRIDES */
         @media (max-width: 768px) {
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; max-height: 80vh; width: 100%; overflow-y: auto; }
@@ -297,13 +301,15 @@
             .data-point { font-size: 1.1rem; margin-bottom: 8px; }
             .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; }
             .stat-btn { font-size: 1.1rem; padding: 4px 6px; }
-            .search-container { flex-direction: column; width: 95%; gap: 8px; }
-            #searchBar { width: 100%; box-sizing: border-box; }
-            .random-btn, .print-btn { width: 100%; box-sizing: border-box; text-align: center; padding: 10px; }
+            
+            /* Responsive layout keeping icons side-by-side on row width block */
+            .search-container { flex-direction: row; width: 95%; gap: 6px; }
+            #searchBar { flex: 1; }
+            .random-btn, .print-btn { flex: none; width: 50px; padding: 0; }
             h1 { font-size: 1.5rem; }
         }
 
-        /* PRINTER OVERRIDE CSS HARDWARE RULES */
+        /* PRINT CHASSIS MATRIX */
         @media print {
             body, body::before, header, #vhsGlitchOverlay, #modalOverlay, #debugMessage, .movie-grid, #rewindOverlay { display: none !important; }
             #receiptOverlay { display: block !important; position: absolute; top:0; left:0; background: #fff; padding: 0; width: 100%; }
@@ -319,8 +325,8 @@
         
         <div class="search-container">
             <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
-            <button class="random-btn" onclick="triggerVhsRandomizer()">[ AUTO_LOAD ]</button>
-            <button class="print-btn" onclick="generateReceiptManifest()">[ PRINT_MANIFEST ]</button>
+            <button class="random-btn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
+            <button class="print-btn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
         </div>
 
         <div id="genreContainer" class="genre-console"></div>
@@ -334,10 +340,7 @@
     </header>
 
     <div id="rewindOverlay">
-        <div class="spools">
-            <div class="spool"></div>
-            <div class="spool"></div>
-        </div>
+        <div class="spools"><div class="spool"></div><div class="spool"></div></div>
         <div class="rewind-label">BE KIND, REWIND...</div>
     </div>
 
@@ -404,7 +407,6 @@
         let currentFormat = 'ALL';
         let activePool = [];
 
-        // Interactive Glass Tube Coordinate Tracking Engine
         window.addEventListener('mousemove', (e) => {
             const xPercent = (e.clientX / window.innerWidth) * 100;
             const yPercent = (e.clientY / window.innerHeight) * 100;
@@ -421,7 +423,6 @@
             }
         });
 
-        // Mobile Sticky Hide Controller
         let lastScrollY = window.scrollY;
         const header = document.getElementById('mainHeader');
 
