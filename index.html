@@ -229,7 +229,7 @@
         let movies = [];
         let currentGenre = 'ALL';
 
-        // Scroll Tracking Logic for Mobile Vanishing Header
+        // Mobile Scroll-to-Hide Controller
         let lastScrollY = window.scrollY;
         const header = document.getElementById('mainHeader');
 
@@ -250,7 +250,9 @@
             const debug = document.getElementById('debugMessage');
             try {
                 const res = await fetch(SHEET_URL);
+                if (!res.ok) throw new Error("NETWORK_RESPONSE_NOT_OK");
                 const text = await res.text();
+                
                 const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
                 
                 movies = rows.map(row => {
@@ -259,4 +261,92 @@
                     const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
                     return {
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
-                        actors
+                        actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdb: clean[8]
+                    };
+                }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
+
+                if (movies.length === 0) {
+                    debug.innerText = "ERROR: NO COMPATIBLE DATA RECORDS FOUND";
+                } else {
+                    debug.style.display = 'none';
+                    document.getElementById('counterPanel').style.display = 'flex';
+                    const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
+                    renderGenres(genres.sort());
+                    renderGrid();
+                }
+            } catch (e) { 
+                debug.innerText = "SYSTEM_FAILURE: " + e.message;
+                console.error(e);
+            }
+        }
+
+        function renderGenres(genres) {
+            const container = document.getElementById('genreContainer');
+            container.innerHTML = genres.map(g => `<button class="genre-btn ${currentGenre === g ? 'active' : ''}" onclick="setGenre('${g}')">${g}</button>`).join('');
+        }
+
+        function setGenre(g) {
+            currentGenre = g;
+            const uniqueGenres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
+            renderGenres(uniqueGenres.sort());
+            renderGrid();
+        }
+
+        function updateCounters(filteredMovies) {
+            document.getElementById('statTotal').innerText = filteredMovies.length;
+            const counts = { k4: 0, blu: 0, dvd: 0 };
+            filteredMovies.forEach(m => {
+                const fmt = (m.format || '').toLowerCase();
+                if (fmt.includes('4k')) counts.k4++;
+                else if (fmt.includes('blu')) counts.blu++;
+                else if (fmt.includes('dvd')) counts.dvd++;
+            });
+            document.getElementById('stat4k').innerText = counts.k4;
+            document.getElementById('statBlu').innerText = counts.blu;
+            document.getElementById('statDvd').innerText = counts.dvd;
+        }
+
+        function renderGrid() {
+            const search = document.getElementById('searchBar').value.toLowerCase();
+            const grid = document.getElementById('movieGrid');
+            
+            const filtered = movies.filter(m => {
+                const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
+                const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
+                return matchesGenre && matchesSearch;
+            });
+
+            updateCounters(filtered);
+
+            grid.innerHTML = filtered.map(m => `
+                <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
+                    <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
+                    <div class="format-badge">${m.format}</div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(m) {
+            document.getElementById('modalTitle').innerText = m.title;
+            document.getElementById('modalPoster').src = m.poster;
+            document.getElementById('modalFormat').innerText = m.format;
+            document.getElementById('modalGenre').innerText = m.genre;
+            document.getElementById('modalYear').innerText = m.year;
+            document.getElementById('modalDirector').innerText = m.director;
+            document.getElementById('modalActors').innerText = m.actors;
+            document.getElementById('modalImdb').href = m.imdb.startsWith('http') ? m.imdb : `https://www.imdb.com/title/${m.imdb}`;
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('searchBar').oninput = renderGrid;
+        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeModal(); }
+        fetchMovies();
+    </script>
+</body>
+</html>
