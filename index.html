@@ -100,12 +100,13 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
+        /* UPGRADED STATUS FILTER PANEL */
         .status-counter-panel {
             max-width: 600px;
             margin: 25px auto 0 auto;
             border: 1px solid var(--neon-cyan);
             background: rgba(0,0,0,0.8);
-            padding: 10px;
+            padding: 5px;
             box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
             display: flex;
             justify-content: space-around;
@@ -114,10 +115,35 @@
             letter-spacing: 1px;
         }
 
-        .stat-box span {
+        .stat-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--neon-cyan);
+            padding: 6px 12px;
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stat-btn span {
             color: #fff;
-            text-shadow: 0 0 5px var(--neon-cyan);
             font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .stat-btn:hover {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        .stat-btn.active {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            color: #fff;
+            text-shadow: 0 0 8px var(--neon-cyan);
+            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.3);
         }
 
         .movie-grid {
@@ -184,7 +210,8 @@
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; }
             .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
-            .status-counter-panel { font-size: 1.1rem; width: 90%; flex-wrap: wrap; gap: 5px; }
+            .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; }
+            .stat-btn { font-size: 1.1rem; padding: 4px 6px; }
             h1 { font-size: 1.5rem; }
         }
     </style>
@@ -197,10 +224,10 @@
         <div id="genreContainer" class="genre-console"></div>
         
         <div class="status-counter-panel" id="counterPanel" style="display:none;">
-            <div class="stat-box">TOTAL_ARCHIVE: <span id="statTotal">0</span></div>
-            <div class="stat-box">4K: <span id="stat4k">0</span></div>
-            <div class="stat-box">BLU: <span id="statBlu">0</span></div>
-            <div class="stat-box">DVD: <span id="statDvd">0</span></div>
+            <button class="stat-btn active" id="btnAll" onclick="setFormatFilter('ALL')">TOTAL_ARCHIVE:<span id="statTotal">0</span></button>
+            <button class="stat-btn" id="btn4k" onclick="setFormatFilter('4K')">4K:<span id="stat4k">0</span></button>
+            <button class="stat-btn" id="btnBlu" onclick="setFormatFilter('BLU')">BLU:<span id="statBlu">0</span></button>
+            <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
         </div>
     </header>
 
@@ -228,6 +255,7 @@
 
         let movies = [];
         let currentGenre = 'ALL';
+        let currentFormat = 'ALL'; // Tracks active format block filter
 
         // Mobile Scroll-to-Hide Controller
         let lastScrollY = window.scrollY;
@@ -250,9 +278,7 @@
             const debug = document.getElementById('debugMessage');
             try {
                 const res = await fetch(SHEET_URL);
-                if (!res.ok) throw new Error("NETWORK_RESPONSE_NOT_OK");
                 const text = await res.text();
-                
                 const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
                 
                 movies = rows.map(row => {
@@ -266,7 +292,7 @@
                 }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
 
                 if (movies.length === 0) {
-                    debug.innerText = "ERROR: NO COMPATIBLE DATA RECORDS FOUND";
+                    debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
                 } else {
                     debug.style.display = 'none';
                     document.getElementById('counterPanel').style.display = 'flex';
@@ -276,7 +302,6 @@
                 }
             } catch (e) { 
                 debug.innerText = "SYSTEM_FAILURE: " + e.message;
-                console.error(e);
             }
         }
 
@@ -292,10 +317,25 @@
             renderGrid();
         }
 
-        function updateCounters(filteredMovies) {
-            document.getElementById('statTotal').innerText = filteredMovies.length;
+        // Handles switching between physical formatting filters
+        function setFormatFilter(fmt) {
+            currentFormat = fmt;
+            
+            // Manage visual button highlight classes
+            document.getElementById('btnAll').classList.toggle('active', fmt === 'ALL');
+            document.getElementById('btn4k').classList.toggle('active', fmt === '4K');
+            document.getElementById('btnBlu').classList.toggle('active', fmt === 'BLU');
+            document.getElementById('btnDvd').classList.toggle('active', fmt === 'DVD');
+            
+            renderGrid();
+        }
+
+        function updateCounters(baseFilteredMovies) {
+            // Stats always show counts relative to search bar + genre filters
+            document.getElementById('statTotal').innerText = baseFilteredMovies.length;
+            
             const counts = { k4: 0, blu: 0, dvd: 0 };
-            filteredMovies.forEach(m => {
+            baseFilteredMovies.forEach(m => {
                 const fmt = (m.format || '').toLowerCase();
                 if (fmt.includes('4k')) counts.k4++;
                 else if (fmt.includes('blu')) counts.blu++;
@@ -310,15 +350,27 @@
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
             
-            const filtered = movies.filter(m => {
+            // Phase 1: Filter down by Search Term & Genre selection
+            const baseFiltered = movies.filter(m => {
                 const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
                 const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
                 return matchesGenre && matchesSearch;
             });
 
-            updateCounters(filtered);
+            // Update panel metrics using the search baseline
+            updateCounters(baseFiltered);
 
-            grid.innerHTML = filtered.map(m => `
+            // Phase 2: Narrow down further if a format toggle button is pressed
+            const finalFiltered = baseFiltered.filter(m => {
+                if (currentFormat === 'ALL') return true;
+                const fmt = (m.format || '').toLowerCase();
+                if (currentFormat === '4K') return fmt.includes('4k');
+                if (currentFormat === 'BLU') return fmt.includes('blu');
+                if (currentFormat === 'DVD') return fmt.includes('dvd');
+                return true;
+            });
+
+            grid.innerHTML = finalFiltered.map(m => `
                 <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                     <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
                     <div class="format-badge">${m.format}</div>
