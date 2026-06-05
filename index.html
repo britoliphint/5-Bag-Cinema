@@ -47,6 +47,11 @@
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--neon-pink);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        header.header-hidden {
+            transform: translateY(-100%);
         }
 
         h1 {
@@ -95,7 +100,6 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        /* LIVE SYSTEM STATUS COUNTER */
         .status-counter-panel {
             max-width: 600px;
             margin: 25px auto 0 auto;
@@ -181,12 +185,13 @@
             .dossier-window { flex-direction: column; }
             .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
             .status-counter-panel { font-size: 1.1rem; width: 90%; flex-wrap: wrap; gap: 5px; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="mainHeader">
         <h1>5_BAG_VAULT</h1>
         <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
         <div id="genreContainer" class="genre-console"></div>
@@ -224,11 +229,30 @@
         let movies = [];
         let currentGenre = 'ALL';
 
+        // Mobile Scroll-to-Hide Controller
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('mainHeader');
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 768) {
+                if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                    header.classList.add('header-hidden');
+                } else {
+                    header.classList.remove('header-hidden');
+                }
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
         async function fetchMovies() {
             const debug = document.getElementById('debugMessage');
             try {
                 const res = await fetch(SHEET_URL);
+                if (!res.ok) throw new Error("NETWORK_RESPONSE_NOT_OK");
                 const text = await res.text();
+                
                 const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
                 
                 movies = rows.map(row => {
@@ -239,10 +263,10 @@
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
                         actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdb: clean[8]
                     };
-                }).filter(m => m && m.poster && m.poster.startsWith('http'));
+                }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
 
                 if (movies.length === 0) {
-                    debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
+                    debug.innerText = "ERROR: NO COMPATIBLE DATA RECORDS FOUND";
                 } else {
                     debug.style.display = 'none';
                     document.getElementById('counterPanel').style.display = 'flex';
@@ -252,6 +276,7 @@
                 }
             } catch (e) { 
                 debug.innerText = "SYSTEM_FAILURE: " + e.message;
+                console.error(e);
             }
         }
 
@@ -262,13 +287,13 @@
 
         function setGenre(g) {
             currentGenre = g;
-            renderGenres([...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))].concat('ALL').sort());
+            const uniqueGenres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
+            renderGenres(uniqueGenres.sort());
             renderGrid();
         }
 
         function updateCounters(filteredMovies) {
             document.getElementById('statTotal').innerText = filteredMovies.length;
-            
             const counts = { k4: 0, blu: 0, dvd: 0 };
             filteredMovies.forEach(m => {
                 const fmt = (m.format || '').toLowerCase();
@@ -276,7 +301,6 @@
                 else if (fmt.includes('blu')) counts.blu++;
                 else if (fmt.includes('dvd')) counts.dvd++;
             });
-
             document.getElementById('stat4k').innerText = counts.k4;
             document.getElementById('statBlu').innerText = counts.blu;
             document.getElementById('statDvd').innerText = counts.dvd;
