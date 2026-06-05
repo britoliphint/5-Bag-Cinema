@@ -95,6 +95,27 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
+        /* LIVE SYSTEM STATUS COUNTER */
+        .status-counter-panel {
+            max-width: 600px;
+            margin: 25px auto 0 auto;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        .stat-box span {
+            color: #fff;
+            text-shadow: 0 0 5px var(--neon-cyan);
+            font-weight: bold;
+        }
+
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -159,6 +180,7 @@
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; }
             .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
+            .status-counter-panel { font-size: 1.1rem; width: 90%; flex-wrap: wrap; gap: 5px; }
         }
     </style>
 </head>
@@ -168,6 +190,13 @@
         <h1>5_BAG_VAULT</h1>
         <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
         <div id="genreContainer" class="genre-console"></div>
+        
+        <div class="status-counter-panel" id="counterPanel" style="display:none;">
+            <div class="stat-box">TOTAL_ARCHIVE: <span id="statTotal">0</span></div>
+            <div class="stat-box">4K: <span id="stat4k">0</span></div>
+            <div class="stat-box">BLU: <span id="statBlu">0</span></div>
+            <div class="stat-box">DVD: <span id="statDvd">0</span></div>
+        </div>
     </header>
 
     <div id="debugMessage">INITIATING BOOT SEQUENCE...</div>
@@ -200,25 +229,15 @@
             try {
                 const res = await fetch(SHEET_URL);
                 const text = await res.text();
-                // Advanced RegEx split to handle commas inside quotes (like Actors column)
                 const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
                 
                 movies = rows.map(row => {
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (cols.length < 9) return null;
-                    
                     const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
-                    
                     return {
-                        title: clean[0], 
-                        genre: clean[1], 
-                        year: clean[2], 
-                        director: clean[3],
-                        actors: clean[4], 
-                        poster: clean[5], 
-                        rating: clean[6], // It's still there!
-                        format: clean[7], 
-                        imdb: clean[8]
+                        title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
+                        actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdb: clean[8]
                     };
                 }).filter(m => m && m.poster && m.poster.startsWith('http'));
 
@@ -226,6 +245,7 @@
                     debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
                 } else {
                     debug.style.display = 'none';
+                    document.getElementById('counterPanel').style.display = 'flex';
                     const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
                     renderGenres(genres.sort());
                     renderGrid();
@@ -246,14 +266,35 @@
             renderGrid();
         }
 
+        function updateCounters(filteredMovies) {
+            document.getElementById('statTotal').innerText = filteredMovies.length;
+            
+            const counts = { k4: 0, blu: 0, dvd: 0 };
+            filteredMovies.forEach(m => {
+                const fmt = (m.format || '').toLowerCase();
+                if (fmt.includes('4k')) counts.k4++;
+                else if (fmt.includes('blu')) counts.blu++;
+                else if (fmt.includes('dvd')) counts.dvd++;
+            });
+
+            document.getElementById('stat4k').innerText = counts.k4;
+            document.getElementById('statBlu').innerText = counts.blu;
+            document.getElementById('statDvd').innerText = counts.dvd;
+        }
+
         function renderGrid() {
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
-            grid.innerHTML = movies.filter(m => {
+            
+            const filtered = movies.filter(m => {
                 const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
                 const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
                 return matchesGenre && matchesSearch;
-            }).map(m => `
+            });
+
+            updateCounters(filtered);
+
+            grid.innerHTML = filtered.map(m => `
                 <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                     <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
                     <div class="format-badge">${m.format}</div>
