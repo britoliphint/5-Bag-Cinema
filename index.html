@@ -65,8 +65,18 @@
             font-style: italic;
         }
 
+        .search-container {
+            display: flex;
+            max-width: 650px;
+            margin: 0 auto;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+        }
+
         #searchBar {
-            width: 85%; max-width: 500px;
+            flex: 1;
             background: #000;
             border: 2px solid var(--neon-cyan);
             color: var(--neon-cyan);
@@ -76,6 +86,28 @@
             outline: none;
             box-shadow: 0 0 10px var(--neon-cyan);
             text-transform: uppercase;
+        }
+
+        /* RANDOMIZER TERMINAL BUTTON */
+        .random-btn {
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 11px 15px;
+            font-size: 1.3rem;
+            font-family: 'VT323', monospace;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .random-btn:hover {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 20px var(--neon-pink);
+            text-shadow: 0 0 5px #fff;
         }
 
         .genre-console {
@@ -100,7 +132,6 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        /* UPGRADED STATUS FILTER PANEL */
         .status-counter-panel {
             max-width: 600px;
             margin: 25px auto 0 auto;
@@ -184,6 +215,46 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
+        /* VCR STATIC GLITCH LAYER */
+        #vhsGlitchOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #111;
+            z-index: 99999;
+            opacity: 0.95;
+            overflow: hidden;
+        }
+
+        .vhs-static-line {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px #fff;
+            animation: glitchLines 0.4s infinite linear;
+        }
+
+        @keyframes glitchLines {
+            0% { top: -10%; background-color: rgba(255,255,255,0.2); }
+            50% { background-color: rgba(255, 255, 255, 0.8); }
+            100% { top: 110%; }
+        }
+
+        /* Page Tremor vibration loop during tracking glitch */
+        .vcr-shake {
+            animation: vcrTremor 0.15s infinite;
+        }
+
+        @keyframes vcrTremor {
+            0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(-1px, -2px) rotate(-1deg); }
+            40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); }
+            60% { transform: translate(0px, 2px) rotate(0deg); }
+            80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); }
+            100% { transform: translate(-1px, 1px) rotate(-1deg); }
+        }
+
         /* MODAL */
         #modalOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -212,6 +283,9 @@
             .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
             .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; }
             .stat-btn { font-size: 1.1rem; padding: 4px 6px; }
+            .search-container { flex-direction: column; width: 95%; gap: 8px; }
+            #searchBar { width: 100%; box-sizing: border-box; }
+            .random-btn { width: 100%; box-sizing: border-box; text-align: center; padding: 10px; }
             h1 { font-size: 1.5rem; }
         }
     </style>
@@ -220,7 +294,12 @@
 
     <header id="mainHeader">
         <h1>5_BAG_VAULT</h1>
-        <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
+        
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
+            <button class="random-btn" onclick="triggerVhsRandomizer()">[ AUTO_LOAD_TAPE ]</button>
+        </div>
+
         <div id="genreContainer" class="genre-console"></div>
         
         <div class="status-counter-panel" id="counterPanel" style="display:none;">
@@ -230,6 +309,13 @@
             <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
         </div>
     </header>
+
+    <div id="vhsGlitchOverlay">
+        <div class="vhs-static-line" style="animation-delay: 0s;"></div>
+        <div class="vhs-static-line" style="animation-delay: -0.15s; height: 15px; background: rgba(255,255,255,0.3);"></div>
+        <div class="vhs-static-line" style="animation-delay: -0.3s; height: 4px;"></div>
+        <div style="position: absolute; top:45%; width:100%; text-align:center; color:#fff; font-size:3rem; font-family:'Orbitron', sans-serif; letter-spacing:5px; text-shadow:0 0 10px var(--neon-pink);">TRACKING...</div>
+    </div>
 
     <div id="debugMessage">INITIATING BOOT SEQUENCE...</div>
     <div class="movie-grid" id="movieGrid"></div>
@@ -255,7 +341,8 @@
 
         let movies = [];
         let currentGenre = 'ALL';
-        let currentFormat = 'ALL'; // Tracks active format block filter
+        let currentFormat = 'ALL';
+        let activePool = []; // Caches the current filtered set for the randomizer draw
 
         // Mobile Scroll-to-Hide Controller
         let lastScrollY = window.scrollY;
@@ -317,23 +404,17 @@
             renderGrid();
         }
 
-        // Handles switching between physical formatting filters
         function setFormatFilter(fmt) {
             currentFormat = fmt;
-            
-            // Manage visual button highlight classes
             document.getElementById('btnAll').classList.toggle('active', fmt === 'ALL');
             document.getElementById('btn4k').classList.toggle('active', fmt === '4K');
             document.getElementById('btnBlu').classList.toggle('active', fmt === 'BLU');
             document.getElementById('btnDvd').classList.toggle('active', fmt === 'DVD');
-            
             renderGrid();
         }
 
         function updateCounters(baseFilteredMovies) {
-            // Stats always show counts relative to search bar + genre filters
             document.getElementById('statTotal').innerText = baseFilteredMovies.length;
-            
             const counts = { k4: 0, blu: 0, dvd: 0 };
             baseFilteredMovies.forEach(m => {
                 const fmt = (m.format || '').toLowerCase();
@@ -350,18 +431,16 @@
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
             
-            // Phase 1: Filter down by Search Term & Genre selection
             const baseFiltered = movies.filter(m => {
                 const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
                 const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
                 return matchesGenre && matchesSearch;
             });
 
-            // Update panel metrics using the search baseline
             updateCounters(baseFiltered);
 
-            // Phase 2: Narrow down further if a format toggle button is pressed
-            const finalFiltered = baseFiltered.filter(m => {
+            // Establish secondary final display array filter mapping
+            activePool = baseFiltered.filter(m => {
                 if (currentFormat === 'ALL') return true;
                 const fmt = (m.format || '').toLowerCase();
                 if (currentFormat === '4K') return fmt.includes('4k');
@@ -370,12 +449,36 @@
                 return true;
             });
 
-            grid.innerHTML = finalFiltered.map(m => `
+            grid.innerHTML = activePool.map(m => `
                 <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                     <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
                     <div class="format-badge">${m.format}</div>
                 </div>
             `).join('');
+        }
+
+        // VCR TRACKING GLITCH AND LOTTERY SELECTION ALGORITHM
+        function triggerVhsRandomizer() {
+            if (activePool.length === 0) return;
+
+            const glitchOverlay = document.getElementById('vhsGlitchOverlay');
+            
+            // Fire up the visual distortion layers
+            glitchOverlay.style.display = 'block';
+            document.body.classList.add('vcr-shake');
+
+            // Hold the noise tracking scramble state for 1 full second
+            setTimeout(() => {
+                // Select a random title indexing out of the active filtered viewport parameters
+                const randomChoiceIndex = Math.floor(Math.random() * activePool.length);
+                const chosenTape = activePool[randomChoiceIndex];
+
+                // Shut down distortion engine and load movie data dossier
+                glitchOverlay.style.display = 'none';
+                document.body.classList.remove('vcr-shake');
+                
+                openModal(chosenTape);
+            }, 1000);
         }
 
         function openModal(m) {
