@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5-BAG CINEMA | NEON ARCHIVE</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39&family=Orbitron:wght@400;900&family=VT323&display=swap');
 
         :root {
             --neon-pink: #ff00ff;
@@ -27,7 +27,7 @@
             background-size: 30px 30px;
         }
 
-        /* CRT Scanline & Curved Glass Glare Overlays */
+        /* CRT Scanline Overlays */
         body::before {
             content: " ";
             display: block;
@@ -70,7 +70,7 @@
 
         .search-container {
             display: flex;
-            max-width: 650px;
+            max-width: 750px;
             margin: 0 auto;
             gap: 10px;
             justify-content: center;
@@ -91,7 +91,7 @@
             text-transform: uppercase;
         }
 
-        .random-btn {
+        .random-btn, .print-btn {
             background: transparent;
             border: 2px solid var(--neon-pink);
             color: var(--neon-pink);
@@ -105,12 +105,14 @@
             white-space: nowrap;
         }
 
-        .random-btn:hover {
-            background: var(--neon-pink);
-            color: #fff;
-            box-shadow: 0 0 20px var(--neon-pink);
-            text-shadow: 0 0 5px #fff;
+        .print-btn {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
         }
+
+        .random-btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); text-shadow: 0 0 5px #fff; }
+        .print-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
 
         .genre-console {
             display: flex; flex-wrap: wrap; justify-content: center;
@@ -159,18 +161,8 @@
             transition: all 0.2s ease;
         }
 
-        .stat-btn span {
-            color: #fff;
-            font-weight: bold;
-            margin-left: 4px;
-        }
-
-        .stat-btn:hover {
-            border-color: var(--neon-pink);
-            color: var(--neon-pink);
-            text-shadow: 0 0 5px var(--neon-pink);
-        }
-
+        .stat-btn span { color: #fff; font-weight: bold; margin-left: 4px; }
+        .stat-btn:hover { border-color: var(--neon-pink); color: var(--neon-pink); text-shadow: 0 0 5px var(--neon-pink); }
         .stat-btn.active {
             border-color: var(--neon-cyan);
             background: rgba(0, 243, 255, 0.1);
@@ -188,18 +180,11 @@
             margin: 0 auto;
         }
 
-        #debugMessage {
-            text-align: center; margin-top: 50px; font-size: 1.5rem; color: var(--neon-pink);
-        }
+        #debugMessage { text-align: center; margin-top: 50px; font-size: 1.5rem; color: var(--neon-pink); }
 
         .tape-case {
-            background: #000;
-            border: 2px solid #222;
-            padding: 8px;
-            cursor: pointer;
-            position: relative;
-            transition: 0.3s;
-            box-shadow: 5px 5px 0px var(--neon-purple);
+            background: #000; border: 2px solid #222; padding: 8px; cursor: pointer;
+            position: relative; transition: 0.3s; box-shadow: 5px 5px 0px var(--neon-purple);
         }
 
         .tape-case:hover {
@@ -217,68 +202,68 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
+        /* BLEEDING-EDGE: RETRO RECEIPT MANIFEST CONTAINER STYLES */
+        #receiptOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 20000;
+            justify-content: center; align-items: flex-start;
+            overflow-y: auto; padding: 40px 10px; box-sizing: border-box;
+        }
+
+        .receipt-paper {
+            background: #fdfdfd; color: #111;
+            width: 100%; max-width: 420px;
+            padding: 30px 25px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), 10px 10px 0px var(--neon-cyan);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem; line-height: 1.4;
+            position: relative; border-radius: 2px;
+            animation: printSlideDown 0.6s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+
+        @keyframes printSlideDown {
+            0% { transform: translateY(-100%) scaleY(0); transform-origin: top; }
+            100% { transform: translateY(0) scaleY(1); }
+        }
+
+        .receipt-header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 15px; }
+        .receipt-store { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.4rem; letter-spacing: 2px; margin: 0; }
+        .receipt-meta { font-size: 0.75rem; color: #555; margin-top: 5px; text-transform: uppercase; }
+        
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 4px; align-items: flex-start; }
+        .receipt-item-title { flex: 1; padding-right: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; }
+        .receipt-item-fmt { font-weight: bold; font-family: 'Orbitron', sans-serif; font-size: 0.7rem; background: #222; color: #fff; padding: 1px 4px; border-radius: 2px; }
+
+        .receipt-summary { border-top: 2px dashed #333; margin-top: 15px; padding-top: 15px; font-weight: bold; }
+        
+        .receipt-barcode {
+            font-family: 'Libre Barcode 39', cubic-bezier;
+            font-size: 3.5rem; text-align: center;
+            margin: 20px 0 10px 0; line-height: 1;
+        }
+        .receipt-footer { text-align: center; font-size: 0.8rem; border-top: 1px dashed #666; margin-top: 15px; padding-top: 10px; font-style: italic; }
+        
+        .receipt-action-bar { display: flex; gap: 10px; margin-top: 25px; justify-content: center; }
+        .receipt-control-btn {
+            font-family: 'VT323', monospace; font-size: 1.2rem; padding: 6px 16px; cursor: pointer; border: 2px solid #111; background: transparent;
+        }
+        .receipt-control-btn.p-exec { background: #111; color: #fff; }
+        .receipt-control-btn:hover { opacity: 0.8; }
+
         /* VCR STATIC GLITCH LAYER */
         #vhsGlitchOverlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #111;
-            z-index: 99999;
-            opacity: 0.95;
-            overflow: hidden;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #111; z-index: 99999; opacity: 0.95; overflow: hidden;
         }
+        .vhs-static-line { position: absolute; width: 100%; height: 8px; background: rgba(255, 255, 255, 0.6); box-shadow: 0 0 15px #fff; animation: glitchLines 0.4s infinite linear; }
+        @keyframes glitchLines { 0% { top: -10%; background-color: rgba(255,255,255,0.2); } 50% { background-color: rgba(255, 255, 255, 0.8); } 100% { top: 110%; } }
+        .vcr-shake { animation: vcrTremor 0.15s infinite; }
+        @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); } 20% { transform: translate(-1px, -2px) rotate(-1deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); } 60% { transform: translate(0px, 2px) rotate(0deg); } 80% { transform: translate(2px, -1px) rotate(1deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        .vhs-static-line {
-            position: absolute;
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 15px #fff;
-            animation: glitchLines 0.4s infinite linear;
-        }
-
-        @keyframes glitchLines {
-            0% { top: -10%; background-color: rgba(255,255,255,0.2); }
-            50% { background-color: rgba(255, 255, 255, 0.8); }
-            100% { top: 110%; }
-        }
-
-        .vcr-shake {
-            animation: vcrTremor 0.15s infinite;
-        }
-
-        @keyframes vcrTremor {
-            0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); }
-            20% { transform: translate(-1px, -2px) rotate(-1deg); }
-            40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); }
-            60% { transform: translate(0px, 2px) rotate(0deg); }
-            80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); }
-            100% { transform: translate(-1px, 1px) rotate(-1deg); }
-        }
-
-        /* MODAL SCREEN FIX CODES */
-        #modalOverlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); z-index: 10000;
-            justify-content: center; align-items: center;
-            padding: 10px; box-sizing: border-box;
-        }
-
-        .dossier-window {
-            background: #000; border: 3px solid var(--neon-cyan);
-            width: 95%; max-width: 900px; max-height: 85vh;
-            display: flex; flex-wrap: wrap;
-            box-shadow: 0 0 30px var(--neon-cyan); position: relative;
-            overflow: hidden; /* Stops inner layers from tearing through glow boundary */
-        }
-
+        /* MODAL SCREEN STYLES */
+        #modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
+        .dossier-window { background: #000; border: 3px solid var(--neon-cyan); width: 95%; max-width: 900px; max-height: 85vh; display: flex; flex-wrap: wrap; box-shadow: 0 0 30px var(--neon-cyan); position: relative; overflow: hidden; }
         .dossier-poster { flex: 1 1 350px; max-height: 85vh; object-fit: contain; border-right: 3px solid var(--neon-cyan); background: #000; }
-        
-        .dossier-content { 
-            flex: 1 1 400px; padding: 40px; display: flex; flex-direction: column; color: #fff; 
-            max-height: 85vh; overflow-y: auto; box-sizing: border-box;
-        }
-        
+        .dossier-content { flex: 1 1 400px; padding: 40px; display: flex; flex-direction: column; color: #fff; max-height: 85vh; overflow-y: auto; box-sizing: border-box; }
         .dossier-title { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-pink); margin-bottom: 20px; text-transform: uppercase; line-height: 1.2; }
         .data-point { margin-bottom: 12px; font-size: 1.3rem; border-left: 4px solid var(--neon-purple); padding-left: 15px; }
         .label { color: var(--neon-cyan); text-transform: uppercase; margin-right: 10px; font-size: 0.9rem; }
@@ -286,54 +271,29 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* ADVANCED TARGETED MOBILE RESPONSIVE MATRIX OVERHAULS */
+        /* ADVANCED TARGETED RESPONSIVE LAYOUT MATRIX */
         @media (max-width: 768px) {
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-            
-            /* Clamps total pop-up size so it doesn't leak off small mobile screens */
-            .dossier-window { 
-                flex-direction: column; 
-                max-height: 80vh; 
-                width: 100%;
-                overflow-y: auto; /* Fallback frame scroll */
-            }
-            
-            .dossier-poster { 
-                border-right: none; 
-                border-bottom: 3px solid var(--neon-cyan); 
-                max-height: 35vh; 
-                width: 100%;
-                flex: none;
-            }
-            
-            /* Isolate scrolling entirely to the details box so the layout is bulletproof */
-            .dossier-content { 
-                padding: 20px; 
-                max-height: none; 
-                overflow-y: visible;
-                flex: 1;
-            }
-            
-            /* Keep close button pinned and static relative to viewport */
-            .close-btn {
-                position: fixed;
-                top: 15px;
-                right: 20px;
-                background: rgba(0,0,0,0.85);
-                border: 1px solid var(--neon-pink);
-                padding: 2px 10px;
-                font-size: 1.5rem;
-                box-shadow: 0 0 10px var(--neon-pink);
-            }
-            
+            .dossier-window { flex-direction: column; max-height: 80vh; width: 100%; overflow-y: auto; }
+            .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 35vh; width: 100%; flex: none; }
+            .dossier-content { padding: 20px; max-height: none; overflow-y: visible; flex: 1; }
+            .close-btn { position: fixed; top: 15px; right: 20px; background: rgba(0,0,0,0.85); border: 1px solid var(--neon-pink); padding: 2px 10px; font-size: 1.5rem; box-shadow: 0 0 10px var(--neon-pink); }
             .dossier-title { font-size: 1.6rem; padding-right: 40px; }
             .data-point { font-size: 1.1rem; margin-bottom: 8px; }
             .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; }
             .stat-btn { font-size: 1.1rem; padding: 4px 6px; }
             .search-container { flex-direction: column; width: 95%; gap: 8px; }
             #searchBar { width: 100%; box-sizing: border-box; }
-            .random-btn { width: 100%; box-sizing: border-box; text-align: center; padding: 10px; }
+            .random-btn, .print-btn { width: 100%; box-sizing: border-box; text-align: center; padding: 10px; }
             h1 { font-size: 1.5rem; }
+        }
+
+        /* PURE REVENUE PRINT ENGINE OVERRIDE SHEETS */
+        @media print {
+            body, body::before, header, #vhsGlitchOverlay, #modalOverlay, #debugMessage, .movie-grid { display: none !important; }
+            #receiptOverlay { display: block !important; position: absolute; top:0; left:0; background: #fff; padding: 0; width: 100%; }
+            .receipt-paper { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
+            .receipt-action-bar { display: none !important; }
         }
     </style>
 </head>
@@ -344,7 +304,8 @@
         
         <div class="search-container">
             <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
-            <button class="random-btn" onclick="triggerVhsRandomizer()">[ AUTO_LOAD_TAPE ]</button>
+            <button class="random-btn" onclick="triggerVhsRandomizer()">[ AUTO_LOAD ]</button>
+            <button class="print-btn" onclick="generateReceiptManifest()">[ PRINT_MANIFEST ]</button>
         </div>
 
         <div id="genreContainer" class="genre-console"></div>
@@ -356,6 +317,35 @@
             <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
         </div>
     </header>
+
+    <div id="receiptOverlay">
+        <div class="receipt-paper">
+            <div class="receipt-header">
+                <p class="receipt-store">5-BAG CINEMA</p>
+                <p style="margin: 3px 0 0 0; font-size: 0.75rem; letter-spacing: 1px;">ANALOG DATABASE MANAGEMENT SYSTEM</p>
+                <div class="receipt-meta" id="receiptTimestamp">DATE: --/--/---- TIME: --:--:--</div>
+                <div class="receipt-meta" id="receiptActiveFilters">FILTERS: NONE</div>
+            </div>
+            
+            <div style="font-weight: bold; margin-bottom: 10px; font-size: 0.75rem; border-bottom: 1px solid #333; padding-bottom: 4px;">MANIFESTED_ITEMS:</div>
+            <div id="receiptItemsContainer"></div>
+            
+            <div class="receipt-summary">
+                <div class="receipt-row"><span>MANIFEST_TOTAL:</span><span id="receiptTotalCount">000</span></div>
+                <div class="receipt-row" style="font-size: 0.75rem; font-weight: normal; margin-top: 4px;">
+                    <span id="receiptFormatBreakdown">4K: 0 | BLU: 0 | DVD: 0</span>
+                </div>
+            </div>
+            
+            <div class="receipt-barcode">*5BAGVAULT*</div>
+            <div class="receipt-footer">BE KIND, REWIND. THANK YOU.</div>
+            
+            <div class="receipt-action-bar">
+                <button class="receipt-control-btn p-exec" onclick="window.print()">[ EXECUTE_PRINT ]</button>
+                <button class="receipt-control-btn" onclick="closeReceiptManifest()">[ CLOSE ]</button>
+            </div>
+        </div>
+    </div>
 
     <div id="vhsGlitchOverlay">
         <div class="vhs-static-line" style="animation-delay: 0s;"></div>
@@ -535,6 +525,52 @@
             }, 1000);
         }
 
+        // REAL-TIME RETRO MANIFEST RECEIPT PRINTER GENERATOR LOGIC
+        function generateReceiptManifest() {
+            if (activePool.length === 0) return;
+
+            // Generate localized date-time telemetry stamps
+            const now = new Date();
+            const dateStr = now.toLocaleDateString();
+            const timeStr = now.toLocaleTimeString();
+            document.getElementById('receiptTimestamp').innerText = `DATE: ${dateStr} TIME: ${timeStr}`;
+
+            // Map current filter configurations out to the receipt head
+            const activeSearchText = document.getElementById('searchBar').value.toUpperCase() || "NONE";
+            document.getElementById('receiptActiveFilters').innerText = `GENRE: ${currentGenre} | FMT: ${currentFormat} | SEARCH: ${activeSearchText}`;
+
+            // Loop and compile item list rows dynamically
+            const itemsContainer = document.getElementById('receiptItemsContainer');
+            let counts = { k4: 0, blu: 0, dvd: 0 };
+
+            itemsContainer.innerHTML = activePool.map(m => {
+                const fmt = (m.format || '').toUpperCase();
+                if (fmt.includes('4K')) counts.k4++;
+                else if (fmt.includes('BLU')) counts.blu++;
+                else if (fmt.includes('DVD')) counts.dvd++;
+
+                return `
+                    <div class="receipt-row">
+                        <span class="receipt-item-title">${m.title}</span>
+                        <span class="receipt-item-fmt">${m.format}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Push summary totals onto manifest bottom blocks
+            document.getElementById('receiptTotalCount').innerText = String(activePool.length).padStart(3, '0');
+            document.getElementById('receiptFormatBreakdown').innerText = `4K UHD: ${counts.k4} | BLU-RAY: ${counts.blu} | DVD: ${counts.dvd}`;
+
+            // Light up the receipt layer block overlay
+            document.getElementById('receiptOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReceiptManifest() {
+            document.getElementById('receiptOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         function openModal(m) {
             document.getElementById('modalTitle').innerText = m.title;
             document.getElementById('modalPoster').src = m.poster;
@@ -554,7 +590,10 @@
         }
 
         document.getElementById('searchBar').oninput = renderGrid;
-        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeModal(); }
+        window.onclick = (event) => { 
+            if (event.target == document.getElementById('modalOverlay')) closeModal();
+            if (event.target == document.getElementById('receiptOverlay')) closeReceiptManifest();
+        }
         fetchMovies();
     </script>
 </body>
