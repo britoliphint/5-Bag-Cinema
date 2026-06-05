@@ -13,6 +13,7 @@
             --neon-purple: #9d00ff;
             --bg-black: #050505;
             --grid-line: rgba(0, 243, 255, 0.1);
+            --header-height-desktop: 180px; /* Estimated height padding offset */
         }
 
         body {
@@ -47,6 +48,13 @@
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--neon-pink);
+            /* Smooth slide transition */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Class added via JavaScript when scrolling down on mobile */
+        header.header-hidden {
+            transform: translateY(-100%);
         }
 
         h1 {
@@ -95,7 +103,6 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        /* LIVE SYSTEM STATUS COUNTER */
         .status-counter-panel {
             max-width: 600px;
             margin: 25px auto 0 auto;
@@ -181,12 +188,13 @@
             .dossier-window { flex-direction: column; }
             .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; }
             .status-counter-panel { font-size: 1.1rem; width: 90%; flex-wrap: wrap; gap: 5px; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="mainHeader">
         <h1>5_BAG_VAULT</h1>
         <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
         <div id="genreContainer" class="genre-console"></div>
@@ -223,6 +231,27 @@
 
         let movies = [];
         let currentGenre = 'ALL';
+
+        // Scroll Tracking Logic for Mobile Vanishing Header
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('mainHeader');
+
+        window.addEventListener('scroll', () => {
+            // Only trigger vanishing header logic on mobile viewports (widths under 768px)
+            if (window.innerWidth <= 768) {
+                if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                    // Scrolling Down -> Hide Header
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling Up -> Show Header
+                    header.classList.remove('header-hidden');
+                }
+            } else {
+                // Keep visible on desktop regardless of scroll
+                header.classList.remove('header-hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
 
         async function fetchMovies() {
             const debug = document.getElementById('debugMessage');
@@ -287,42 +316,4 @@
             const grid = document.getElementById('movieGrid');
             
             const filtered = movies.filter(m => {
-                const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
-                const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
-                return matchesGenre && matchesSearch;
-            });
-
-            updateCounters(filtered);
-
-            grid.innerHTML = filtered.map(m => `
-                <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
-                    <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
-                    <div class="format-badge">${m.format}</div>
-                </div>
-            `).join('');
-        }
-
-        function openModal(m) {
-            document.getElementById('modalTitle').innerText = m.title;
-            document.getElementById('modalPoster').src = m.poster;
-            document.getElementById('modalFormat').innerText = m.format;
-            document.getElementById('modalGenre').innerText = m.genre;
-            document.getElementById('modalYear').innerText = m.year;
-            document.getElementById('modalDirector').innerText = m.director;
-            document.getElementById('modalActors').innerText = m.actors;
-            document.getElementById('modalImdb').href = m.imdb.startsWith('http') ? m.imdb : `https://www.imdb.com/title/${m.imdb}`;
-            document.getElementById('modalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        document.getElementById('searchBar').oninput = renderGrid;
-        window.onclick = (event) => { if (event.target == document.getElementById('modalOverlay')) closeModal(); }
-        fetchMovies();
-    </script>
-</body>
-</html>
+                const matchesGenre = currentGenre
