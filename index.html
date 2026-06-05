@@ -13,7 +13,6 @@
             --neon-purple: #9d00ff;
             --bg-black: #050505;
             --grid-line: rgba(0, 243, 255, 0.1);
-            --header-height-desktop: 180px; /* Estimated height padding offset */
         }
 
         body {
@@ -48,11 +47,9 @@
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--neon-pink);
-            /* Smooth slide transition */
             transition: transform 0.3s ease-in-out;
         }
 
-        /* Class added via JavaScript when scrolling down on mobile */
         header.header-hidden {
             transform: translateY(-100%);
         }
@@ -237,17 +234,13 @@
         const header = document.getElementById('mainHeader');
 
         window.addEventListener('scroll', () => {
-            // Only trigger vanishing header logic on mobile viewports (widths under 768px)
             if (window.innerWidth <= 768) {
                 if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                    // Scrolling Down -> Hide Header
                     header.classList.add('header-hidden');
                 } else {
-                    // Scrolling Up -> Show Header
                     header.classList.remove('header-hidden');
                 }
             } else {
-                // Keep visible on desktop regardless of scroll
                 header.classList.remove('header-hidden');
             }
             lastScrollY = window.scrollY;
@@ -266,54 +259,4 @@
                     const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
                     return {
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
-                        actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], imdb: clean[8]
-                    };
-                }).filter(m => m && m.poster && m.poster.startsWith('http'));
-
-                if (movies.length === 0) {
-                    debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
-                } else {
-                    debug.style.display = 'none';
-                    document.getElementById('counterPanel').style.display = 'flex';
-                    const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
-                    renderGenres(genres.sort());
-                    renderGrid();
-                }
-            } catch (e) { 
-                debug.innerText = "SYSTEM_FAILURE: " + e.message;
-            }
-        }
-
-        function renderGenres(genres) {
-            const container = document.getElementById('genreContainer');
-            container.innerHTML = genres.map(g => `<button class="genre-btn ${currentGenre === g ? 'active' : ''}" onclick="setGenre('${g}')">${g}</button>`).join('');
-        }
-
-        function setGenre(g) {
-            currentGenre = g;
-            renderGenres([...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))].concat('ALL').sort());
-            renderGrid();
-        }
-
-        function updateCounters(filteredMovies) {
-            document.getElementById('statTotal').innerText = filteredMovies.length;
-            
-            const counts = { k4: 0, blu: 0, dvd: 0 };
-            filteredMovies.forEach(m => {
-                const fmt = (m.format || '').toLowerCase();
-                if (fmt.includes('4k')) counts.k4++;
-                else if (fmt.includes('blu')) counts.blu++;
-                else if (fmt.includes('dvd')) counts.dvd++;
-            });
-
-            document.getElementById('stat4k').innerText = counts.k4;
-            document.getElementById('statBlu').innerText = counts.blu;
-            document.getElementById('statDvd').innerText = counts.dvd;
-        }
-
-        function renderGrid() {
-            const search = document.getElementById('searchBar').value.toLowerCase();
-            const grid = document.getElementById('movieGrid');
-            
-            const filtered = movies.filter(m => {
-                const matchesGenre = currentGenre
+                        actors
