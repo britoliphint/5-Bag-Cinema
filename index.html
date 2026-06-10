@@ -27,7 +27,7 @@
             background-size: 30px 30px;
         }
 
-        /* CRT GLASS MONITOR LAYER Overlay */
+        /* CRT GLASS MONITOR GLARE LAYER */
         body::before {
             content: " ";
             display: block;
@@ -205,7 +205,7 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
-        /* TAPE REWIND MICRO-INTERACTION */
+        /* TAPE REWIND LAYERS */
         #rewindOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.92); z-index: 40000;
@@ -223,7 +223,7 @@
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* MANIFEST TICKETING ENGINE */
+        /* RECEIPT INVENTORY PRINTER */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 20000;
@@ -256,7 +256,7 @@
         .receipt-control-btn { font-family: 'VT323', monospace; font-size: 1.2rem; padding: 6px 16px; cursor: pointer; border: 2px solid #111; background: transparent; text-transform: uppercase; }
         .receipt-control-btn.p-exec { background: #111; color: #fff; }
 
-        /* VCR STATIC LOTTERY SYSTEM */
+        /* VCR TRACKING GLITCH MECHANICS */
         #vhsGlitchOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #111; z-index: 999999; opacity: 0.95; overflow: hidden;
@@ -266,7 +266,7 @@
         .vcr-shake { animation: vcrTremor 0.15s infinite; }
         @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); } 80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        /* MULTI-SECTION DOSSIER MODAL WITH CHRONICLE OUTPUT TERMINAL */
+        /* DOSSIER STORAGE WINDOW */
         #modalOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -286,7 +286,7 @@
         .data-point { margin-bottom: 12px; font-size: 1.3rem; border-left: 4px solid var(--neon-purple); padding-left: 15px; }
         .label { color: var(--neon-cyan); text-transform: uppercase; margin-right: 10px; font-size: 0.9rem; }
         
-        /* GLOWING JOURNAL BLOCK CONTAINER */
+        /* CHRONICLE DATA LOG PANEL */
         .journal-block {
             margin-top: 20px; padding: 15px; background: rgba(157, 0, 255, 0.05);
             border: 1px dashed var(--neon-purple); border-left: 4px solid var(--neon-pink);
@@ -299,7 +299,7 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* TARGETED RESPONSIVE RESPONSIVENESS OVERHAULS */
+        /* VIEWPORT RESPONSIVITY RULES */
         @media (max-width: 768px) {
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; max-height: 80vh; width: 100%; overflow-y: auto; }
@@ -332,7 +332,8 @@
         
         <div class="search-container">
             <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
-            <button class="random-btn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">%;">📼</button>
+            <!-- STRIPPED DOWN STRAY SYNTAX CHARACTERS HERE -->
+            <button class="random-btn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
             <button class="print-btn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
         </div>
 
@@ -466,7 +467,7 @@
                     return {
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
                         actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], 
-                        imdb: clean[8], journal: clean[9] || "" // MAPS AND PARSES NEW NOTES IN COLUMN J
+                        imdb: clean[8], journal: clean[9] || ""
                     };
                 }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
 
@@ -610,7 +611,6 @@
             document.getElementById('modalDirector').innerText = m.director;
             document.getElementById('modalActors').innerText = m.actors;
             
-            // LOGIC ENGINE CONDITIONAL FOR LIVE COLUMN J READS
             if (m.journal && m.journal.trim() !== "") {
                 document.getElementById('modalJournal').innerText = m.journal;
             } else {
