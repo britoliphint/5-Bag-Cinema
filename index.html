@@ -27,7 +27,7 @@
             background-size: 30px 30px;
         }
 
-        /* CRT GLASS MONITOR GLARE LAYER */
+        /* CRT GLASS MONITOR GLARE ENGINE */
         body::before {
             content: " ";
             display: block;
@@ -46,7 +46,7 @@
         header {
             background: rgba(0, 0, 0, 0.95);
             border-bottom: 3px solid var(--neon-pink);
-            padding: 30px 10px;
+            padding: 25px 10px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--neon-pink);
@@ -66,6 +66,35 @@
             color: #fff;
             text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
             font-style: italic;
+        }
+
+        /* TUNING CONSOLE SWITCHES */
+        .tuner-deck {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tune-channel {
+            background: #000;
+            border: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 6px 16px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 10px rgba(157, 0, 255, 0.1);
+        }
+
+        .tune-channel.active {
+            border-color: var(--neon-pink);
+            color: #fff;
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px rgba(255, 0, 255, 0.2);
+            text-shadow: 0 0 5px #fff;
         }
 
         .search-container {
@@ -205,7 +234,20 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
-        /* TAPE REWIND OVERLAYS */
+        /* BOOTLEG VHS INTERFACE SLEEVE SHAPES */
+        .bootleg-case {
+            background: #111; border: 2px dashed var(--neon-purple); padding: 20px 15px;
+            cursor: pointer; position: relative; transition: 0.3s; aspect-ratio: 2/3;
+            box-shadow: 5px 5px 0px rgba(157, 0, 255, 0.3); display: flex;
+            flex-direction: column; justify-content: space-between; box-sizing: border-box;
+        }
+        .bootleg-case:hover { border-color: var(--neon-pink); transform: scale(1.05) rotate(-1deg); box-shadow: 0 0 20px var(--neon-pink); }
+        .bootleg-spine { border-left: 3px double var(--neon-pink); padding-left: 10px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+        .bootleg-num { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--neon-pink); font-size: 0.9rem; letter-spacing: 1px; }
+        .bootleg-title { font-size: 1.6rem; line-height: 1.1; color: #fff; font-weight: bold; text-transform: uppercase; margin: 15px 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .bootleg-date { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--neon-cyan); }
+
+        /* REWIND INTERACTION ENGINE */
         #rewindOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.92); z-index: 40000;
@@ -223,7 +265,7 @@
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* RECEIPT INVENTORY PRINTER */
+        /* TICKETING PAPER SLOT OVERLAY */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 20000;
@@ -238,11 +280,7 @@
             position: relative; border-radius: 2px; animation: printSlideDown 0.6s cubic-bezier(0.1, 1, 0.1, 1);
         }
 
-        @keyframes printSlideDown {
-            0% { transform: translateY(-100%) scaleY(0); transform-origin: top; }
-            100% { transform: translateY(0) scaleY(1); }
-        }
-
+        @keyframes printSlideDown { 0% { transform: translateY(-100%) scaleY(0); transform-origin: top; } 100% { transform: translateY(0) scaleY(1); } }
         .receipt-header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 15px; }
         .receipt-store { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.4rem; letter-spacing: 2px; margin: 0; }
         .receipt-meta { font-size: 0.75rem; color: #555; margin-top: 5px; text-transform: uppercase; }
@@ -256,7 +294,7 @@
         .receipt-control-btn { font-family: 'VT323', monospace; font-size: 1.2rem; padding: 6px 16px; cursor: pointer; border: 2px solid #111; background: transparent; text-transform: uppercase; }
         .receipt-control-btn.p-exec { background: #111; color: #fff; }
 
-        /* VCR TRACKING GLITCH MECHANICS */
+        /* VCR STATIC LINE GENERATOR */
         #vhsGlitchOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #111; z-index: 999999; opacity: 0.95; overflow: hidden;
@@ -266,7 +304,7 @@
         .vcr-shake { animation: vcrTremor 0.15s infinite; }
         @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); } 80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        /* PRODUCTION CORE DOSSIER MODAL OVERLAY CHASSIS */
+        /* HIGH-END METADATA DOSSIER CONSOLE */
         #modalOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -281,12 +319,17 @@
         }
 
         .dossier-poster { flex: 0 0 320px; max-height: 85vh; object-fit: contain; border-right: 3px solid var(--neon-cyan); background: #000; }
+        
+        /* VIDEO WRAPPER CRT CONTAINER TV HOUSING */
+        .video-tv-frame { flex: 0 0 450px; background: #050505; border-right: 3px solid var(--neon-cyan); display: flex; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; position: relative; }
+        .video-tv-inner { width: 100%; aspect-ratio: 16/9; border: 4px solid #222; box-shadow: 0 0 20px var(--neon-pink); background: #000; position: relative; overflow: hidden; }
+        .video-tv-inner iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
+
         .dossier-content { flex: 1 1 auto; padding: 35px; display: flex; flex-direction: column; color: #fff; max-height: 85vh; overflow-y: auto; box-sizing: border-box; }
         .dossier-title { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-pink); margin-bottom: 20px; text-transform: uppercase; line-height: 1.2; }
         .data-point { margin-bottom: 12px; font-size: 1.3rem; border-left: 4px solid var(--neon-purple); padding-left: 15px; }
         .label { color: var(--neon-cyan); text-transform: uppercase; margin-right: 10px; font-size: 0.9rem; }
         
-        /* CHRONICLE DATA LOG PANEL */
         .journal-block {
             margin-top: 20px; padding: 15px; background: rgba(157, 0, 255, 0.05);
             border: 1px dashed var(--neon-purple); border-left: 4px solid var(--neon-pink);
@@ -299,19 +342,15 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* ADVANCED PORTRAIT RESPONSIVENESS MATRIX MATRIX */
+        /* ADVANCED PORTRAIT ULTRALIGHT MATRICES */
         @media (max-width: 768px) {
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-            
-            /* Flip layout container to column, preventing landscape forced bounds */
             .dossier-window { flex-direction: column; max-height: 85vh; width: 100%; overflow-y: hidden; flex-wrap: nowrap; }
             
-            /* Lock poster image fluidly to top 40% of view screen without text bleed */
-            .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 40vh; width: 100%; flex: 0 0 40vh; object-fit: contain; }
+            .dossier-poster { border-right: none; border-bottom: 3px solid var(--neon-cyan); max-height: 38vh; width: 100%; flex: 0 0 38vh; object-fit: contain; }
+            .video-tv-frame { border-right: none; border-bottom: 3px solid var(--neon-cyan); flex: 0 0 auto; width: 100%; padding: 10px; }
             
-            /* Isolated scrolling engine for metadata text log deck */
             .dossier-content { padding: 20px; max-height: 45vh; overflow-y: auto; flex: 1 1 auto; }
-            
             .close-btn { position: fixed; top: 15px; right: 20px; background: rgba(0,0,0,0.85); border: 1px solid var(--neon-pink); padding: 2px 10px; font-size: 1.5rem; box-shadow: 0 0 10px var(--neon-pink); }
             .dossier-title { font-size: 1.6rem; padding-right: 40px; }
             .data-point { font-size: 1.1rem; margin-bottom: 8px; }
@@ -337,10 +376,16 @@
     <header id="mainHeader">
         <h1>5_BAG_VAULT</h1>
         
+        <!-- HARDWARE TUNER BUTTON DECK CHASSIS -->
+        <div class="tuner-deck">
+            <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ TUNE: CH_01 VAULT ]</button>
+            <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ TUNE: CH_03 LIVE FEED ]</button>
+        </div>
+
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
-            <button class="random-btn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">%;">📼</button>
-            <button class="print-btn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
+            <input type="text" id="searchBar" placeholder="SCANNING VAULT SYSTEM...">
+            <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
+            <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
         </div>
 
         <div id="genreContainer" class="genre-console"></div>
@@ -391,7 +436,7 @@
         <div class="vhs-static-line" style="animation-delay: 0s;"></div>
         <div class="vhs-static-line" style="animation-delay: -0.15s; height: 15px; background: rgba(255,255,255,0.3);"></div>
         <div class="vhs-static-line" style="animation-delay: -0.3s; height: 4px;"></div>
-        <div style="position: absolute; top:45%; width:100%; text-align:center; color:#fff; font-size:3rem; font-family:'Orbitron', sans-serif; letter-spacing:5px; text-shadow:0 0 10px var(--neon-pink);">TRACKING...</div>
+        <div style="position: absolute; top:45%; width:100%; text-align:center; color:#fff; font-size:3rem; font-family:'Orbitron', sans-serif; letter-spacing:5px; text-shadow:0 0 10px var(--neon-pink);" id="glitchLabelText">TRACKING...</div>
     </div>
 
     <div id="debugMessage">INITIATING BOOT SEQUENCE...</div>
@@ -400,17 +445,21 @@
     <div id="modalOverlay">
         <div class="dossier-window">
             <span class="close-btn" onclick="closeModal()">[X]</span>
-            <img id="modalPoster" class="dossier-poster" src="" alt="">
+            
+            <!-- FLEX EMBED SHIFT FRAMES -->
+            <img id="modalPoster" class="dossier-poster" src="" alt="" style="display:none;">
+            <div id="modalTvFrame" class="video-tv-frame" style="display:none;">
+                <div class="video-tv-inner">
+                    <iframe id="modalYoutubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
-                <div class="data-point"><span class="label">EDITION:</span> <span id="modalFormat"></span></div>
-                <div class="data-point"><span class="label">GENRE:</span> <span id="modalGenre"></span></div>
-                <div class="data-point"><span class="label">YEAR:</span> <span id="modalYear"></span></div>
-                <div class="data-point"><span class="label">DIRECTOR:</span> <span id="modalDirector"></span></div>
-                <div class="data-point"><span class="label">CAST:</span> <span id="modalActors"></span></div>
+                <div id="modalMetaDeck"></div>
                 
                 <div class="journal-block">
-                    <div class="journal-header-label">[ LOGGED_CHRONICLE_ENTRY ]</div>
+                    <div class="journal-header-label" id="journalLabelBlock">[ LOGGED_CHRONICLE_ENTRY ]</div>
                     <div id="modalJournal">// INITIALIZING NODE...</div>
                 </div>
 
@@ -420,9 +469,12 @@
     </div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
+        const MOVIES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
+        const PODCAST_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=943065993&single=true&output=csv';
 
+        let currentSourceMode = 'VAULT'; // VAULT vs LIVE
         let movies = [];
+        let podcasts = [];
         let currentGenre = 'ALL';
         let currentFormat = 'ALL';
         let activePool = [];
@@ -434,61 +486,90 @@
             document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
         });
 
-        window.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) {
-                const xPercent = (e.touches[0].clientX / window.innerWidth) * 100;
-                const yPercent = (e.touches[0].clientY / window.innerHeight) * 100;
-                document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
-                document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
-            }
-        });
-
         let lastScrollY = window.scrollY;
         const header = document.getElementById('mainHeader');
-
         window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768) {
-                if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                    header.classList.add('header-hidden');
-                } else {
-                    header.classList.remove('header-hidden');
-                }
+            if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 100) {
+                header.classList.add('header-hidden');
             } else {
                 header.classList.remove('header-hidden');
             }
             lastScrollY = window.scrollY;
         });
 
-        async function fetchMovies() {
+        async function initTerminalSystem() {
             const debug = document.getElementById('debugMessage');
             try {
-                const res = await fetch(SHEET_URL);
-                const text = await res.text();
-                const rows = text.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
-                
-                movies = rows.map(row => {
+                // Fetch Movies Tab
+                const movieRes = await fetch(MOVIES_URL);
+                const movieText = await movieRes.text();
+                const movieRows = movieText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
+                movies = movieRows.map(row => {
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (cols.length < 9) return null;
                     const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
                     return {
                         title: clean[0], genre: clean[1], year: clean[2], director: clean[3],
                         actors: clean[4], poster: clean[5], rating: clean[6], format: clean[7], 
-                        imdb: clean[8], journal: clean[9] || ""
+                        imdb: clean[8], journal: clean[9] || "", type: "movie"
                     };
                 }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
 
-                if (movies.length === 0) {
-                    debug.innerText = "ERROR: DATABASE EMPTY OR CORRUPT";
-                } else {
-                    debug.style.display = 'none';
-                    document.getElementById('counterPanel').style.display = 'flex';
-                    const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
-                    renderGenres(genres.sort());
-                    renderGrid();
-                }
-            } catch (e) { 
+                // Fetch Podcast Tab
+                const podRes = await fetch(PODCAST_URL);
+                const podText = await podRes.text();
+                const podRows = podText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
+                podcasts = podRows.map(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if (cols.length < 5) return null;
+                    const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
+                    return {
+                        title: clean[0], episode: clean[1], date: clean[2], url: clean[3], description: clean[4], type: "podcast"
+                    };
+                }).filter(p => p && p.title);
+
+                debug.style.display = 'none';
+                switchSource('VAULT');
+            } catch (e) {
                 debug.innerText = "SYSTEM_FAILURE: " + e.message;
             }
+        }
+
+        function switchSource(source) {
+            currentSourceMode = source;
+            const glitchOverlay = document.getElementById('vhsGlitchOverlay');
+            document.getElementById('glitchLabelText').innerText = "TUNING FEED...";
+            glitchOverlay.style.display = 'block';
+            document.body.classList.add('vcr-shake');
+
+            // Update Receiver UI Styles
+            document.getElementById('chanVault').classList.toggle('active', source === 'VAULT');
+            document.getElementById('chanLive').classList.toggle('active', source === 'LIVE');
+
+            setTimeout(() => {
+                glitchOverlay.style.display = 'none';
+                document.body.classList.remove('vcr-shake');
+                
+                // Toggle Header Sub-control Panels based on source
+                if (source === 'VAULT') {
+                    document.getElementById('searchBar').placeholder = "SCANNING VAULT DATABASE...";
+                    document.getElementById('genreContainer').style.display = 'flex';
+                    document.getElementById('counterPanel').style.display = 'flex';
+                    document.getElementById('headerRandBtn').style.display = 'flex';
+                    document.getElementById('headerPrintBtn').style.display = 'flex';
+                    const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
+                    renderGenres(genres.sort());
+                } else {
+                    document.getElementById('searchBar').placeholder = "TUNING SATELLITE BROADCASTS...";
+                    document.getElementById('genreContainer').style.display = 'none';
+                    document.getElementById('counterPanel').style.display = 'none';
+                    document.getElementById('headerRandBtn').style.display = 'none';
+                    document.getElementById('headerPrintBtn').style.display = 'none';
+                }
+                
+                document.getElementById('searchBar').value = "";
+                renderGrid();
+            }, 500);
         }
 
         function renderGenres(genres) {
@@ -496,13 +577,7 @@
             container.innerHTML = genres.map(g => `<button class="genre-btn ${currentGenre === g ? 'active' : ''}" onclick="setGenre('${g}')">${g}</button>`).join('');
         }
 
-        function setGenre(g) {
-            currentGenre = g;
-            const uniqueGenres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
-            renderGenres(uniqueGenres.sort());
-            renderGrid();
-        }
-
+        function setGenre(g) { currentGenre = g; renderGrid(); }
         function setFormatFilter(fmt) {
             currentFormat = fmt;
             document.getElementById('btnAll').classList.toggle('active', fmt === 'ALL');
@@ -530,34 +605,128 @@
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
             
-            const baseFiltered = movies.filter(m => {
-                const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
-                const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
-                return matchesGenre && matchesSearch;
-            });
+            if (currentSourceMode === 'VAULT') {
+                const baseFiltered = movies.filter(m => {
+                    const matchesGenre = currentGenre === 'ALL' || m.genre.toUpperCase().includes(currentGenre);
+                    const matchesSearch = m.title.toLowerCase().includes(search) || m.actors.toLowerCase().includes(search);
+                    return matchesGenre && matchesSearch;
+                });
+                updateCounters(baseFiltered);
 
-            updateCounters(baseFiltered);
+                activePool = baseFiltered.filter(m => {
+                    if (currentFormat === 'ALL') return true;
+                    const fmt = (m.format || '').toLowerCase();
+                    if (currentFormat === '4K') return fmt.includes('4k');
+                    if (currentFormat === 'BLU') return fmt.includes('blu');
+                    if (currentFormat === 'DVD') return fmt.includes('dvd');
+                    return true;
+                });
 
-            activePool = baseFiltered.filter(m => {
-                if (currentFormat === 'ALL') return true;
-                const fmt = (m.format || '').toLowerCase();
-                if (currentFormat === '4K') return fmt.includes('4k');
-                if (currentFormat === 'BLU') return fmt.includes('blu');
-                if (currentFormat === 'DVD') return fmt.includes('dvd');
-                return true;
-            });
+                grid.innerHTML = activePool.map(m => `
+                    <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
+                        <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
+                        <div class="format-badge">${m.format}</div>
+                    </div>
+                `).join('');
+            } else {
+                // RENDER PODCAST BOOTLEG CARDS
+                activePool = podcasts.filter(p => p.title.toLowerCase().includes(search) || p.description.toLowerCase().includes(search));
+                grid.innerHTML = activePool.map(p => `
+                    <div class="bootleg-case" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
+                        <div class="bootleg-spine">
+                            <div class="bootleg-num">${p.episode}</div>
+                            <div class="bootleg-title">${p.title}</div>
+                            <div class="bootleg-date">${p.date}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
 
-            grid.innerHTML = activePool.map(m => `
-                <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
-                    <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
-                    <div class="format-badge">${m.format}</div>
-                </div>
-            `).join('');
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function openModal(item) {
+            const posterImg = document.getElementById('modalPoster');
+            const tvFrame = document.getElementById('modalTvFrame');
+            const ytIframe = document.getElementById('modalYoutubeIframe');
+            const metaDeck = document.getElementById('modalMetaDeck');
+            const imdbBtn = document.getElementById('modalImdb');
+            const journalLabel = document.getElementById('journalLabelBlock');
+
+            document.getElementById('modalTitle').innerText = item.title;
+
+            if (item.type === 'movie') {
+                tvFrame.style.display = 'none';
+                ytIframe.src = "";
+                posterImg.src = item.poster;
+                posterImg.style.display = 'block';
+                imdbBtn.style.display = 'block';
+                journalLabel.innerText = "[ LOGGED_CHRONICLE_ENTRY ]";
+
+                metaDeck.innerHTML = `
+                    <div class="data-point"><span class="label">EDITION:</span> ${item.format}</div>
+                    <div class="data-point"><span class="label">GENRE:</span> ${item.genre}</div>
+                    <div class="data-point"><span class="label">YEAR:</span> ${item.year}</div>
+                    <div class="data-point"><span class="label">DIRECTOR:</span> ${item.director}</div>
+                    <div class="data-point"><span class="label">CAST:</span> ${item.actors}</div>
+                `;
+                imdbBtn.href = item.imdb.startsWith('http') ? item.imdb : `https://www.imdb.com/title/${item.imdb}`;
+
+                if (item.journal && item.journal.trim() !== "") {
+                    document.getElementById('modalJournal').innerText = item.journal;
+                } else {
+                    document.getElementById('modalJournal').innerText = "// NO CHRONICLE RECORDED FOR THIS ENTRY // AWAITING DIRECTIVE...";
+                }
+            } else {
+                // CONFIG BROACAST MEDIA VIEWPORTS
+                posterImg.style.display = 'none';
+                imdbBtn.style.display = 'none';
+                journalLabel.innerText = "[ BROADCAST_SHOW_NOTES ]";
+
+                const videoId = extractYoutubeId(item.url);
+                if (videoId) {
+                    ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
+                    tvFrame.style.display = 'block';
+                } else {
+                    tvFrame.style.display = 'none';
+                }
+
+                metaDeck.innerHTML = `
+                    <div class="data-point"><span class="label">BROADCAST INDEX:</span> ${item.episode}</div>
+                    <div class="data-point"><span class="label">AIR DATE:</span> ${item.date}</div>
+                `;
+
+                if (item.description && item.description.trim() !== "") {
+                    document.getElementById('modalJournal').innerText = item.description;
+                } else {
+                    document.getElementById('modalJournal').innerText = "// NO BROADCAST RECAP REGISTERED //";
+                }
+            }
+
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const rewind = document.getElementById('rewindOverlay');
+            rewind.style.display = 'flex';
+            document.getElementById('modalYoutubeIframe').src = ""; // Hard stops video streams instantly
+            
+            setTimeout(() => {
+                rewind.style.display = 'none';
+                document.getElementById('modalOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 400);
         }
 
         function triggerVhsRandomizer() {
-            if (activePool.length === 0) return;
+            if (activePool.length === 0 || currentSourceMode !== 'VAULT') return;
             const glitchOverlay = document.getElementById('vhsGlitchOverlay');
+            document.getElementById('glitchLabelText').innerText = "TRACKING...";
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
 
@@ -571,11 +740,9 @@
         }
 
         function generateReceiptManifest() {
-            if (activePool.length === 0) return;
-
+            if (activePool.length === 0 || currentSourceMode !== 'VAULT') return;
             const now = new Date();
             document.getElementById('receiptTimestamp').innerText = `DATE: ${now.toLocaleDateString()} TIME: ${now.toLocaleTimeString()}`;
-
             const activeSearchText = document.getElementById('searchBar').value.toUpperCase() || "NONE";
             document.getElementById('receiptActiveFilters').innerText = `GENRE: ${currentGenre} | FMT: ${currentFormat} | SEARCH: ${activeSearchText}`;
 
@@ -587,18 +754,11 @@
                 if (fmt.includes('4K')) counts.k4++;
                 else if (fmt.includes('BLU')) counts.blu++;
                 else if (fmt.includes('DVD')) counts.dvd++;
-
-                return `
-                    <div class="receipt-row">
-                        <span class="receipt-item-title">${m.title}</span>
-                        <span class="receipt-item-fmt">${m.format}</span>
-                    </div>
-                `;
+                return `<div class="receipt-row"><span class="receipt-item-title">${m.title}</span><span class="receipt-item-fmt">${m.format}</span></div>`;
             }).join('');
 
             document.getElementById('receiptTotalCount').innerText = String(activePool.length).padStart(3, '0');
             document.getElementById('receiptFormatBreakdown').innerText = `4K UHD: ${counts.k4} | BLU-RAY: ${counts.blu} | DVD: ${counts.dvd}`;
-
             document.getElementById('receiptOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -608,44 +768,13 @@
             document.body.style.overflow = 'auto';
         }
 
-        function openModal(m) {
-            document.getElementById('modalTitle').innerText = m.title;
-            document.getElementById('modalPoster').src = m.poster;
-            document.getElementById('modalFormat').innerText = m.format;
-            document.getElementById('modalGenre').innerText = m.genre;
-            document.getElementById('modalYear').innerText = m.year;
-            document.getElementById('modalDirector').innerText = m.director;
-            document.getElementById('modalActors').innerText = m.actors;
-            
-            if (m.journal && m.journal.trim() !== "") {
-                document.getElementById('modalJournal').innerText = m.journal;
-            } else {
-                document.getElementById('modalJournal').innerText = "// NO CHRONICLE RECORDED FOR THIS ENTRY // AWAITING DIRECTIVE...";
-            }
-
-            document.getElementById('modalImdb').href = m.imdb.startsWith('http') ? m.imdb : `https://www.imdb.com/title/${m.imdb}`;
-            document.getElementById('modalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            const rewind = document.getElementById('rewindOverlay');
-            rewind.style.display = 'flex';
-            
-            setTimeout(() => {
-                rewind.style.display = 'none';
-                document.getElementById('modalOverlay').style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }, 400);
-        }
-
         document.getElementById('searchBar').oninput = renderGrid;
         window.onclick = (event) => { 
             if (event.target == document.getElementById('modalOverlay')) closeModal();
             if (event.target == document.getElementById('receiptOverlay')) closeReceiptManifest();
         }
         
-        fetchMovies();
+        initTerminalSystem();
     </script>
 </body>
 </html>
