@@ -234,20 +234,28 @@
             z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
-        /* BOOTLEG VHS INTERFACE SLEEVE SHAPES */
+        /* HIGH-END FULL COLOR BROADCAST MEDIA VIDEO CARD SHELVES */
         .bootleg-case {
-            background: #111; border: 2px dashed var(--neon-purple); padding: 20px 15px;
+            background: #000; border: 2px solid #222; padding: 8px;
             cursor: pointer; position: relative; transition: 0.3s; aspect-ratio: 2/3;
-            box-shadow: 5px 5px 0px rgba(157, 0, 255, 0.3); display: flex;
-            flex-direction: column; justify-content: space-between; box-sizing: border-box;
+            box-shadow: 5px 5px 0px var(--neon-purple); box-sizing: border-box;
+            overflow: hidden;
         }
-        .bootleg-case:hover { border-color: var(--neon-pink); transform: scale(1.05) rotate(-1deg); box-shadow: 0 0 20px var(--neon-pink); }
-        .bootleg-spine { border-left: 3px double var(--neon-pink); padding-left: 10px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        .bootleg-num { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--neon-pink); font-size: 0.9rem; letter-spacing: 1px; }
-        .bootleg-title { font-size: 1.6rem; line-height: 1.1; color: #fff; font-weight: bold; text-transform: uppercase; margin: 15px 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-        .bootleg-date { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--neon-cyan); }
+        .bootleg-case:hover { border-color: var(--neon-pink); transform: translateY(-10px) rotate(-1deg); box-shadow: 0 0 20px var(--neon-pink); }
+        
+        .bootleg-thumb-wrapper { width: 100%; height: 100%; position: relative; overflow: hidden; background: #111; }
+        .bootleg-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.15) brightness(0.85); }
+        
+        .bootleg-overlay-card {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+            padding: 30px 10px 10px 10px; display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .bootleg-num { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--neon-pink); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+        .bootleg-title { font-size: 1.3rem; line-height: 1.1; color: #fff; font-weight: bold; text-transform: uppercase; margin: 2px 0 5px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .bootleg-date { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--neon-cyan); }
 
-        /* REWIND INTERACTION ENGINE */
+        /* TAPE REWIND OVERLAYS */
         #rewindOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.92); z-index: 40000;
@@ -265,7 +273,7 @@
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* TICKETING PAPER SLOT OVERLAY */
+        /* MANIFEST PRINTER CORE */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 20000;
@@ -304,7 +312,7 @@
         .vcr-shake { animation: vcrTremor 0.15s infinite; }
         @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); } 80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        /* HIGH-END METADATA DOSSIER CONSOLE */
+        /* DOSSIER STRUCTURAL OVERLAY POPUP */
         #modalOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -320,7 +328,7 @@
 
         .dossier-poster { flex: 0 0 320px; max-height: 85vh; object-fit: contain; border-right: 3px solid var(--neon-cyan); background: #000; }
         
-        /* VIDEO WRAPPER CRT CONTAINER TV HOUSING */
+        /* CRT TELEVISION PLAYER HOUSING */
         .video-tv-frame { flex: 0 0 450px; background: #050505; border-right: 3px solid var(--neon-cyan); display: flex; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; position: relative; }
         .video-tv-inner { width: 100%; aspect-ratio: 16/9; border: 4px solid #222; box-shadow: 0 0 20px var(--neon-pink); background: #000; position: relative; overflow: hidden; }
         .video-tv-inner iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
@@ -342,7 +350,7 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* ADVANCED PORTRAIT ULTRALIGHT MATRICES */
+        /* DYNAMIC RESPONSIVE LAYOUT CONSTRAINTS */
         @media (max-width: 768px) {
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; max-height: 85vh; width: 100%; overflow-y: hidden; flex-wrap: nowrap; }
@@ -376,14 +384,13 @@
     <header id="mainHeader">
         <h1>5_BAG_VAULT</h1>
         
-        <!-- HARDWARE TUNER BUTTON DECK CHASSIS -->
         <div class="tuner-deck">
             <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ TUNE: CH_01 VAULT ]</button>
             <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ TUNE: CH_03 LIVE FEED ]</button>
         </div>
 
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="SCANNING VAULT SYSTEM...">
+            <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
             <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
             <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
         </div>
@@ -446,7 +453,6 @@
         <div class="dossier-window">
             <span class="close-btn" onclick="closeModal()">[X]</span>
             
-            <!-- FLEX EMBED SHIFT FRAMES -->
             <img id="modalPoster" class="dossier-poster" src="" alt="" style="display:none;">
             <div id="modalTvFrame" class="video-tv-frame" style="display:none;">
                 <div class="video-tv-inner">
@@ -472,7 +478,7 @@
         const MOVIES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
         const PODCAST_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=943065993&single=true&output=csv';
 
-        let currentSourceMode = 'VAULT'; // VAULT vs LIVE
+        let currentSourceMode = 'VAULT';
         let movies = [];
         let podcasts = [];
         let currentGenre = 'ALL';
@@ -500,7 +506,6 @@
         async function initTerminalSystem() {
             const debug = document.getElementById('debugMessage');
             try {
-                // Fetch Movies Tab
                 const movieRes = await fetch(MOVIES_URL);
                 const movieText = await movieRes.text();
                 const movieRows = movieText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
@@ -515,7 +520,6 @@
                     };
                 }).filter(m => m && m.poster && m.poster.toLowerCase().startsWith('http'));
 
-                // Fetch Podcast Tab
                 const podRes = await fetch(PODCAST_URL);
                 const podText = await podRes.text();
                 const podRows = podText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
@@ -542,7 +546,6 @@
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
 
-            // Update Receiver UI Styles
             document.getElementById('chanVault').classList.toggle('active', source === 'VAULT');
             document.getElementById('chanLive').classList.toggle('active', source === 'LIVE');
 
@@ -550,7 +553,6 @@
                 glitchOverlay.style.display = 'none';
                 document.body.classList.remove('vcr-shake');
                 
-                // Toggle Header Sub-control Panels based on source
                 if (source === 'VAULT') {
                     document.getElementById('searchBar').placeholder = "SCANNING VAULT DATABASE...";
                     document.getElementById('genreContainer').style.display = 'flex';
@@ -601,6 +603,12 @@
             document.getElementById('statDvd').innerText = counts.dvd;
         }
 
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         function renderGrid() {
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
@@ -629,24 +637,27 @@
                     </div>
                 `).join('');
             } else {
-                // RENDER PODCAST BOOTLEG CARDS
                 activePool = podcasts.filter(p => p.title.toLowerCase().includes(search) || p.description.toLowerCase().includes(search));
-                grid.innerHTML = activePool.map(p => `
-                    <div class="bootleg-case" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
-                        <div class="bootleg-spine">
-                            <div class="bootleg-num">${p.episode}</div>
-                            <div class="bootleg-title">${p.title}</div>
-                            <div class="bootleg-date">${p.date}</div>
+                
+                // CORE EXTRACTION LAYER FOR YOUTUBE IMAGE HOSTING
+                grid.innerHTML = activePool.map(p => {
+                    const videoId = extractYoutubeId(p.url);
+                    const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : `https://via.placeholder.com/400x225?text=NO_SIGNAL`;
+                    
+                    return `
+                        <div class="bootleg-case" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
+                            <div class="bootleg-thumb-wrapper">
+                                <img src="${thumbUrl}" class="bootleg-img" onerror="this.src='https://img.youtube.com/vi/${videoId}/mqdefault.jpg'">
+                                <div class="bootleg-overlay-card">
+                                    <div class="bootleg-num">${p.episode}</div>
+                                    <div class="bootleg-title">${p.title}</div>
+                                    <div class="bootleg-date">${p.date}</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
-        }
-
-        function extractYoutubeId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
         }
 
         function openModal(item) {
@@ -682,7 +693,6 @@
                     document.getElementById('modalJournal').innerText = "// NO CHRONICLE RECORDED FOR THIS ENTRY // AWAITING DIRECTIVE...";
                 }
             } else {
-                // CONFIG BROACAST MEDIA VIEWPORTS
                 posterImg.style.display = 'none';
                 imdbBtn.style.display = 'none';
                 journalLabel.innerText = "[ BROADCAST_SHOW_NOTES ]";
@@ -714,7 +724,7 @@
         function closeModal() {
             const rewind = document.getElementById('rewindOverlay');
             rewind.style.display = 'flex';
-            document.getElementById('modalYoutubeIframe').src = ""; // Hard stops video streams instantly
+            document.getElementById('modalYoutubeIframe').src = "";
             
             setTimeout(() => {
                 rewind.style.display = 'none';
