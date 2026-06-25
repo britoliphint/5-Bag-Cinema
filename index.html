@@ -13,7 +13,7 @@
             --neon-purple: #9d00ff;
             --bg-black: #050505;
             --grid-line: rgba(0, 243, 255, 0.1);
-            /* AMBIENT GLOW INITIAL ENGINE STATE */
+            /* CORE ACCENT ENGINE DEFINITION */
             --spill-color: rgba(157, 0, 255, 0.15); 
         }
 
@@ -28,7 +28,6 @@
                 linear-gradient(90deg, transparent 0%, var(--grid-line) 1px, transparent 1px);
             background-size: 30px 30px;
             padding-bottom: 120px; /* Space for Host Chassis */
-            transition: background-color 0.5s ease;
         }
 
         /* LIVE AMBIENT REACTIVE NEON SPILL BACKDROP GENERATOR */
@@ -39,10 +38,10 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 130vw; height: 130vh;
-            background: radial-gradient(circle at center, var(--spill-color) 0%, transparent 60%);
+            background: radial-gradient(circle at center, var(--spill-color) 0%, transparent 65%);
             z-index: -1;
             pointer-events: none;
-            transition: background 0.6s cubic-bezier(0.1, 0.8, 0.2, 1);
+            transition: background 0.5s cubic-bezier(0.1, 0.8, 0.2, 1);
         }
 
         /* CRT GLASS MONITOR GLARE ENGINE */
@@ -76,89 +75,39 @@
             gap: 15px;
         }
 
-        header.header-hidden {
-            transform: translateY(-100%);
-        }
-
+        header.header-hidden { transform: translateY(-100%); }
         .header-left-block { display: flex; align-items: center; }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 2rem;
-            letter-spacing: 4px;
-            margin: 0;
-            color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
-            font-style: italic;
-            white-space: nowrap;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 2rem; letter-spacing: 4px; margin: 0;
+            color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); font-style: italic; white-space: nowrap;
         }
 
-        .header-right-block {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-grow: 1;
-            justify-content: flex-end;
-            max-width: 75%;
-        }
-
+        .header-right-block { display: flex; align-items: center; gap: 20px; flex-grow: 1; justify-content: flex-end; max-width: 75%; }
         .tuner-deck { display: flex; gap: 10px; flex-shrink: 0; }
 
         .tune-channel {
-            background: #000;
-            border: 2px solid var(--neon-purple);
-            color: var(--neon-purple);
-            padding: 4px 12px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 900;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 10px rgba(157, 0, 255, 0.1);
-            white-space: nowrap;
+            background: #000; border: 2px solid var(--neon-purple); color: var(--neon-purple); padding: 4px 12px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 900; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 0 10px rgba(157, 0, 255, 0.1); white-space: nowrap;
         }
 
         .tune-channel.active {
-            border-color: var(--neon-pink);
-            color: #fff;
-            background: rgba(255, 0, 255, 0.1);
-            box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px rgba(255, 0, 255, 0.2);
-            text-shadow: 0 0 5px #fff;
+            border-color: var(--neon-pink); color: #fff; background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px rgba(255, 0, 255, 0.2); text-shadow: 0 0 5px #fff;
         }
 
         .search-container { display: flex; flex-grow: 1; max-width: 400px; gap: 8px; align-items: center; }
 
         #searchBar {
-            width: 100%;
-            background: #000;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 8px 12px;
-            font-size: 1.3rem;
-            font-family: 'VT323', monospace;
-            outline: none;
-            box-shadow: 0 0 10px var(--neon-cyan);
-            text-transform: uppercase;
-            box-sizing: border-box;
+            width: 100%; background: #000; border: 2px solid var(--neon-cyan); color: var(--neon-cyan); padding: 8px 12px;
+            font-size: 1.3rem; font-family: 'VT323', monospace; outline: none; box-shadow: 0 0 10px var(--neon-cyan); text-transform: uppercase; box-sizing: border-box;
         }
 
         .random-btn, .print-btn {
-            background: transparent;
-            border: 2px solid var(--neon-pink);
-            color: var(--neon-pink);
-            padding: 4px 10px;
-            font-size: 1.3rem;
-            line-height: 1;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 38px;
-            box-sizing: border-box;
-            flex-shrink: 0;
+            background: transparent; border: 2px solid var(--neon-pink); color: var(--neon-pink); padding: 4px 10px;
+            font-size: 1.3rem; line-height: 1; cursor: pointer; box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center; height: 38px; box-sizing: border-box; flex-shrink: 0;
         }
 
         .print-btn { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
@@ -168,22 +117,15 @@
         .genre-console { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; margin-top: 5px; }
 
         .genre-btn {
-            background: transparent;
-            border: 1px solid var(--neon-purple);
-            color: var(--neon-purple);
-            padding: 3px 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: 'VT323', monospace;
+            background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); padding: 3px 12px;
+            font-size: 1.1rem; cursor: pointer; text-transform: uppercase; font-family: 'VT323', monospace;
         }
 
         .genre-btn.active { background: var(--neon-purple); color: #fff; box-shadow: 0 0 12px var(--neon-purple); }
 
         .status-counter-panel {
             flex-shrink: 0; border: 1px solid var(--neon-cyan); background: rgba(0,0,0,0.8); padding: 2px;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); display: flex; align-items: center;
-            font-size: 1.2rem; letter-spacing: 0.5px; height: 38px; box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); display: flex; align-items: center; font-size: 1.2rem; letter-spacing: 0.5px; height: 38px; box-sizing: border-box;
         }
 
         .stat-btn {
@@ -208,7 +150,6 @@
         }
 
         .tape-case:hover { border-color: var(--neon-cyan); transform: translateY(-10px) rotate(1deg); box-shadow: 0 0 20px var(--neon-cyan); }
-
         .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: contrast(1.1) brightness(0.9); }
 
         .format-badge {
@@ -270,8 +211,7 @@
 
         /* REWIND OVERLAYS */
         #rewindOverlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); z-index: 40000; justify-content: center; align-items: center; flex-direction: column;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 40000; justify-content: center; align-items: center; flex-direction: column;
         }
         .spools { display: flex; gap: 50px; margin-bottom: 15px; }
         .spool {
@@ -282,7 +222,7 @@
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* PRINTER ENGINE */
+        /* PRINTER */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 20000; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 40px 10px; box-sizing: border-box;
@@ -350,7 +290,7 @@
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
         .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 10005; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* MOBILE OVERRIDES */
+        /* OVERRIDES */
         @media (max-width: 992px) {
             header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
             .header-right-block { max-width: 100%; width: 100%; justify-content: center; flex-wrap: wrap; }
@@ -411,7 +351,6 @@
         <div id="genreContainer" class="genre-console"></div>
     </header>
 
-    <!-- CLERK LOOPS CHASSIS -->
     <div class="host-crt-frame" id="hostConsoleChassis">
         <div class="host-screen-bezel">
             <div class="host-signal-wave">📡</div>
@@ -522,6 +461,16 @@
             "DRAMA": "HEAVY CINEMATIC CHRONICLES DEPLOYING TO THE VIDEO BUFFER."
         };
 
+        // SOLID CSS NEON ACCENT DICTIONARY LOOKUP
+        const COLOR_MATRIX = {
+            "ACTION": "rgba(255, 90, 0, 0.22)",     // Volcanic Amber Flame
+            "HORROR": "rgba(255, 0, 110, 0.22)",    // Radioactive Pink
+            "THRILLER": "rgba(0, 243, 255, 0.20)",  // Cyber Cyan
+            "SCIFI": "rgba(0, 255, 100, 0.20)",     // Laser Green
+            "COMEDY": "rgba(255, 230, 0, 0.20)",    // High-Volt Yellow
+            "DRAMA": "rgba(0, 120, 255, 0.20)"       // Deep Cobalt Blue
+        };
+
         let currentSourceMode = 'VAULT';
         let movies = [];
         let podcasts = [];
@@ -529,12 +478,6 @@
         let currentFormat = 'ALL';
         let activePool = [];
         let hostTypeTimeout = null;
-
-        // IN-MEMORY HIDDEN BUFFER CANVAS CHASSIS FOR SAMPLING IMAGES
-        const spillCanvas = document.createElement('canvas');
-        const spillCtx = spillCanvas.getContext('2d', { willReadFrequently: true });
-        spillCanvas.width = 10; 
-        spillCanvas.height = 10;
 
         window.addEventListener('mousemove', (e) => {
             const xPercent = (e.clientX / window.innerWidth) * 100;
@@ -570,30 +513,22 @@
             typeNextChar();
         }
 
-        /* LIVE REAL-TIME ATMOSPHERIC COLOR SAMPLING LOGIC CORE */
-        function extractAndApplySpillColor(imageUrl) {
-            if (!imageUrl) return;
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
+        /* 100% RELIABLE CSS MATRIX AMBIENT CONSOLE INJECTION */
+        function applyGenreSpill(genreString) {
+            if (currentSourceMode === 'LIVE') {
+                document.documentElement.style.setProperty('--spill-color', 'rgba(157, 0, 255, 0.25)'); // Premium Podcast Purple
+                return;
+            }
+            const tags = genreString ? genreString.toUpperCase() : "";
+            let finalColor = "rgba(157, 0, 255, 0.15)"; // System Default Base Purple
             
-            img.onload = function() {
-                try {
-                    spillCtx.drawImage(img, 0, 0, 10, 10);
-                    // Sample pixels from the middle quadrant
-                    const pixelData = spillCtx.getImageData(5, 5, 1, 1).data;
-                    const r = pixelData[0];
-                    const g = pixelData[1];
-                    const b = pixelData[2];
-                    
-                    // Inject a rich, glowing low-opacity aura style definition
-                    document.documentElement.style.setProperty('--spill-color', `rgba(${r}, ${g}, ${b}, 0.25)`);
-                } catch (err) {
-                    // Fail gracefully to basic retro purple on cross-origin blocks
-                    resetSpillColor();
+            for (const key in COLOR_MATRIX) {
+                if (tags.includes(key)) {
+                    finalColor = COLOR_MATRIX[key];
+                    break;
                 }
-            };
-            img.onerror = function() { resetSpillColor(); };
-            img.src = imageUrl;
+            }
+            document.documentElement.style.setProperty('--spill-color', finalColor);
         }
 
         function resetSpillColor() {
@@ -714,7 +649,6 @@
                 else if (fmt.includes('blu')) counts.blu++;
                 else if (fmt.includes('dvd')) counts.dvd++;
             });
-            document.getElementById('statTotal').innerText = baseFilteredMovies.length;
             document.getElementById('stat4k').innerText = counts.k4;
             document.getElementById('statBlu').innerText = counts.blu;
             document.getElementById('statDvd').innerText = counts.dvd;
@@ -743,7 +677,7 @@
 
                 grid.innerHTML = activePool.map(m => `
                     <div class="tape-case" 
-                         onmouseenter="extractAndApplySpillColor('${m.poster}')" 
+                         onmouseenter="applyGenreSpill('${m.genre}')" 
                          onmouseleave="resetSpillColor()"
                          onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                         <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
@@ -759,7 +693,7 @@
                     
                     return `
                         <div class="bootleg-case" 
-                             onmouseenter="extractAndApplySpillColor('${thumbUrl}')" 
+                             onmouseenter="applyGenreSpill('LIVE')" 
                              onmouseleave="resetSpillColor()"
                              onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
                             <div class="bootleg-thumb-wrapper">
@@ -799,7 +733,7 @@
                 imdbBtn.style.display = 'block';
                 journalLabel.innerText = "[ LOGGED_CHRONICLE_ENTRY ]";
                 
-                extractAndApplySpillColor(item.poster);
+                applyGenreSpill(item.genre);
 
                 metaDeck.innerHTML = `
                     <div class="data-point"><span class="label">EDITION:</span> ${item.format}</div>
@@ -841,11 +775,9 @@
                 imdbBtn.style.display = 'none';
                 journalLabel.innerText = "[ BROADCAST_SHOW_NOTES ]";
 
-                const videoId = extractYoutubeId(item.url);
-                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : "";
-                extractAndApplySpillColor(thumbUrl);
+                applyGenreSpill('LIVE');
 
-                if (videoId) {
+                if (videoId = extractYoutubeId(item.url)) {
                     ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
                     tvFrame.style.display = 'block';
                 } else {
