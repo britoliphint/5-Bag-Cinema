@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5-BAG CINEMA | VFA MASTER VAULT</title>
+    <title>5-BAG CINEMA | NEON ARCHIVE</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39&family=Orbitron:wght@400;900&family=VT323&display=swap');
 
@@ -256,33 +256,33 @@
         .bootleg-title { font-size: 1.3rem; line-height: 1.1; color: #fff; font-weight: bold; text-transform: uppercase; margin: 2px 0 5px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .bootleg-date { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--neon-cyan); }
 
-        /* LATE NIGHT CABLE BROADCAST HOST CHASSIS */
+        /* LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS */
         .host-crt-frame {
             position: fixed; bottom: 20px; right: 20px; width: 340px; height: 105px;
-            background: #1c1a15; border: 4px solid #453e33; border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px rgba(255,170,0,0.2), inset 0 0 15px rgba(0,0,0,0.8);
+            background: #15151c; border: 4px solid #333645; border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px rgba(255,0,255,0.3), inset 0 0 15px rgba(0,0,0,0.8);
             z-index: 5000; display: flex; align-items: center; padding: 10px; box-sizing: border-box;
-            border-right: 8px solid #3a342a; border-bottom: 6px solid #3a342a;
+            border-right: 8px solid #2a2c3a; border-bottom: 6px solid #2a2c3a;
         }
         .host-screen-bezel {
-            width: 75px; height: 75px; background: #0f0d08; border-radius: 12px;
+            width: 75px; height: 75px; background: #08080f; border-radius: 12px;
             border: 3px solid #222; overflow: hidden; position: relative;
-            box-shadow: inset 0 0 10px #000, 0 0 8px rgba(255, 170, 0, 0.4);
+            box-shadow: inset 0 0 10px #000, 0 0 8px rgba(0, 243, 255, 0.4);
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
         .host-signal-wave {
             width: 100%; height: 100%; font-size: 3rem; display: flex; align-items: center; 
-            justify-content: center; color: #ffaa00; opacity: 0.85;
-            animation: hostPulse 1.5s infinite ease-in-out; text-shadow: 0 0 8px #ffaa00;
+            justify-content: center; color: var(--neon-pink); opacity: 0.85;
+            animation: hostPulse 1.5s infinite ease-in-out; text-shadow: 0 0 8px var(--neon-pink);
         }
-        @keyframes hostPulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 0.95; } }
+        @keyframes hostPulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 0.95; filter: hue-rotate(45deg); } }
         .host-telemetry-box {
             flex: 1; margin-left: 12px; height: 75px; display: flex; flex-direction: column; justify-content: space-between;
         }
         .host-badge-header {
             font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: 900;
-            color: #000; background: #ffaa00; padding: 2px 6px; border-radius: 2px;
-            align-self: flex-start; letter-spacing: 1px; box-shadow: 0 0 5px #ffaa00;
+            color: #fff; background: var(--neon-purple); padding: 2px 6px; border-radius: 2px;
+            align-self: flex-start; letter-spacing: 1px; box-shadow: 0 0 5px var(--neon-purple);
         }
         .host-terminal-text {
             color: #fff; font-size: 1.15rem; line-height: 1.1; height: 50px; overflow: hidden;
@@ -333,8 +333,6 @@
         .receipt-item-title { flex: 1; padding-right: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; }
         .receipt-item-fmt { font-weight: bold; font-family: 'Orbitron', sans-serif; font-size: 0.7rem; background: #222; color: #fff; padding: 1px 5px; border-radius: 2px; }
         .receipt-summary { border-top: 2px dashed #333; margin-top: 15px; padding-top: 15px; font-weight: bold; }
-        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 5px; align-items: flex-start; }
-        .receipt-summary { border-top: 2px dashed #333; margin-top: 15px; padding-top: 15px; font-weight: bold; }
         .receipt-barcode { font-family: 'Libre Barcode 39', sans-serif; font-size: 3.5rem; text-align: center; margin: 20px 0 10px 0; line-height: 1; }
         .receipt-footer { text-align: center; font-size: 0.8rem; border-top: 1px dashed #666; margin-top: 15px; padding-top: 10px; font-style: italic; }
         .receipt-action-bar { display: flex; gap: 10px; margin-top: 25px; justify-content: center; }
@@ -379,11 +377,11 @@
         
         /* POPUP VIDEO LIVE COMMENTARY TRACK */
         .host-commentary-bubble {
-            margin-bottom: 15px; padding: 12px; background: rgba(255, 170, 0, 0.05);
-            border: 1px solid #ffaa00; border-left: 4px solid #ffaa00;
+            margin-bottom: 15px; padding: 12px; background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--neon-cyan); border-left: 4px solid var(--neon-cyan);
             font-size: 1.15rem; color: #fff; text-transform: uppercase;
         }
-        .host-commentary-header { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: #ffaa00; font-weight: bold; margin-bottom: 4px; letter-spacing: 1px; }
+        .host-commentary-header { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--neon-cyan); font-weight: bold; margin-bottom: 4px; letter-spacing: 1px; }
 
         .journal-block {
             margin-top: 10px; padding: 15px; background: rgba(157, 0, 255, 0.05);
@@ -434,34 +432,34 @@
         <h1>5_BAG_VAULT</h1>
         
         <div class="tuner-deck">
-            <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ TUNE: CH_01 VFA ARCHIVE ]</button>
-            <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ TUNE: CH_03 SPECIAL TRANS. ]</button>
+            <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ TUNE: CH_01 VAULT ]</button>
+            <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ TUNE: CH_03 LIVE FEED ]</button>
         </div>
 
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="SCANNING VFA DATABASE...">
-            <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="SELECT RANDOM POPCORN CLASSIC">📼</button>
-            <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT VFA LABELS MANIFEST">🎟️</button>
+            <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
+            <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
+            <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
         </div>
 
         <div id="genreContainer" class="genre-console"></div>
         
         <div class="status-counter-panel" id="counterPanel" style="display:none;">
-            <button class="stat-btn active" id="btnAll" onclick="setFormatFilter('ALL')">VFA_TOTAL_POOL:<span id="statTotal">0</span></button>
-            <button class="stat-btn" id="btn4k" onclick="setFormatFilter('4K')">4K UHD:<span id="stat4k">0</span></button>
-            <button class="stat-btn" id="btnBlu" onclick="setFormatFilter('BLU')">BLU-RAY:<span id="statBlu">0</span></button>
-            <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD DECK:<span id="statDvd">0</span></button>
+            <button class="stat-btn active" id="btnAll" onclick="setFormatFilter('ALL')">TOTAL_ARCHIVE:<span id="statTotal">0</span></button>
+            <button class="stat-btn" id="btn4k" onclick="setFormatFilter('4K')">4K:<span id="stat4k">0</span></button>
+            <button class="stat-btn" id="btnBlu" onclick="setFormatFilter('BLU')">BLU:<span id="statBlu">0</span></button>
+            <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
         </div>
     </header>
 
-    <!-- GREGG TURKINGTON VFA EXPERT TERMINAL FRAME -->
+    <!-- LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS -->
     <div class="host-crt-frame" id="hostConsoleChassis">
         <div class="host-screen-bezel">
-            <div class="host-signal-wave">🍿</div>
+            <div class="host-signal-wave">📡</div>
         </div>
         <div class="host-telemetry-box">
-            <span class="host-badge-header" id="hostFeedBadge">G_TURKINGTON // MOVIE_EXPERT</span>
-            <div class="host-terminal-text"><span id="hostTerminalOutput">BOOTING VFA CORE SYSTEMS...</span><span class="host-cursor">_</span></div>
+            <span class="host-badge-header" id="hostFeedBadge">CH_01 // CLERK_LOG</span>
+            <div class="host-terminal-text"><span id="hostTerminalOutput">BOOTING ARCHIVE HOST ENGINE... STANDBY.</span><span class="host-cursor">_</span></div>
         </div>
     </div>
 
@@ -473,28 +471,28 @@
     <div id="receiptOverlay">
         <div class="receipt-paper">
             <div class="receipt-header">
-                <p class="receipt-store">VICTORVILLE FILM ARCHIVE</p>
-                <p style="margin: 3px 0 0 0; font-size: 0.75rem; letter-spacing: 1px;">OFFICIAL INVENTORY TRACKING SYSTEM</p>
+                <p class="receipt-store">5-BAG CINEMA</p>
+                <p style="margin: 3px 0 0 0; font-size: 0.75rem; letter-spacing: 1px;">ANALOG DATABASE MANAGEMENT SYSTEM</p>
                 <div class="receipt-meta" id="receiptTimestamp">DATE: --/--/---- TIME: --:--:--</div>
                 <div class="receipt-meta" id="receiptActiveFilters">FILTERS: NONE</div>
             </div>
             
-            <div style="font-weight: bold; margin-bottom: 10px; font-size: 0.75rem; border-bottom: 1px solid #333; padding-bottom: 4px;">CERTIFIED_POPCORN_CLASSICS:</div>
+            <div style="font-weight: bold; margin-bottom: 10px; font-size: 0.75rem; border-bottom: 1px solid #333; padding-bottom: 4px;">MANIFESTED_ITEMS:</div>
             <div id="receiptItemsContainer"></div>
             
             <div class="receipt-summary">
-                <div class="receipt-row"><span>VFA_BOX_COUNT:</span><span id="receiptTotalCount">000</span></div>
+                <div class="receipt-row"><span>MANIFEST_TOTAL:</span><span id="receiptTotalCount">000</span></div>
                 <div class="receipt-row" style="font-size: 0.75rem; font-weight: normal; margin-top: 4px;">
                     <span id="receiptFormatBreakdown">4K: 0 | BLU: 0 | DVD: 0</span>
                 </div>
             </div>
             
             <div class="receipt-barcode">*5BAGVAULT*</div>
-            <div class="receipt-footer">VFA PROPERTY - DO NOT REMOVE FROM SHELVES.</div>
+            <div class="receipt-footer">BE KIND, REWIND. THANK YOU.</div>
             
             <div class="receipt-action-bar">
-                <button class="receipt-control-btn p-exec" onclick="window.print()">[ PRINT_VFA_LABELS ]</button>
-                <button class="receipt-control-btn" onclick="closeReceiptManifest()">[ BACK ]</button>
+                <button class="receipt-control-btn p-exec" onclick="window.print()">[ EXECUTE_PRINT ]</button>
+                <button class="receipt-control-btn" onclick="closeReceiptManifest()">[ CLOSE ]</button>
             </div>
         </div>
     </div>
@@ -523,20 +521,20 @@
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
                 
-                <!-- GREGG'S CRITIC LOG COMPONENT -->
+                <!-- POPUP VIDEO LIVE COMMENTARY TRACK -->
                 <div class="host-commentary-bubble" id="modalHostCommentaryBox" style="display:none;">
-                    <div class="host-commentary-header">🍿 OFFICIAL VFA CRITIC REVIEW & RATING:</div>
+                    <div class="host-commentary-header">📡 LATE-NIGHT UHF TRANSMISSION:</div>
                     <div id="modalHostCommentaryText"></div>
                 </div>
 
                 <div id="modalMetaDeck"></div>
                 
                 <div class="journal-block">
-                    <div class="journal-header-label" id="journalLabelBlock">[ ARCHIVE_EXPERT_NOTES ]</div>
-                    <div id="modalJournal">// LOGGING TAPE DATA...</div>
+                    <div class="journal-header-label" id="journalLabelBlock">[ LOGGED_CHRONICLE_ENTRY ]</div>
+                    <div id="modalJournal">// INITIALIZING NODE...</div>
                 </div>
 
-                <a href="#" id="modalImdb" target="_blank" class="imdb-link">VIEW_VFA_INDEX_RECORD</a>
+                <a href="#" id="modalImdb" target="_blank" class="imdb-link">VIEW_DATABASE_ENTRY</a>
             </div>
         </div>
     </div>
@@ -545,26 +543,25 @@
         const MOVIES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=0&single=true&output=csv';
         const PODCAST_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0lCS-r1idsXlI-r1hzwww4jLVWuCiKlSYCrua2uMKCN_L8xipIXaMhpWYOw8PpeW8M6gHcHd3bA7V/pub?gid=943065993&single=true&output=csv';
 
-        // PURE GREGG TURKINGTON Lore Dictionary
         const BROADCAST_TRIVIA_MAP = {
-            "hard to kill": "5 BAGS OF POPCORN. STEVEN SEAGAL IS TRULY AT THE HEIGHT OF HIS POWERS HERE. A BRISK ACTION CHRONICLE THAT BELONGS ON EVERY MOVIE BUFF'S SHELF.",
-            "above the law": "5 BAGS OF POPCORN AND A LITTLE PLASTIC BADGE. THIS IS THE ONE THAT STARTED IT ALL. THE DEFINITIVE INTRODUCTION TO REAL ACTIONS CUTS.",
-            "under siege": "5 BAGS OF POPCORN AND A LITTLE TOY BOAT TO COMMEMORATE THE NAVAL ARCHITECTURE. ACTOR TOMMY LEE JONES REALLY GIVES SEAGAL A RUN FOR HIS MONEY.",
-            "marked for death": "5 BAGS OF POPCORN. SEAGAL DELIVERS SOME SPECTACULAR TRADITIONAL MARTIAL ARTS COMBAT THAT CONNOISSEURS OF CINEMA ARE ALWAYS LOOKING FOR.",
-            "out for justice": "5 BAGS OF POPCORN. A RUGGED, MASTERFUL PERFORMANCE WITH AN OUTSTANDING RUNNING TIME THAT PERFECTLY KEEPS YOUR ATTENTION FIXED TO THE MONITOR.",
-            "baywatch": "TELEVISION IS NOT CINEMA, BUT WE RECOGNIZE THE TREMENDOUS SUN-DRENCHED HISTORICAL APPRECIATION FOR RESCUE PROTOCOLS HERE. FOREVER AND ALWAYS.",
-            "evil dead": "5 BAGS OF POPCORN AND A LITTLE PLASTIC CHAINSAW. DIRECTOR SAM RAIMI DELIVERS A TRUE INDEPENDENT POPCORN CLASSIC THAT SET THE TEMPERATURE FOR HORROR.",
-            "jacob's ladder": "5 BAGS OF POPCORN. AN OUTSTANDING CHILLER METADATA FILE THAT TRULY WARPS THE MIND. AN ABSOLUTE MUST-OWN ON VHS.",
-            "the vicious kind": "5 BAGS OF POPCORN. AN EXCELLENT INDEPENDENT DRAMATIC TRIUMPH WITH REMARKABLE CHARACTER WORK THAT TRUE MOVIE BUFFS WILL GRAB COPIOUS POPCORN FOR."
+            "hard to kill": "SEAGAL REFUSED TO WORK UNTIL THE INDESTRUCTIBLE HERO RECORDED AN UNEDITED 15-MINUTE ARMED DOJO DEMO FOR THE EXECUTIVE PRODUCERS.",
+            "above the law": "STEVEN SEAGAL'S OFFICIAL HOLLYWOOD DEBUT. RUMOR HAS IT HE DESIGNED THE ENTIRE CENTRAL AIKIDO FIGHT CHOREOGRAPHY ON A NAPKIN IN AN AUSTIN DINER.",
+            "under siege": "THE ABSOLUTE PINNACLE OF 90s ACTION ON A BOAT. TOMMY LEE JONES AND SEAGAL WENT COMPLETELY UNFILTERED AND IMPROVISED OVER HALF OF THEIR FINAL FIGHT TAUNTS.",
+            "marked for death": "THE SWORD DUEL SCENE TOOK 3 DAYS OF SLOW-MOTION RIGGING BECAUSE SEAGAL INSISTED HE COULD BLIND-BLOCK REAL MACHETES WITH A TRADITIONAL KATANA.",
+            "out for justice": "THE FAMOUS POOL HALL BAR FIGHT SCENE WAS FILMED USING GENUINE STUNT PROFESSIONALS WHO WERE INSTRUCTED TO NOT FLINCH ON SEAGAL'S WRIST-LOCK SLAMS.",
+            "baywatch": "AN ABSOLUTE GOLD STANDARD OF SYNDICATED SUN-DRENCHED TELEVISION BROADCASTING. RESCUE TO ALL SECTORS.",
+            "evil dead": "BRUCE CAMPBELL SPENT UPWARDS OF 14 HOURS COVERED IN CORN SYRUP STAGE BLOOD, FILMED INSIDE AN ACTUAL ABANDONED TENNESSEE CABIN CHAMBER.",
+            "jacob's ladder": "THE HEAD-SHAKING LUNATIC NIGHTMARE EFFECTS WERE FILMED LIVE ON SET BY HAVING THE ACTOR SHAKE HIS HEAD AT 4 FRAMES PER SECOND WHILE RECORDING AT 24.",
+            "the vicious kind": "AN ULTRA-INTENSE INVENTORY SHOWCASE OF INDEPENDENT RETRO CINEMA CHARACTER ARCHITECTURE. A RUGGED DRAMATIC TOUR-DE-FORCE."
         };
 
         const GENRE_COMMENTARY = {
-            "ACTION": "ACTION MOVIES ARE TRULY THE BACKBONE OF REWIND ENTERTAINMENT. EXPERT-LEVEL CUTS DEPLOYING.",
-            "HORROR": "PREPARE TO DOUBLE YOUR POPCORN SELECTION. THESE CHILLERS CARRY INTENSE DRAMATIC SCANLINES.",
-            "THRILLER": "EXCELLENT SUSPENSE TAPES WITH OUTSTANDING RUNNING TIMES FOR TRUE CONNOISSEURS.",
-            "SCIFI": "SENSATIONAL SPACE CINEMA FREQUENCIES ARE NOW ARRANGED ACROSS THE VFA GRID ENGINE.",
-            "COMEDY": "FIVE-BAG LAUGHTER PROTOCOLS ENGAGED. PREPARE FOR BRILLIANT ENTERTAINMENT MODES.",
-            "DRAMA": "THE TYPE OF PRESTIGE FILM HISTORY MOVIE BUFFS CONSTANTLY LOVE DISCUSSING AT CONVENTIONS."
+            "ACTION": "LOCK AND LOAD. STEVEN SEAGAL PROTOCOLS ARE ENGAGING IN FULL FORCE.",
+            "HORROR": "CRANK UP THE TRACKING. WE ARE ENTERING THE GORY NIGHTMARE ZONE.",
+            "THRILLER": "PULSE RATE ACCELERATING. WATCH OUT FOR PLOT TWISTS AND SCANLINE DISTORTION.",
+            "SCIFI": "SATELLITE DOWNLINKS ESTABLISHED FOR ALIEN FREQUENCIES.",
+            "COMEDY": "PREPARE FOR SIDESWIPE AUDIO EMULSIONS AND HI-FI CHUCKLES.",
+            "DRAMA": "HEAVY CINEMATIC CHRONICLES DEPLOYING TO THE VIDEO BUFFER."
         };
 
         let currentSourceMode = 'VAULT';
@@ -612,7 +609,7 @@
         async function initTerminalSystem() {
             const debug = document.getElementById('debugMessage');
             try {
-                speakHostTerminal("ORGANIZING THE MOVIE SHELVES... HELLO MOVIE BUFFS.");
+                speakHostTerminal("DIALING INTO THE ANALOG SATELLITE NETWORK...");
                 const movieRes = await fetch(MOVIES_URL);
                 const movieText = await movieRes.text();
                 const movieRows = movieText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
@@ -631,7 +628,7 @@
                 const podText = await podRes.text();
                 const podRows = podText.split(/\r?\n/).filter(r => r.trim() !== "").slice(1);
                 podcasts = podRows.map(row => {
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^微"]*$)/);
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (cols.length < 5) return null;
                     const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
                     return {
@@ -641,17 +638,17 @@
 
                 debug.style.display = 'none';
                 switchSource('VAULT');
-                setTimeout(() => { speakHostTerminal("WELCOME BACK. THE VICTORVILLE FILM ARCHIVE TERMINAL IS FULLY DEPLOYED."); }, 1200);
+                setTimeout(() => { speakHostTerminal("WELCOME BACK, COMMANDER. CH_01 MOVIE VAULT IS ONLINE."); }, 1200);
             } catch (e) {
                 debug.innerText = "SYSTEM_FAILURE: " + e.message;
-                speakHostTerminal("TIM OR AN ASSOCIATE HAS DISRUPTED THE FEED FREQUENCY.");
+                speakHostTerminal("FATAL BROADCAST GLITCH DETECTED.");
             }
         }
 
         function switchSource(source) {
             currentSourceMode = source;
             const glitchOverlay = document.getElementById('vhsGlitchOverlay');
-            document.getElementById('glitchLabelText').innerText = "TRACKING TAPE...";
+            document.getElementById('glitchLabelText').innerText = "TUNING FEED...";
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
 
@@ -663,9 +660,9 @@
                 document.body.classList.remove('vcr-shake');
                 
                 if (source === 'VAULT') {
-                    document.getElementById('hostFeedBadge').innerText = "G_TURKINGTON // MOVIE_VAULT";
-                    speakHostTerminal("TUNED TO CHANNEL 01. THIS IS THE REAL CINEMA POOL THAT CINEMA CONNOISSEURS WANT.");
-                    document.getElementById('searchBar').placeholder = "SEARCHING POPCORN CLASSICS...";
+                    document.getElementById('hostFeedBadge').innerText = "CH_01 // CLERK_LOG";
+                    speakHostTerminal("TUNED TO CHANNEL 01. MOVIE ARCHIVE LOADED FULLY.");
+                    document.getElementById('searchBar').placeholder = "SCANNING VAULT DATABASE...";
                     document.getElementById('genreContainer').style.display = 'flex';
                     document.getElementById('counterPanel').style.display = 'flex';
                     document.getElementById('headerRandBtn').style.display = 'flex';
@@ -673,9 +670,9 @@
                     const genres = ['ALL', ...new Set(movies.map(m => m.genre.split(',')[0].trim().toUpperCase()))];
                     renderGenres(genres.sort());
                 } else {
-                    document.getElementById('hostFeedBadge').innerText = "VFA_BROADCAST // WARNING";
-                    speakHostTerminal("CHANNEL 03 ENGAGED. THIS SECTOR LOADS PODCAST TRANSMISSIONS. REPEAT: TELEVISION IS NOT CINEMA!");
-                    document.getElementById('searchBar').placeholder = "SCANNING SYNDICATED AUDIO STREAMS...";
+                    document.getElementById('hostFeedBadge').innerText = "CH_03 // LIVE_FEED";
+                    speakHostTerminal("TUNED TO CHANNEL 03. BROADCAST TRANSMISSIONS INCOMING.");
+                    document.getElementById('searchBar').placeholder = "TUNING SATELLITE BROADCASTS...";
                     document.getElementById('genreContainer').style.display = 'none';
                     document.getElementById('counterPanel').style.display = 'none';
                     document.getElementById('headerRandBtn').style.display = 'none';
@@ -696,10 +693,10 @@
             currentGenre = g; 
             renderGrid(); 
             if(g !== 'ALL') {
-                const comment = GENRE_COMMENTARY[g] || `FILTERING EXPANSIVE SHELVES FOR REMARKABLE ENTRIES IN THE ${g} DIVISION.`;
+                const comment = GENRE_COMMENTARY[g] || `FILTERING DEEP RECESSES FOR INDEPENDENT ${g} SECTIONS.`;
                 speakHostTerminal(comment);
             } else {
-                speakHostTerminal("REARRANGING THE ENTIRE SHELF ARCHIVE CARD SYSTEM TO DEFAULT FORM.");
+                speakHostTerminal("RESETTING MANIFEST FILTERS. FULL POOL LOADED.");
             }
         }
         
@@ -709,7 +706,7 @@
             document.getElementById('btn4k').classList.toggle('active', fmt === '4K');
             document.getElementById('btnBlu').classList.toggle('active', fmt === 'BLU');
             document.getElementById('btnDvd').classList.toggle('active', fmt === 'DVD');
-            speakHostTerminal(`SORTING BY BOX FORMAT SPECIFICATION: ${fmt}. ALL ENTRIES STILL SCORE FIVE BAGS.`);
+            speakHostTerminal(`ADJUSTING VCR LASER FILTER TO FOCUS ON: ${fmt} TAPES.`);
             renderGrid();
         }
 
@@ -804,21 +801,21 @@
                 posterImg.src = item.poster;
                 posterImg.style.display = 'block';
                 imdbBtn.style.display = 'block';
-                journalLabel.innerText = "[ ARCHIVE_EXPERT_NOTES ]";
+                journalLabel.innerText = "[ LOGGED_CHRONICLE_ENTRY ]";
 
                 metaDeck.innerHTML = `
-                    <div class="data-point"><span class="label">VFA SELECTION:</span> ${item.format}</div>
-                    <div class="data-point"><span class="label">DIVISION:</span> ${item.genre}</div>
-                    <div class="data-point"><span class="label">YEAR OF RELEASE:</span> ${item.year}</div>
-                    <div class="data-point"><span class="label">CREATOR/DIRECTOR:</span> ${item.director}</div>
-                    <div class="data-point"><span class="label">FEATURED CAST:</span> ${item.actors}</div>
+                    <div class="data-point"><span class="label">EDITION:</span> ${item.format}</div>
+                    <div class="data-point"><span class="label">GENRE:</span> ${item.genre}</div>
+                    <div class="data-point"><span class="label">YEAR:</span> ${item.year}</div>
+                    <div class="data-point"><span class="label">DIRECTOR:</span> ${item.director}</div>
+                    <div class="data-point"><span class="label">CAST:</span> ${item.actors}</div>
                 `;
                 imdbBtn.href = item.imdb.startsWith('http') ? item.imdb : `https://www.imdb.com/title/${item.imdb}`;
 
                 if (item.journal && item.journal.trim() !== "") {
                     document.getElementById('modalJournal').innerText = item.journal;
                 } else {
-                    document.getElementById('modalJournal').innerText = "// RETRIEVING ADDITIONAL CRITIC COMMENTARY... SYSTEM STABLE.";
+                    document.getElementById('modalJournal').innerText = "// NO CHRONICLE RECORDED FOR THIS ENTRY // AWAITING DIRECTIVE...";
                 }
 
                 let foundSpecific = false;
@@ -831,18 +828,20 @@
                 }
                 if (!foundSpecific) {
                     const primaryGenre = item.genre.split(',')[0].trim().toUpperCase();
-                    if (cleanTitle.includes("seagal") || item.actors.toLowerCase().includes("seagal")) {
-                        commentaryText = "5 BAGS OF POPCORN. ANY RECONSTRUCTED CUT CONTAINING THE SENSEI SEAGAL WILL DELIVER A TRUE COMPILATION OF MARTIAL ARTS CINEMA EXCELLENCE.";
+                    if (primaryGenre === 'ACTION') {
+                        commentaryText = "A STUNNING DEPLOYMENT OF COMBAT ARCHITECTURE. MANIFESTING MAXIMUM REWIND VALUE.";
+                    } else if (cleanTitle.includes("seagal") || item.actors.toLowerCase().includes("seagal")) {
+                        commentaryText = "WARNING: HIGH DOSES OF SENSEI SEAGAL ENERGY DETECTED INSIDE THIS CASSETTE EXPANSION NODE.";
                     } else {
-                        commentaryText = `5 BAGS OF POPCORN. AN EXCELLENT ENTRY IN THE HISTORICAL ${primaryGenre} DIVISION. A BRILLIANT RUN RUNNING TIME THAT TRUE CINEMA CONNOISSEURS WILL ABSOLUTELY ADORE.`;
+                        commentaryText = `AN IMMACULATE EXTRACTION FROM THE ${primaryGenre} DECK. KEEP YOUR TRACKING WHEEL STABILIZED.`;
                     }
                 }
 
-                speakHostTerminal(`PULLING VFA RECORD FOR: ${item.title}.`);
+                speakHostTerminal(`LOADING METADATA TAPE DOSSIER: ${item.title}.`);
             } else {
                 posterImg.style.display = 'none';
                 imdbBtn.style.display = 'none';
-                journalLabel.innerText = "[ BROADCAST_NOTES ]";
+                journalLabel.innerText = "[ BROADCAST_SHOW_NOTES ]";
 
                 const videoId = extractYoutubeId(item.url);
                 if (videoId) {
@@ -853,23 +852,23 @@
                 }
 
                 metaDeck.innerHTML = `
-                    <div class="data-point"><span class="label">BROADCAST BLOCK:</span> ${item.episode}</div>
+                    <div class="data-point"><span class="label">BROADCAST INDEX:</span> ${item.episode}</div>
                     <div class="data-point"><span class="label">AIR DATE:</span> ${item.date}</div>
                 `;
 
                 if (item.description && item.description.trim() !== "") {
                     document.getElementById('modalJournal').innerText = item.description;
                 } else {
-                    document.getElementById('modalJournal').innerText = "// NO LOGGED SYNCHRONIZATION DATA RETURNED //";
+                    document.getElementById('modalJournal').innerText = "// NO BROADCAST RECAP REGISTERED //";
                 }
 
                 if (cleanTitle.includes("baywatch") || item.description.toLowerCase().includes("baywatch")) {
                     commentaryText = BROADCAST_TRIVIA_MAP["baywatch"];
                 } else {
-                    commentaryText = `THIS IS BROADCAST TRANSMISSION BLOCK ${item.episode}. ALTHOUGH TRUE CINEMA BUFFS PREFER ROTATING REWIND TAPES, THIS CONTAINS ESSENTIAL CONVERSATIONAL LOGS.`;
+                    commentaryText = `TUNING DIRECTLY INTO BROADCAST BLOCK ${item.episode}. ADJUST YOUR AUDIO EQUALIZER FOREVER AND ALWAYS.`;
                 }
 
-                speakHostTerminal(`DE-MODULATING NON-FILM CONTENT CHANNELS... LAUNCHING STREAM.`);
+                speakHostTerminal(`DECRUNCHING TRANSMISSION STREAM: ${item.title}.`);
             }
 
             hostBox.style.display = 'block';
@@ -883,7 +882,7 @@
             const rewind = document.getElementById('rewindOverlay');
             rewind.style.display = 'flex';
             document.getElementById('modalYoutubeIframe').src = "";
-            speakHostTerminal("SLIDING CASSETTE TRACK BACK ONTO THE SHELF CABINETS.");
+            speakHostTerminal("EJECTING CASSETTE CHAMBER... RETURNING NODE TO SYSTEM SHELF.");
             
             setTimeout(() => {
                 rewind.style.display = 'none';
@@ -895,10 +894,10 @@
         function triggerVhsRandomizer() {
             if (activePool.length === 0 || currentSourceMode !== 'VAULT') return;
             const glitchOverlay = document.getElementById('vhsGlitchOverlay');
-            document.getElementById('glitchLabelText').innerText = "VFA LOTTERY CODES...";
+            document.getElementById('glitchLabelText').innerText = "TRACKING...";
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
-            speakHostTerminal("SPINNING THE MAGNETIC TAPE CAROUSEL TO CHOOSE A POPCORN CLASSIC!");
+            speakHostTerminal("INITIATING RANDOMIZED MAGNETIC LOTTERY SEQUENCE... SPINS DEPLOYING!");
 
             setTimeout(() => {
                 const randomChoiceIndex = Math.floor(Math.random() * activePool.length);
@@ -911,11 +910,11 @@
 
         function generateReceiptManifest() {
             if (activePool.length === 0 || currentSourceMode !== 'VAULT') return;
-            speakHostTerminal("COMPILING OFFICIAL VICTORVILLE FILM ARCHIVE COLLECTION RECEIPT MANIFEST... DO NOT TEAR SLIP.");
+            speakHostTerminal("COMPILING ANALOG DATA MANIFEST INVENTORY SLIP... ENGAGING THERMAL MATRIX.");
             const now = new Date();
             document.getElementById('receiptTimestamp').innerText = `DATE: ${now.toLocaleDateString()} TIME: ${now.toLocaleTimeString()}`;
             const activeSearchText = document.getElementById('searchBar').value.toUpperCase() || "NONE";
-            document.getElementById('receiptActiveFilters').innerText = `DIVISION: ${currentGenre} | SYSTEM: ${currentFormat} | SEARCH: ${activeSearchText}`;
+            document.getElementById('receiptActiveFilters').innerText = `GENRE: ${currentGenre} | FMT: ${currentFormat} | SEARCH: ${activeSearchText}`;
 
             const itemsContainer = document.getElementById('receiptItemsContainer');
             let counts = { k4: 0, blu: 0, dvd: 0 };
@@ -929,7 +928,7 @@
             }).join('');
 
             document.getElementById('receiptTotalCount').innerText = String(activePool.length).padStart(3, '0');
-            document.getElementById('receiptFormatBreakdown').innerText = `4K BOXES: ${counts.k4} | BLU-RAYS: ${counts.blu} | DVD DISCS: ${counts.dvd}`;
+            document.getElementById('receiptFormatBreakdown').innerText = `4K UHD: ${counts.k4} | BLU-RAY: ${counts.blu} | DVD: ${counts.dvd}`;
             document.getElementById('receiptOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -937,13 +936,13 @@
         function closeReceiptManifest() {
             document.getElementById('receiptOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
-            speakHostTerminal("COMPILATION LOG TERMINATED. SHELF VIEW RESTORED.");
+            speakHostTerminal("RECEIPT DECK DISENGAGED. DATABASE RETURNED TO SCREEN MONITOR.");
         }
 
         document.getElementById('searchBar').oninput = () => {
             renderGrid();
             if(document.getElementById('searchBar').value !== "") {
-                speakHostTerminal(`BROWSING VFA RACKS MATCHING PATTERN: "${document.getElementById('searchBar').value.toUpperCase()}"`);
+                speakHostTerminal(`SCANNING FREQUENCIES MATCHING EXTRAPOLATION: "${document.getElementById('searchBar').value.toUpperCase()}"`);
             }
         };
 
