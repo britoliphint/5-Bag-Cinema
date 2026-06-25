@@ -44,50 +44,70 @@
             transition: background 0.05s ease;
         }
 
+        /* HIGH-DENSITY COMPACT DESKTOP HEADER CHASSIS */
         header {
             background: rgba(0, 0, 0, 0.95);
             border-bottom: 3px solid var(--neon-pink);
-            padding: 25px 10px;
-            text-align: center;
+            padding: 15px 40px;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--neon-pink);
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         header.header-hidden {
             transform: translateY(-100%);
         }
 
+        .header-left-block {
+            display: flex;
+            align-items: center;
+        }
+
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
-            font-size: 2.2rem;
-            letter-spacing: 5px;
-            margin: 0 0 15px 0;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin: 0;
             color: #fff;
             text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
             font-style: italic;
+            white-space: nowrap;
+        }
+
+        .header-right-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+            justify-content: flex-end;
+            max-width: 75%;
         }
 
         /* TUNING CONSOLE SWITCHES */
         .tuner-deck {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .tune-channel {
             background: #000;
             border: 2px solid var(--neon-purple);
             color: var(--neon-purple);
-            padding: 6px 16px;
+            padding: 4px 12px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             font-weight: 900;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 0 10px rgba(157, 0, 255, 0.1);
+            white-space: nowrap;
         }
 
         .tune-channel.active {
@@ -100,33 +120,32 @@
 
         .search-container {
             display: flex;
-            max-width: 750px;
-            margin: 0 auto;
-            gap: 10px;
-            justify-content: center;
+            flex-grow: 1;
+            max-width: 400px;
+            gap: 8px;
             align-items: center;
-            width: 90%;
         }
 
         #searchBar {
-            flex: 1;
+            width: 100%;
             background: #000;
             border: 2px solid var(--neon-cyan);
             color: var(--neon-cyan);
-            padding: 12px;
-            font-size: 1.5rem;
+            padding: 8px 12px;
+            font-size: 1.3rem;
             font-family: 'VT323', monospace;
             outline: none;
             box-shadow: 0 0 10px var(--neon-cyan);
             text-transform: uppercase;
+            box-sizing: border-box;
         }
 
         .random-btn, .print-btn {
             background: transparent;
             border: 2px solid var(--neon-pink);
             color: var(--neon-pink);
-            padding: 8px 14px;
-            font-size: 1.6rem;
+            padding: 4px 10px;
+            font-size: 1.3rem;
             line-height: 1;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
@@ -134,8 +153,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 47px;
+            height: 38px;
             box-sizing: border-box;
+            flex-shrink: 0;
         }
 
         .print-btn {
@@ -149,15 +169,15 @@
 
         .genre-console {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 10px; margin-top: 20px;
+            gap: 8px; width: 100%; margin-top: 5px;
         }
 
         .genre-btn {
             background: transparent;
             border: 1px solid var(--neon-purple);
             color: var(--neon-purple);
-            padding: 5px 15px;
-            font-size: 1.2rem;
+            padding: 3px 12px;
+            font-size: 1.1rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: 'VT323', monospace;
@@ -166,35 +186,36 @@
         .genre-btn.active {
             background: var(--neon-purple);
             color: #fff;
-            box-shadow: 0 0 15px var(--neon-purple);
+            box-shadow: 0 0 12px var(--neon-purple);
         }
 
         .status-counter-panel {
-            max-width: 600px;
-            margin: 25px auto 0 auto;
+            flex-shrink: 0;
             border: 1px solid var(--neon-cyan);
             background: rgba(0,0,0,0.8);
-            padding: 5px;
+            padding: 2px;
             box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
             display: flex;
-            justify-content: space-around;
             align-items: center;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            height: 38px;
+            box-sizing: border-box;
         }
 
         .stat-btn {
             background: transparent;
             border: 1px solid transparent;
             color: var(--neon-cyan);
-            padding: 6px 12px;
+            padding: 4px 10px;
             font-family: 'VT323', monospace;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
-        .stat-btn span { color: #fff; font-weight: bold; margin-left: 4px; }
+        .stat-btn span { color: #fff; font-weight: bold; margin-left: 3px; }
         .stat-btn:hover { border-color: var(--neon-pink); color: var(--neon-pink); text-shadow: 0 0 5px var(--neon-pink); }
         .stat-btn.active {
             border-color: var(--neon-cyan);
@@ -393,11 +414,18 @@
 
         .imdb-link { margin-top: 25px; padding: 15px; background: var(--neon-cyan); color: #000; text-decoration: none; text-align: center; font-weight: bold; font-family: 'Orbitron', sans-serif; transition: 0.2s; }
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
-        .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); }
+        .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); z-index: 50000; }
 
-        /* RESPONSIVE LAYOUT CONSTRAINTS */
+        /* ADVANCED PORTRAIT RESPONSIVENESS MEDIA ADJUSTMENTS */
+        @media (max-width: 992px) {
+            header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
+            .header-right-block { max-width: 100%; width: 100%; justify-content: center; flex-wrap: wrap; }
+            .search-container { max-width: 100%; width: 100%; }
+        }
+
         @media (max-width: 768px) {
             body { padding-bottom: 140px; }
+            header { padding: 15px 10px; }
             .host-crt-frame { bottom: 10px; right: 5%; width: 90%; height: 95px; }
             .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
             .dossier-window { flex-direction: column; max-height: 85vh; width: 100%; overflow-y: hidden; flex-wrap: nowrap; }
@@ -406,11 +434,11 @@
             .video-tv-frame { border-right: none; border-bottom: 3px solid var(--neon-cyan); flex: 0 0 auto; width: 100%; padding: 10px; }
             
             .dossier-content { padding: 20px; max-height: 48vh; overflow-y: auto; flex: 1 1 auto; }
-            .close-btn { position: fixed; top: 15px; right: 20px; background: rgba(0,0,0,0.85); border: 1px solid var(--neon-pink); padding: 2px 10px; font-size: 1.5rem; box-shadow: 0 0 10px var(--neon-pink); z-index: 50000; }
+            .close-btn { position: fixed; top: 15px; right: 20px; background: rgba(0,0,0,0.85); border: 1px solid var(--neon-pink); padding: 2px 10px; font-size: 1.5rem; box-shadow: 0 0 10px var(--neon-pink); }
             .dossier-title { font-size: 1.4rem; padding-right: 40px; }
             .data-point { font-size: 1.05rem; margin-bottom: 6px; }
             .journal-block { font-size: 0.95rem; padding: 10px; }
-            .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; }
+            .status-counter-panel { font-size: 1.1rem; width: 95%; flex-wrap: wrap; justify-content: center; gap: 2px; height: auto; }
             .stat-btn { font-size: 1.1rem; padding: 4px 6px; }
             .search-container { flex-direction: row; width: 95%; gap: 6px; }
             #searchBar { flex: 1; }
@@ -429,27 +457,31 @@
 <body>
 
     <header id="mainHeader">
-        <h1>5_BAG_VAULT</h1>
-        
-        <div class="tuner-deck">
-            <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ TUNE: CH_01 VAULT ]</button>
-            <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ TUNE: CH_03 LIVE FEED ]</button>
+        <div class="header-left-block">
+            <h1>5_BAG_VAULT</h1>
         </div>
+        
+        <div class="header-right-block">
+            <div class="tuner-deck">
+                <button class="tune-channel active" id="chanVault" onclick="switchSource('VAULT')">[ CH_01 VAULT ]</button>
+                <button class="tune-channel" id="chanLive" onclick="switchSource('LIVE')">[ CH_03 LIVE ]</button>
+            </div>
 
-        <div class="search-container">
-            <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
-            <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
-            <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="SCANNING DATABASE...">
+                <button class="random-btn" id="headerRandBtn" onclick="triggerVhsRandomizer()" title="AUTO LOAD RANDOM FILM">📼</button>
+                <button class="print-btn" id="headerPrintBtn" onclick="generateReceiptManifest()" title="PRINT CURRENT INVENTORY TICKET">🎟️</button>
+            </div>
+            
+            <div class="status-counter-panel" id="counterPanel" style="display:none;">
+                <button class="stat-btn active" id="btnAll" onclick="setFormatFilter('ALL')">ALL:<span id="statTotal">0</span></button>
+                <button class="stat-btn" id="btn4k" onclick="setFormatFilter('4K')">4K:<span id="stat4k">0</span></button>
+                <button class="stat-btn" id="btnBlu" onclick="setFormatFilter('BLU')">BLU:<span id="statBlu">0</span></button>
+                <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
+            </div>
         </div>
 
         <div id="genreContainer" class="genre-console"></div>
-        
-        <div class="status-counter-panel" id="counterPanel" style="display:none;">
-            <button class="stat-btn active" id="btnAll" onclick="setFormatFilter('ALL')">TOTAL_ARCHIVE:<span id="statTotal">0</span></button>
-            <button class="stat-btn" id="btn4k" onclick="setFormatFilter('4K')">4K:<span id="stat4k">0</span></button>
-            <button class="stat-btn" id="btnBlu" onclick="setFormatFilter('BLU')">BLU:<span id="statBlu">0</span></button>
-            <button class="stat-btn" id="btnDvd" onclick="setFormatFilter('DVD')">DVD:<span id="statDvd">0</span></button>
-        </div>
     </header>
 
     <!-- LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS -->
@@ -521,7 +553,6 @@
             <div class="dossier-content">
                 <div class="dossier-title" id="modalTitle"></div>
                 
-                <!-- POPUP VIDEO LIVE COMMENTARY TRACK -->
                 <div class="host-commentary-bubble" id="modalHostCommentaryBox" style="display:none;">
                     <div class="host-commentary-header">📡 LATE-NIGHT UHF TRANSMISSION:</div>
                     <div id="modalHostCommentaryText"></div>
@@ -719,6 +750,7 @@
                 else if (fmt.includes('blu')) counts.blu++;
                 else if (fmt.includes('dvd')) counts.dvd++;
             });
+            document.getElementById('statTotal').innerText = baseFilteredMovies.length;
             document.getElementById('stat4k').innerText = counts.k4;
             document.getElementById('statBlu').innerText = counts.blu;
             document.getElementById('statDvd').innerText = counts.dvd;
