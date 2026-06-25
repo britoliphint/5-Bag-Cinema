@@ -13,6 +13,8 @@
             --neon-purple: #9d00ff;
             --bg-black: #050505;
             --grid-line: rgba(0, 243, 255, 0.1);
+            /* AMBIENT GLOW INITIAL ENGINE STATE */
+            --spill-color: rgba(157, 0, 255, 0.15); 
         }
 
         body {
@@ -26,6 +28,21 @@
                 linear-gradient(90deg, transparent 0%, var(--grid-line) 1px, transparent 1px);
             background-size: 30px 30px;
             padding-bottom: 120px; /* Space for Host Chassis */
+            transition: background-color 0.5s ease;
+        }
+
+        /* LIVE AMBIENT REACTIVE NEON SPILL BACKDROP GENERATOR */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130vw; height: 130vh;
+            background: radial-gradient(circle at center, var(--spill-color) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+            transition: background 0.6s cubic-bezier(0.1, 0.8, 0.2, 1);
         }
 
         /* CRT GLASS MONITOR GLARE ENGINE */
@@ -63,10 +80,7 @@
             transform: translateY(-100%);
         }
 
-        .header-left-block {
-            display: flex;
-            align-items: center;
-        }
+        .header-left-block { display: flex; align-items: center; }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
@@ -89,12 +103,7 @@
             max-width: 75%;
         }
 
-        /* TUNING CONSOLE SWITCHES */
-        .tuner-deck {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-        }
+        .tuner-deck { display: flex; gap: 10px; flex-shrink: 0; }
 
         .tune-channel {
             background: #000;
@@ -118,13 +127,7 @@
             text-shadow: 0 0 5px #fff;
         }
 
-        .search-container {
-            display: flex;
-            flex-grow: 1;
-            max-width: 400px;
-            gap: 8px;
-            align-items: center;
-        }
+        .search-container { display: flex; flex-grow: 1; max-width: 400px; gap: 8px; align-items: center; }
 
         #searchBar {
             width: 100%;
@@ -158,19 +161,11 @@
             flex-shrink: 0;
         }
 
-        .print-btn {
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-        }
-
+        .print-btn { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
         .random-btn:hover { background: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); filter: drop-shadow(0 0 4px #fff); }
         .print-btn:hover { background: var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan); }
 
-        .genre-console {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 8px; width: 100%; margin-top: 5px;
-        }
+        .genre-console { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; margin-top: 5px; }
 
         .genre-btn {
             background: transparent;
@@ -183,56 +178,27 @@
             font-family: 'VT323', monospace;
         }
 
-        .genre-btn.active {
-            background: var(--neon-purple);
-            color: #fff;
-            box-shadow: 0 0 12px var(--neon-purple);
-        }
+        .genre-btn.active { background: var(--neon-purple); color: #fff; box-shadow: 0 0 12px var(--neon-purple); }
 
         .status-counter-panel {
-            flex-shrink: 0;
-            border: 1px solid var(--neon-cyan);
-            background: rgba(0,0,0,0.8);
-            padding: 2px;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-            display: flex;
-            align-items: center;
-            font-size: 1.2rem;
-            letter-spacing: 0.5px;
-            height: 38px;
-            box-sizing: border-box;
+            flex-shrink: 0; border: 1px solid var(--neon-cyan); background: rgba(0,0,0,0.8); padding: 2px;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); display: flex; align-items: center;
+            font-size: 1.2rem; letter-spacing: 0.5px; height: 38px; box-sizing: border-box;
         }
 
         .stat-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--neon-cyan);
-            padding: 4px 10px;
-            font-family: 'VT323', monospace;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+            background: transparent; border: 1px solid transparent; color: var(--neon-cyan); padding: 4px 10px;
+            font-family: 'VT323', monospace; font-size: 1.2rem; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
         }
 
         .stat-btn span { color: #fff; font-weight: bold; margin-left: 3px; }
         .stat-btn:hover { border-color: var(--neon-pink); color: var(--neon-pink); text-shadow: 0 0 5px var(--neon-pink); }
         .stat-btn.active {
-            border-color: var(--neon-cyan);
-            background: rgba(0, 243, 255, 0.1);
-            color: #fff;
-            text-shadow: 0 0 8px var(--neon-cyan);
-            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.3);
+            border-color: var(--neon-cyan); background: rgba(0, 243, 255, 0.1); color: #fff;
+            text-shadow: 0 0 8px var(--neon-cyan); box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.3);
         }
 
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; padding: 40px; max-width: 1400px; margin: 0 auto; }
 
         #debugMessage { text-align: center; margin-top: 50px; font-size: 1.5rem; color: var(--neon-pink); }
 
@@ -241,27 +207,20 @@
             position: relative; transition: 0.3s; box-shadow: 5px 5px 0px var(--neon-purple);
         }
 
-        .tape-case:hover {
-            border-color: var(--neon-cyan);
-            transform: translateY(-10px) rotate(1deg);
-            box-shadow: 0 0 20px var(--neon-cyan);
-        }
+        .tape-case:hover { border-color: var(--neon-cyan); transform: translateY(-10px) rotate(1deg); box-shadow: 0 0 20px var(--neon-cyan); }
 
         .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: contrast(1.1) brightness(0.9); }
 
         .format-badge {
-            position: absolute; top: 15px; right: 15px;
-            font-family: 'Orbitron', sans-serif; font-size: 0.6rem; padding: 4px 8px;
-            background: var(--neon-pink); color: #fff; font-weight: 900;
-            z-index: 10; box-shadow: 2px 2px 0px #000;
+            position: absolute; top: 15px; right: 15px; font-family: 'Orbitron', sans-serif; font-size: 0.6rem; padding: 4px 8px;
+            background: var(--neon-pink); color: #fff; font-weight: 900; z-index: 10; box-shadow: 2px 2px 0px #000;
         }
 
         /* BROADCAST CARD SHELVES */
         .bootleg-case {
             background: #000; border: 2px solid #222; padding: 8px;
             cursor: pointer; position: relative; transition: 0.3s; aspect-ratio: 2/3;
-            box-shadow: 5px 5px 0px var(--neon-purple); box-sizing: border-box;
-            overflow: hidden;
+            box-shadow: 5px 5px 0px var(--neon-purple); box-sizing: border-box; overflow: hidden;
         }
         .bootleg-case:hover { border-color: var(--neon-pink); transform: translateY(-10px) rotate(-1deg); box-shadow: 0 0 20px var(--neon-pink); }
         
@@ -269,8 +228,7 @@
         .bootleg-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.15) brightness(0.85); }
         
         .bootleg-overlay-card {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
+            position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.95) 40%);
             padding: 30px 10px 10px 10px; display: flex; flex-direction: column; justify-content: flex-end;
         }
         .bootleg-num { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--neon-pink); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
@@ -297,9 +255,7 @@
             animation: hostPulse 1.5s infinite ease-in-out; text-shadow: 0 0 8px var(--neon-pink);
         }
         @keyframes hostPulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 0.95; filter: hue-rotate(45deg); } }
-        .host-telemetry-box {
-            flex: 1; margin-left: 12px; height: 75px; display: flex; flex-direction: column; justify-content: space-between;
-        }
+        .host-telemetry-box { flex: 1; margin-left: 12px; height: 75px; display: flex; flex-direction: column; justify-content: space-between; }
         .host-badge-header {
             font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: 900;
             color: #fff; background: var(--neon-purple); padding: 2px 6px; border-radius: 2px;
@@ -307,8 +263,7 @@
         }
         .host-terminal-text {
             color: #fff; font-size: 1.15rem; line-height: 1.1; height: 50px; overflow: hidden;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            text-shadow: 0 0 2px rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 0 0 2px rgba(255,255,255,0.5);
         }
         .host-cursor { animation: blink 0.8s infinite; color: var(--neon-cyan); font-weight: bold; }
         @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
@@ -316,34 +271,26 @@
         /* REWIND OVERLAYS */
         #rewindOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); z-index: 40000;
-            justify-content: center; align-items: center;
-            flex-direction: column;
+            background: rgba(0,0,0,0.92); z-index: 40000; justify-content: center; align-items: center; flex-direction: column;
         }
         .spools { display: flex; gap: 50px; margin-bottom: 15px; }
         .spool {
             width: 90px; height: 90px; border: 6px dashed var(--neon-pink); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            animation: rapidRewind 0.35s linear infinite;
-            box-shadow: 0 0 15px var(--neon-pink);
+            display: flex; justify-content: center; align-items: center; animation: rapidRewind 0.35s linear infinite; box-shadow: 0 0 15px var(--neon-pink);
         }
         .spool::after { content: " "; width: 22px; height: 22px; background: var(--neon-pink); border-radius: 50%; }
         @keyframes rapidRewind { 100% { transform: rotate(-360deg); } }
         .rewind-label { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 3px; text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* MANIFEST PRINTER CORE */
+        /* PRINTER ENGINE */
         #receiptOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 20000;
-            justify-content: center; align-items: flex-start;
-            overflow-y: auto; padding: 40px 10px; box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.85); z-index: 20000; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 40px 10px; box-sizing: border-box;
         }
 
         .receipt-paper {
-            background: #fdfdfd; color: #111; width: 100%; max-width: 420px;
-            padding: 30px 25px; box-shadow: 0 0 30px rgba(0,0,0,0.8), 10px 10px 0px var(--neon-cyan);
-            font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; line-height: 1.4;
-            position: relative; border-radius: 2px; animation: printSlideDown 0.6s cubic-bezier(0.1, 1, 0.1, 1);
+            background: #fdfdfd; color: #111; width: 100%; max-width: 420px; padding: 30px 25px; box-shadow: 0 0 30px rgba(0,0,0,0.8), 10px 10px 0px var(--neon-cyan);
+            font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; line-height: 1.4; position: relative; border-radius: 2px; animation: printSlideDown 0.6s cubic-bezier(0.1, 1, 0.1, 1);
         }
 
         @keyframes printSlideDown { 0% { transform: translateY(-100%) scaleY(0); transform-origin: top; } 100% { transform: translateY(0) scaleY(1); } }
@@ -362,31 +309,24 @@
 
         /* VCR STATIC LINE GENERATOR */
         #vhsGlitchOverlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #111; z-index: 999999; opacity: 0.95; overflow: hidden;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #111; z-index: 999999; opacity: 0.95; overflow: hidden;
         }
         .vhs-static-line { position: absolute; width: 100%; height: 8px; background: rgba(255, 255, 255, 0.6); box-shadow: 0 0 15px #fff; animation: glitchLines 0.4s infinite linear; }
         @keyframes glitchLines { 0% { top: -10%; background-color: rgba(255,255,255,0.2); } 50% { background-color: rgba(255, 255, 255, 0.8); } 100% { top: 110%; } }
         .vcr-shake { animation: vcrTremor 0.15s infinite; }
         @keyframes vcrTremor { 0% { transform: translate(1px, 1px) rotate(0deg); filter: hue-rotate(0deg); } 40% { transform: translate(-3px, 0px) rotate(1deg); filter: hue-rotate(90deg); } 80% { transform: translate(2px, -1px) rotate(1deg); filter: hue-rotate(180deg); } 100% { transform: translate(-1px, 1px) rotate(-1deg); } }
 
-        /* DOSSIER POPUP OVERLAY */
+        /* DOSSIER WINDOWS */
         #modalOverlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); z-index: 10000;
-            justify-content: center; align-items: center; padding: 10px; box-sizing: border-box;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box;
         }
 
         .dossier-window {
-            background: #000; border: 3px solid var(--neon-cyan);
-            width: 95%; max-width: 950px; max-height: 85vh;
-            display: flex; flex-wrap: nowrap; box-shadow: 0 0 30px var(--neon-cyan);
-            position: relative; overflow: hidden;
+            background: #000; border: 3px solid var(--neon-cyan); width: 95%; max-width: 950px; max-height: 85vh; display: flex; flex-wrap: nowrap; box-shadow: 0 0 30px var(--neon-cyan); position: relative; overflow: hidden;
         }
 
         .dossier-poster { flex: 0 0 320px; max-height: 85vh; object-fit: contain; border-right: 3px solid var(--neon-cyan); background: #000; }
         
-        /* CRT TELEVISION PLAYER HOUSING */
         .video-tv-frame { flex: 0 0 450px; background: #050505; border-right: 3px solid var(--neon-cyan); display: flex; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; position: relative; }
         .video-tv-inner { width: 100%; aspect-ratio: 16/9; border: 4px solid #222; box-shadow: 0 0 20px var(--neon-pink); background: #000; position: relative; overflow: hidden; }
         .video-tv-inner iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
@@ -396,27 +336,21 @@
         .data-point { margin-bottom: 12px; font-size: 1.3rem; border-left: 4px solid var(--neon-purple); padding-left: 15px; }
         .label { color: var(--neon-cyan); text-transform: uppercase; margin-right: 10px; font-size: 0.9rem; }
         
-        /* POPUP VIDEO LIVE COMMENTARY TRACK */
         .host-commentary-bubble {
-            margin-bottom: 15px; padding: 12px; background: rgba(0, 243, 255, 0.05);
-            border: 1px solid var(--neon-cyan); border-left: 4px solid var(--neon-cyan);
-            font-size: 1.15rem; color: #fff; text-transform: uppercase;
+            margin-bottom: 15px; padding: 12px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-cyan); border-left: 4px solid var(--neon-cyan); font-size: 1.15rem; color: #fff; text-transform: uppercase;
         }
         .host-commentary-header { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--neon-cyan); font-weight: bold; margin-bottom: 4px; letter-spacing: 1px; }
 
         .journal-block {
-            margin-top: 10px; padding: 15px; background: rgba(157, 0, 255, 0.05);
-            border: 1px dashed var(--neon-purple); border-left: 4px solid var(--neon-pink);
-            font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; line-height: 1.5;
-            color: #eee; box-shadow: inset 0 0 15px rgba(157,0,255,0.1);
+            margin-top: 10px; padding: 15px; background: rgba(157, 0, 255, 0.05); border: 1px dashed var(--neon-purple); border-left: 4px solid var(--neon-pink); font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; line-height: 1.5; color: #eee; box-shadow: inset 0 0 15px rgba(157,0,255,0.1);
         }
         .journal-header-label { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--neon-pink); font-weight: bold; margin-bottom: 8px; letter-spacing: 1px; }
 
         .imdb-link { margin-top: 25px; padding: 15px; background: var(--neon-cyan); color: #000; text-decoration: none; text-align: center; font-weight: bold; font-family: 'Orbitron', sans-serif; transition: 0.2s; }
         .imdb-link:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
-        .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 101; text-shadow: 0 0 5px var(--neon-pink); z-index: 50000; }
+        .close-btn { position: absolute; top: 10px; right: 20px; color: var(--neon-pink); font-size: 2rem; cursor: pointer; z-index: 10005; text-shadow: 0 0 5px var(--neon-pink); }
 
-        /* ADVANCED PORTRAIT RESPONSIVENESS MEDIA ADJUSTMENTS */
+        /* MOBILE OVERRIDES */
         @media (max-width: 992px) {
             header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
             .header-right-block { max-width: 100%; width: 100%; justify-content: center; flex-wrap: wrap; }
@@ -444,13 +378,6 @@
             #searchBar { flex: 1; }
             .random-btn, .print-btn { flex: none; width: 50px; padding: 0; }
             h1 { font-size: 1.5rem; }
-        }
-
-        @media print {
-            body, body::before, header, #vhsGlitchOverlay, #modalOverlay, #debugMessage, .movie-grid, #rewindOverlay, .host-crt-frame { display: none !important; }
-            #receiptOverlay { display: block !important; position: absolute; top:0; left:0; background: #fff; padding: 0; width: 100%; }
-            .receipt-paper { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
-            .receipt-action-bar { display: none !important; }
         }
     </style>
 </head>
@@ -484,7 +411,7 @@
         <div id="genreContainer" class="genre-console"></div>
     </header>
 
-    <!-- LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS -->
+    <!-- CLERK LOOPS CHASSIS -->
     <div class="host-crt-frame" id="hostConsoleChassis">
         <div class="host-screen-bezel">
             <div class="host-signal-wave">📡</div>
@@ -603,6 +530,12 @@
         let activePool = [];
         let hostTypeTimeout = null;
 
+        // IN-MEMORY HIDDEN BUFFER CANVAS CHASSIS FOR SAMPLING IMAGES
+        const spillCanvas = document.createElement('canvas');
+        const spillCtx = spillCanvas.getContext('2d', { willReadFrequently: true });
+        spillCanvas.width = 10; 
+        spillCanvas.height = 10;
+
         window.addEventListener('mousemove', (e) => {
             const xPercent = (e.clientX / window.innerWidth) * 100;
             const yPercent = (e.clientY / window.innerHeight) * 100;
@@ -635,6 +568,36 @@
                 }
             }
             typeNextChar();
+        }
+
+        /* LIVE REAL-TIME ATMOSPHERIC COLOR SAMPLING LOGIC CORE */
+        function extractAndApplySpillColor(imageUrl) {
+            if (!imageUrl) return;
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            
+            img.onload = function() {
+                try {
+                    spillCtx.drawImage(img, 0, 0, 10, 10);
+                    // Sample pixels from the middle quadrant
+                    const pixelData = spillCtx.getImageData(5, 5, 1, 1).data;
+                    const r = pixelData[0];
+                    const g = pixelData[1];
+                    const b = pixelData[2];
+                    
+                    // Inject a rich, glowing low-opacity aura style definition
+                    document.documentElement.style.setProperty('--spill-color', `rgba(${r}, ${g}, ${b}, 0.25)`);
+                } catch (err) {
+                    // Fail gracefully to basic retro purple on cross-origin blocks
+                    resetSpillColor();
+                }
+            };
+            img.onerror = function() { resetSpillColor(); };
+            img.src = imageUrl;
+        }
+
+        function resetSpillColor() {
+            document.documentElement.style.setProperty('--spill-color', 'rgba(157, 0, 255, 0.15)');
         }
 
         async function initTerminalSystem() {
@@ -689,6 +652,7 @@
             setTimeout(() => {
                 glitchOverlay.style.display = 'none';
                 document.body.classList.remove('vcr-shake');
+                resetSpillColor();
                 
                 if (source === 'VAULT') {
                     document.getElementById('hostFeedBadge').innerText = "CH_01 // CLERK_LOG";
@@ -756,12 +720,6 @@
             document.getElementById('statDvd').innerText = counts.dvd;
         }
 
-        function extractYoutubeId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-
         function renderGrid() {
             const search = document.getElementById('searchBar').value.toLowerCase();
             const grid = document.getElementById('movieGrid');
@@ -784,7 +742,10 @@
                 });
 
                 grid.innerHTML = activePool.map(m => `
-                    <div class="tape-case" onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
+                    <div class="tape-case" 
+                         onmouseenter="extractAndApplySpillColor('${m.poster}')" 
+                         onmouseleave="resetSpillColor()"
+                         onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                         <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
                         <div class="format-badge">${m.format}</div>
                     </div>
@@ -797,7 +758,10 @@
                     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : `https://via.placeholder.com/400x225?text=NO_SIGNAL`;
                     
                     return `
-                        <div class="bootleg-case" onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
+                        <div class="bootleg-case" 
+                             onmouseenter="extractAndApplySpillColor('${thumbUrl}')" 
+                             onmouseleave="resetSpillColor()"
+                             onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
                             <div class="bootleg-thumb-wrapper">
                                 <img src="${thumbUrl}" class="bootleg-img" onerror="this.src='https://img.youtube.com/vi/${videoId}/mqdefault.jpg'">
                                 <div class="bootleg-overlay-card">
@@ -834,6 +798,8 @@
                 posterImg.style.display = 'block';
                 imdbBtn.style.display = 'block';
                 journalLabel.innerText = "[ LOGGED_CHRONICLE_ENTRY ]";
+                
+                extractAndApplySpillColor(item.poster);
 
                 metaDeck.innerHTML = `
                     <div class="data-point"><span class="label">EDITION:</span> ${item.format}</div>
@@ -876,6 +842,9 @@
                 journalLabel.innerText = "[ BROADCAST_SHOW_NOTES ]";
 
                 const videoId = extractYoutubeId(item.url);
+                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : "";
+                extractAndApplySpillColor(thumbUrl);
+
                 if (videoId) {
                     ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
                     tvFrame.style.display = 'block';
@@ -915,6 +884,7 @@
             rewind.style.display = 'flex';
             document.getElementById('modalYoutubeIframe').src = "";
             speakHostTerminal("EJECTING CASSETTE CHAMBER... RETURNING NODE TO SYSTEM SHELF.");
+            resetSpillColor();
             
             setTimeout(() => {
                 rewind.style.display = 'none';
