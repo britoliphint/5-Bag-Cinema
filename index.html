@@ -13,7 +13,6 @@
             --neon-purple: #9d00ff;
             --bg-black: #050505;
             --grid-line: rgba(0, 243, 255, 0.1);
-            /* CORE ACCENT ENGINE DEFINITION */
             --spill-color: rgba(157, 0, 255, 0.15); 
         }
 
@@ -140,17 +139,26 @@
             text-shadow: 0 0 8px var(--neon-cyan); box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.3);
         }
 
-        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; padding: 40px; max-width: 1400px; margin: 0 auto; }
+        /* HARDWARE ACCELERATED KINETIC VIEWPORT OVERLAY GRIDS */
+        .movie-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; padding: 40px; max-width: 1400px; margin: 0 auto;
+            perspective: 1000px; transform-style: preserve-3d;
+            will-change: transform;
+        }
 
         #debugMessage { text-align: center; margin-top: 50px; font-size: 1.5rem; color: var(--neon-pink); }
 
+        /* THE CHASSIS CORE INTERACTION DECK */
         .tape-case {
             background: #000; border: 2px solid #222; padding: 8px; cursor: pointer;
-            position: relative; transition: 0.3s; box-shadow: 5px 5px 0px var(--neon-purple);
+            position: relative; box-shadow: 5px 5px 0px var(--neon-purple);
+            transform-style: preserve-3d;
+            will-change: transform, filter;
+            transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
         }
 
-        .tape-case:hover { border-color: var(--neon-cyan); transform: translateY(-10px) rotate(1deg); box-shadow: 0 0 20px var(--neon-cyan); }
-        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: contrast(1.1) brightness(0.9); }
+        .tape-case:hover { border-color: var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan); }
+        .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: contrast(1.1) brightness(0.9); pointer-events: none; }
 
         .format-badge {
             position: absolute; top: 15px; right: 15px; font-family: 'Orbitron', sans-serif; font-size: 0.6rem; padding: 4px 8px;
@@ -160,12 +168,15 @@
         /* BROADCAST CARD SHELVES */
         .bootleg-case {
             background: #000; border: 2px solid #222; padding: 8px;
-            cursor: pointer; position: relative; transition: 0.3s; aspect-ratio: 2/3;
+            cursor: pointer; position: relative; aspect-ratio: 2/3;
             box-shadow: 5px 5px 0px var(--neon-purple); box-sizing: border-box; overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform, filter;
+            transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
         }
-        .bootleg-case:hover { border-color: var(--neon-pink); transform: translateY(-10px) rotate(-1deg); box-shadow: 0 0 20px var(--neon-pink); }
+        .bootleg-case:hover { border-color: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); }
         
-        .bootleg-thumb-wrapper { width: 100%; height: 100%; position: relative; overflow: hidden; background: #111; }
+        .bootleg-thumb-wrapper { width: 100%; height: 100%; position: relative; overflow: hidden; background: #111; pointer-events: none; }
         .bootleg-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.15) brightness(0.85); }
         
         .bootleg-overlay-card {
@@ -461,14 +472,13 @@
             "DRAMA": "HEAVY CINEMATIC CHRONICLES DEPLOYING TO THE VIDEO BUFFER."
         };
 
-        // SOLID CSS NEON ACCENT DICTIONARY LOOKUP
         const COLOR_MATRIX = {
-            "ACTION": "rgba(255, 90, 0, 0.22)",     // Volcanic Amber Flame
-            "HORROR": "rgba(255, 0, 110, 0.22)",    // Radioactive Pink
-            "THRILLER": "rgba(0, 243, 255, 0.20)",  // Cyber Cyan
-            "SCIFI": "rgba(0, 255, 100, 0.20)",     // Laser Green
-            "COMEDY": "rgba(255, 230, 0, 0.20)",    // High-Volt Yellow
-            "DRAMA": "rgba(0, 120, 255, 0.20)"       // Deep Cobalt Blue
+            "ACTION": "rgba(255, 90, 0, 0.22)",     
+            "HORROR": "rgba(255, 0, 110, 0.22)",    
+            "THRILLER": "rgba(0, 243, 255, 0.20)",  
+            "SCIFI": "rgba(0, 255, 100, 0.20)",     
+            "COMEDY": "rgba(255, 230, 0, 0.20)",    
+            "DRAMA": "rgba(0, 120, 255, 0.20)"       
         };
 
         let currentSourceMode = 'VAULT';
@@ -479,23 +489,79 @@
         let activePool = [];
         let hostTypeTimeout = null;
 
+        /* VELOCITY AND DISTORTION ENGINE TRACKING FIELDS */
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let mouseVelocityX = 0;
+        let mouseVelocityY = 0;
+        let skewStrengthX = 0;
+        let scaleStrengthY = 1;
+        let trackingTickerActive = false;
+
         window.addEventListener('mousemove', (e) => {
             const xPercent = (e.clientX / window.innerWidth) * 100;
             const yPercent = (e.clientY / window.innerHeight) * 100;
             document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
             document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
+
+            // Compute delta offsets for kinetic tracking maps
+            if (lastMouseX && lastMouseY) {
+                mouseVelocityX = e.clientX - lastMouseX;
+                mouseVelocityY = e.clientY - lastMouseY;
+            }
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+
+            if (!trackingTickerActive) {
+                trackingTickerActive = true;
+                requestAnimationFrame(updateKineticHeadDistortion);
+            }
         });
 
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('mainHeader');
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 100) {
-                header.classList.add('header-hidden');
+        /* HIGH-SPEED KINETIC VCR RE-ALIGNMENT RENDERING LOOP */
+        function updateKineticHeadDistortion() {
+            // Constrain and soften maximum physical matrix skew caps
+            const targetSkew = Math.max(-18, Math.min(18, mouseVelocityX * 0.12));
+            const targetScale = Math.max(0.9, Math.min(1.12, 1 + Math.abs(mouseVelocityY) * 0.0015));
+
+            // Apply a smooth, elastic interpolation decay dampener
+            skewStrengthX += (targetSkew - skewStrengthX) * 0.25;
+            scaleStrengthY += (targetScale - scaleStrengthY) * 0.25;
+
+            const gridItems = document.querySelectorAll('.tape-case, .bootleg-case');
+            const absoluteVelocity = Math.abs(mouseVelocityX) + Math.abs(mouseVelocityY);
+
+            gridItems.forEach(item => {
+                if (absoluteVelocity > 4) {
+                    // Inject real-time structural transformation maps directly onto hardware layers
+                    item.style.transform = `skewX(${skewStrengthX}deg) scaleY(${scaleStrengthY})`;
+                    
+                    // Trigger chromatic aberration simulation based on vector scale spikes
+                    if (absoluteVelocity > 25) {
+                        const hueShift = Math.floor(absoluteVelocity * 0.4);
+                        item.style.filter = `hue-rotate(${hueShift}deg) contrast(1.2)`;
+                    }
+                } else {
+                    // Fade structural transform values smoothly to system rest baselines
+                    item.style.transform = '';
+                    item.style.filter = '';
+                }
+            });
+
+            // Decay momentum vectors over time ticks
+            mouseVelocityX *= 0.82;
+            mouseVelocityY *= 0.82;
+
+            if (Math.abs(mouseVelocityX) < 0.1 && Math.abs(mouseVelocityY) < 0.1 && Math.abs(skewStrengthX) < 0.1) {
+                gridItems.forEach(item => {
+                    item.style.transform = '';
+                    item.style.filter = '';
+                });
+                trackingTickerActive = false;
             } else {
-                header.classList.remove('header-hidden');
+                requestAnimationFrame(updateKineticHeadDistortion);
             }
-            lastScrollY = window.scrollY;
-        });
+        }
 
         function speakHostTerminal(message) {
             clearTimeout(hostTypeTimeout);
@@ -513,14 +579,13 @@
             typeNextChar();
         }
 
-        /* 100% RELIABLE CSS MATRIX AMBIENT CONSOLE INJECTION */
         function applyGenreSpill(genreString) {
             if (currentSourceMode === 'LIVE') {
-                document.documentElement.style.setProperty('--spill-color', 'rgba(157, 0, 255, 0.25)'); // Premium Podcast Purple
+                document.documentElement.style.setProperty('--spill-color', 'rgba(157, 0, 255, 0.25)'); 
                 return;
             }
             const tags = genreString ? genreString.toUpperCase() : "";
-            let finalColor = "rgba(157, 0, 255, 0.15)"; // System Default Base Purple
+            let finalColor = "rgba(157, 0, 255, 0.15)"; 
             
             for (const key in COLOR_MATRIX) {
                 if (tags.includes(key)) {
@@ -777,7 +842,8 @@
 
                 applyGenreSpill('LIVE');
 
-                if (videoId = extractYoutubeId(item.url)) {
+                const videoId = extractYoutubeId(item.url);
+                if (videoId) {
                     ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
                     tvFrame.style.display = 'block';
                 } else {
@@ -871,6 +937,12 @@
             document.getElementById('receiptOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
             speakHostTerminal("RECEIPT DECK DISENGAGED. DATABASE RETURNED TO SCREEN MONITOR.");
+        }
+
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
         }
 
         document.getElementById('searchBar').oninput = () => {
