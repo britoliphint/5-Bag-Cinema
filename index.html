@@ -477,6 +477,109 @@
         let activePool = [];
         let hostTypeTimeout = null;
 
+        /* PURE NATIVE CODE AUDIO SYNTHESIS ENGINE CONTROLLER */
+        let audioCtx = null;
+
+        function initAudioChassis() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // TACTILE FRICTION: Card Hover Click
+        function playTactileClick() {
+            try {
+                initAudioChassis();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(110, audioCtx.currentTime); // Crisp low click
+                
+                gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch(e){}
+        }
+
+        // CHASSIS MECHANICS: VCR Thump & Pink Noise Static
+        function playVcrThump() {
+            try {
+                initAudioChassis();
+                const now = audioCtx.currentTime;
+                
+                // 1. Bass Mechanical Thump
+                const osc = audioCtx.createOscillator();
+                const gainOsc = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(60, now);
+                gainOsc.gain.setValueAtTime(0.3, now);
+                gainOsc.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+                osc.connect(gainOsc);
+                gainOsc.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(now + 0.16);
+
+                // 2. High-Density Pink Noise Burst
+                const bufferSize = audioCtx.sampleRate * 0.05; // 50ms burst
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+                for (let i = 0; i < bufferSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    b0 = 0.99886 * b0 + white * 0.0555179;
+                    b1 = 0.99332 * b1 + white * 0.0750759;
+                    b2 = 0.96900 * b2 + white * 0.1538520;
+                    b3 = 0.86650 * b3 + white * 0.3104856;
+                    b4 = 0.55000 * b4 + white * 0.5329522;
+                    b5 = -0.7616 * b5 - white * 0.0168980;
+                    data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                    data[i] *= 0.11; // Normalize gain
+                    b6 = white * 0.115926;
+                }
+                
+                const noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = buffer;
+                const gainNoise = audioCtx.createGain();
+                gainNoise.gain.setValueAtTime(0.08, now);
+                gainNoise.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+                
+                noiseNode.connect(gainNoise);
+                gainNoise.connect(audioCtx.destination);
+                noiseNode.start();
+            } catch(e){}
+        }
+
+        // TAPE RETRACT: Modal Closure Sweep
+        function playTapeEjectSweep() {
+            try {
+                initAudioChassis();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(450, now + 0.12);
+                
+                gainNode.gain.setValueAtTime(0.05, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(now + 0.13);
+            } catch(e){}
+        }
+
         window.addEventListener('mousemove', (e) => {
             const xPercent = (e.clientX / window.innerWidth) * 100;
             const yPercent = (e.clientY / window.innerHeight) * 100;
@@ -577,6 +680,8 @@
             document.getElementById('glitchLabelText').innerText = "TUNING FEED...";
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
+            
+            playVcrThump();
 
             document.getElementById('chanVault').classList.toggle('active', source === 'VAULT');
             document.getElementById('chanLive').classList.toggle('active', source === 'LIVE');
@@ -619,6 +724,7 @@
         function setGenre(g) { 
             currentGenre = g; 
             renderGrid(); 
+            playTactileClick();
             if(g !== 'ALL') {
                 const comment = GENRE_COMMENTARY[g] || `FILTERING DEEP RECESSES FOR INDEPENDENT ${g} SECTIONS.`;
                 speakHostTerminal(comment);
@@ -629,6 +735,7 @@
         
         function setFormatFilter(fmt) {
             currentFormat = fmt;
+            playTactileClick();
             document.getElementById('btnAll').classList.toggle('active', fmt === 'ALL');
             document.getElementById('btn4k').classList.toggle('active', fmt === '4K');
             document.getElementById('btnBlu').classList.toggle('active', fmt === 'BLU');
@@ -674,7 +781,7 @@
 
                 grid.innerHTML = activePool.map(m => `
                     <div class="tape-case" 
-                         onmouseenter="applyGenreSpill('${m.genre}')" 
+                         onmouseenter="applyGenreSpill('${m.genre}'); playTactileClick();" 
                          onmouseleave="resetSpillColor()"
                          onclick='openModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
                         <img src="${m.poster}" class="poster" onerror="this.src='https://via.placeholder.com/200x300?text=DATA_ERROR'">
@@ -690,7 +797,7 @@
                     
                     return `
                         <div class="bootleg-case" 
-                             onmouseenter="applyGenreSpill('LIVE')" 
+                             onmouseenter="applyGenreSpill('LIVE'); playTactileClick();" 
                              onmouseleave="resetSpillColor()"
                              onclick='openModal(${JSON.stringify(p).replace(/'/g, "&apos;")})'>
                             <div class="bootleg-thumb-wrapper">
@@ -718,6 +825,8 @@
             const hostTxt = document.getElementById('modalHostCommentaryText');
 
             document.getElementById('modalTitle').innerText = item.title;
+            
+            playVcrThump();
 
             let commentaryText = "";
             const cleanTitle = item.title.toLowerCase();
@@ -816,6 +925,8 @@
             speakHostTerminal("EJECTING CASSETTE CHAMBER... RETURNING NODE TO SYSTEM SHELF.");
             resetSpillColor();
             
+            playTapeEjectSweep();
+
             setTimeout(() => {
                 rewind.style.display = 'none';
                 document.getElementById('modalOverlay').style.display = 'none';
@@ -830,6 +941,8 @@
             glitchOverlay.style.display = 'block';
             document.body.classList.add('vcr-shake');
             speakHostTerminal("INITIATING RANDOMIZED MAGNETIC LOTTERY SEQUENCE... SPINS DEPLOYING!");
+            
+            playVcrThump();
 
             setTimeout(() => {
                 const randomChoiceIndex = Math.floor(Math.random() * activePool.length);
@@ -847,6 +960,8 @@
             document.getElementById('receiptTimestamp').innerText = `DATE: ${now.toLocaleDateString()} TIME: ${now.toLocaleTimeString()}`;
             const activeSearchText = document.getElementById('searchBar').value.toUpperCase() || "NONE";
             document.getElementById('receiptActiveFilters').innerText = `GENRE: ${currentGenre} | FMT: ${currentFormat} | SEARCH: ${activeSearchText}`;
+            
+            playVcrThump();
 
             const itemsContainer = document.getElementById('receiptItemsContainer');
             let counts = { k4: 0, blu: 0, dvd: 0 };
@@ -869,6 +984,7 @@
             document.getElementById('receiptOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
             speakHostTerminal("RECEIPT DECK DISENGAGED. DATABASE RETURNED TO SCREEN MONITOR.");
+            playTapeEjectSweep();
         }
 
         function extractYoutubeId(url) {
