@@ -26,7 +26,7 @@
                 linear-gradient(transparent 0%, var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, transparent 0%, var(--grid-line) 1px, transparent 1px);
             background-size: 30px 30px;
-            padding-bottom: 140px; /* Increased bottom padding for the larger console */
+            padding-bottom: 140px;
         }
 
         /* LIVE AMBIENT REACTIVE NEON SPILL BACKDROP GENERATOR */
@@ -175,7 +175,7 @@
         .bootleg-title { font-size: 1.3rem; line-height: 1.1; color: #fff; font-weight: bold; text-transform: uppercase; margin: 2px 0 5px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .bootleg-date { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--neon-cyan); }
 
-        /* LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS (EXPANDED DESKTOP SCREEN ARCHITECTURE) */
+        /* LATE NIGHT CABLE CRT BROADCAST HOST CHASSIS */
         .host-crt-frame {
             position: fixed; bottom: 20px; right: 20px; width: 460px; height: 110px;
             background: #15151c; border: 4px solid #333645; border-radius: 8px;
@@ -197,8 +197,7 @@
         @keyframes hostPulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 0.95; filter: hue-rotate(45deg); } }
         
         .host-telemetry-box { 
-            flex: 1; margin-left: 15px; height: 82px; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px;
-            min-width: 0; /* Solves flexbox child layout overflow truncation */
+            flex: 1; margin-left: 15px; height: 82px; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; min-width: 0;
         }
         .host-badge-header {
             font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: 900;
@@ -485,6 +484,30 @@
         let hostTypeTimeout = null;
         let audioCtx = null;
 
+        window.addEventListener('mousemove', (e) => {
+            const xPercent = (e.clientX / window.innerWidth) * 100;
+            const yPercent = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
+        });
+
+        /* 📱 ACTIVE MOBILE SCROLL HIDING CORE PROTOCOL */
+        let lastScrollY = window.scrollY;
+        const mainHeaderElement = document.getElementById('mainHeader');
+        
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 768) {
+                if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                    mainHeaderElement.classList.add('header-hidden');
+                } else {
+                    mainHeaderElement.classList.remove('header-hidden');
+                }
+            } else {
+                mainHeaderElement.classList.remove('header-hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
         function initAudioChassis() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -569,24 +592,6 @@
                 osc.stop(now + 0.13);
             } catch(e){}
         }
-
-        window.addEventListener('mousemove', (e) => {
-            const xPercent = (e.clientX / window.innerWidth) * 100;
-            const yPercent = (e.clientY / window.innerHeight) * 100;
-            document.documentElement.style.setProperty('--mouse-x', `${xPercent}%`);
-            document.documentElement.style.setProperty('--mouse-y', `${yPercent}%`);
-        });
-
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('mainHeader');
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 100) {
-                header.classList.add('header-hidden');
-            } else {
-                header.classList.remove('header-hidden');
-            }
-            lastScrollY = window.scrollY;
-        });
 
         function speakHostTerminal(message) {
             clearTimeout(hostTypeTimeout);
